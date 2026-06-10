@@ -1,326 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Support Analyzer — Membership Anywhere</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #ffffff; --bg2: #f5f5f4; --bg3: #efefed;
-    --text: #1a1a18; --text2: #5c5b57; --text3: #9a9893;
-    --border: rgba(0,0,0,0.12); --border2: rgba(0,0,0,0.22);
-    --info-bg: #e6f1fb; --info-text: #0c447c; --info-border: rgba(24,95,165,0.3);
-    --success-bg: #eaf3de; --success-text: #27500a; --success-border: rgba(63,109,17,0.3);
-    --warn-bg: #faeeda; --warn-text: #633806; --warn-border: rgba(186,117,23,0.3);
-    --danger-bg: #fcebeb; --danger-text: #791f1f; --danger-border: rgba(163,45,45,0.3);
-    --radius: 8px; --radius-lg: 12px;
-    --blue: #185FA5; --green: #3B6D11; --red: #A32D2D; --purple: #534AB7;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1c1c1a; --bg2: #252523; --bg3: #2e2e2b;
-      --text: #f0ede8; --text2: #a8a59e; --text3: #6b6965;
-      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
-      --info-bg: #0c2a47; --info-text: #85b7eb; --info-border: rgba(55,138,221,0.3);
-      --success-bg: #173404; --success-text: #c0dd97; --success-border: rgba(99,153,34,0.3);
-      --warn-bg: #412402; --warn-text: #fac775; --warn-border: rgba(186,117,23,0.3);
-      --danger-bg: #501313; --danger-text: #f09595; --danger-border: rgba(226,75,74,0.3);
-    }
-  }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg3); color: var(--text); font-size: 14px; line-height: 1.6; min-height: 100vh; }
-  .page { display: none; }
-  .page.active { display: block; }
-
-  /* LOGIN */
-  .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-  .login-box { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; width: 100%; max-width: 380px; }
-  .login-header { text-align: center; margin-bottom: 2rem; }
-  .login-logo { width: 52px; height: 52px; border-radius: var(--radius-lg); background: var(--info-bg); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
-  .login-logo i { font-size: 26px; color: var(--info-text); }
-  .login-header h1 { font-size: 18px; font-weight: 600; }
-  .login-header p { font-size: 13px; color: var(--text2); margin-top: 4px; }
-  label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 4px; margin-top: 12px; }
-  input[type=text], input[type=password], input[type=email], select {
-    width: 100%; padding: 9px 12px; border-radius: var(--radius); border: 0.5px solid var(--border2);
-    background: var(--bg); color: var(--text); font-size: 13px; outline: none; transition: border-color .15s;
-  }
-  input:focus, select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(24,95,165,0.12); }
-  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg); color: var(--text); font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; }
-  .btn:hover { background: var(--bg2); }
-  .btn-primary { background: var(--info-bg); color: var(--info-text); border-color: var(--info-border); }
-  .btn-primary:hover { opacity: .88; }
-  .btn-danger { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
-  .btn-sm { font-size: 12px; padding: 6px 12px; }
-  .btn-block { width: 100%; justify-content: center; margin-top: 14px; }
-  .error-box { background: var(--danger-bg); color: var(--danger-text); border-radius: var(--radius); padding: 8px 12px; font-size: 13px; margin-top: 10px; display: none; }
-  .hint { font-size: 12px; color: var(--text3); text-align: center; margin-top: 14px; }
-
-  /* APP SHELL */
-  .app-shell { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 3rem; }
-  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 0.5px solid var(--border); margin-bottom: 1.5rem; }
-  .topbar-brand { display: flex; align-items: center; gap: 10px; }
-  .brand-icon { width: 34px; height: 34px; border-radius: var(--radius); background: var(--info-bg); display: flex; align-items: center; justify-content: center; }
-  .brand-icon i { font-size: 18px; color: var(--info-text); }
-  .brand-name { font-size: 15px; font-weight: 600; }
-  .brand-sub { font-size: 11px; color: var(--text2); }
-  .topbar-right { display: flex; align-items: center; gap: 10px; }
-  .avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
-  .user-name { font-size: 13px; color: var(--text2); }
-  .nav { display: flex; gap: 2px; margin-bottom: 1.5rem; border-bottom: 0.5px solid var(--border); }
-  .nav-item { font-size: 13px; padding: 9px 14px; cursor: pointer; color: var(--text2); border-bottom: 2px solid transparent; margin-bottom: -0.5px; display: flex; align-items: center; gap: 6px; border-radius: var(--radius) var(--radius) 0 0; transition: color .15s; }
-  .nav-item:hover { color: var(--text); background: var(--bg2); }
-  .nav-item.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 500; background: transparent; }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  /* CARDS & LAYOUT */
-  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
-  .card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-  .card-title i { font-size: 16px; color: var(--text2); }
-  .grid2 { display: grid; grid-template-columns: minmax(0,1.5fr) minmax(0,1fr); gap: 1rem; }
-  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 1rem; }
-  .metric { background: var(--bg2); border-radius: var(--radius); padding: 14px; }
-  .metric-label { font-size: 12px; color: var(--text2); margin-bottom: 4px; }
-  .metric-value { font-size: 26px; font-weight: 600; color: var(--text); }
-  .metric-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
-  .metric-up { color: #3B6D11; font-size: 11px; margin-top: 3px; }
-  .metric-down { color: #A32D2D; font-size: 11px; margin-top: 3px; }
-
-  /* BADGES */
-  .badge { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 99px; font-weight: 500; }
-  .b-info { background: var(--info-bg); color: var(--info-text); }
-  .b-success { background: var(--success-bg); color: var(--success-text); }
-  .b-warn { background: var(--warn-bg); color: var(--warn-text); }
-  .b-danger { background: var(--danger-bg); color: var(--danger-text); }
-  .b-gray { background: var(--bg2); color: var(--text2); }
-
-  /* ISSUE BARS */
-  .issue-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
-  .issue-row:last-child { border-bottom: none; }
-  .issue-label { font-size: 13px; color: var(--text); min-width: 170px; }
-  .issue-bar-bg { flex: 1; background: var(--bg2); border-radius: 4px; height: 7px; overflow: hidden; }
-  .issue-bar { height: 100%; border-radius: 4px; }
-  .issue-count { font-size: 12px; color: var(--text2); min-width: 28px; text-align: right; }
-
-  /* NOTICE */
-  .notice { font-size: 12px; color: var(--text3); background: var(--bg2); border-radius: var(--radius); padding: 10px 12px; display: flex; gap: 8px; align-items: flex-start; margin-bottom: 12px; line-height: 1.5; }
-  .notice i { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
-
-  /* USER ROWS */
-  .user-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
-  .user-row:last-child { border-bottom: none; }
-  .user-av { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
-
-  /* ACTIVITY */
-  .act-row { display: flex; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
-  .act-row:last-child { border-bottom: none; }
-  .act-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-
-  /* FAQ */
-  .faq-item { border-bottom: 0.5px solid var(--border); padding: 10px 0; }
-  .faq-item:last-child { border-bottom: none; }
-  .faq-q { font-size: 13px; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-  .faq-a { font-size: 13px; color: var(--text2); margin-top: 8px; line-height: 1.7; display: none; }
-  .faq-a.open { display: block; }
-
-  /* STEP GUIDE */
-  .step-block { display: flex; gap: 14px; padding: 14px 0; border-bottom: 0.5px solid var(--border); }
-  .step-block:last-child { border-bottom: none; }
-  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--info-bg); color: var(--info-text); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; margin-top: 2px; }
-  .step-content h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .step-content p { font-size: 13px; color: var(--text2); line-height: 1.6; }
-  .code-block { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 10px 14px; font-family: 'Courier New', monospace; font-size: 12px; color: var(--text); margin-top: 8px; overflow-x: auto; white-space: pre; line-height: 1.8; }
-
-  /* LOADING BAR */
-  .load-bar-bg { background: var(--bg2); border-radius: 4px; height: 5px; overflow: hidden; margin-top: 14px; }
-  .load-bar { height: 100%; border-radius: 4px; background: var(--blue); transition: width 0.5s; }
-
-  @media (max-width: 680px) {
-    .grid2 { grid-template-columns: 1fr; }
-    .app-shell { padding: 0 1rem 2rem; }
-    .topbar { flex-wrap: wrap; gap: 8px; }
-    .user-name { display: none; }
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#fff;--bg2:#f5f5f4;--bg3:#efefed;
+  --text:#1a1a18;--text2:#5c5b57;--text3:#9a9893;
+  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.22);
+  --ib:#e6f1fb;--it:#0c447c;--ibr:rgba(24,95,165,0.3);
+  --sb:#eaf3de;--st:#27500a;--sbr:rgba(63,109,17,0.3);
+  --wb:#faeeda;--wt:#633806;--wbr:rgba(186,117,23,0.3);
+  --db:#fcebeb;--dt:#791f1f;--dbr:rgba(163,45,45,0.3);
+  --r:8px;--rl:12px;--blue:#185FA5;
+}
+@media(prefers-color-scheme:dark){:root{--bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;--text:#f0ede8;--text2:#a8a59e;--text3:#6b6965;--border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);--ib:#0c2a47;--it:#85b7eb;--ibr:rgba(55,138,221,0.3);--sb:#173404;--st:#c0dd97;--sbr:rgba(99,153,34,0.3);--wb:#412402;--wt:#fac775;--wbr:rgba(186,117,23,0.3);--db:#501313;--dt:#f09595;--dbr:rgba(226,75,74,0.3);}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh;}
+.page{display:none;}.page.active{display:block;}
+.ls{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
+.lb{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);padding:2rem;width:100%;max-width:380px;}
+.lh{text-align:center;margin-bottom:1.5rem;}
+.li{width:52px;height:52px;border-radius:var(--rl);background:var(--ib);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.li i{font-size:26px;color:var(--it);}
+.lh h1{font-size:18px;font-weight:600;}
+.lh p{font-size:13px;color:var(--text2);margin-top:4px;}
+label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px;margin-top:12px;}
+input,select{width:100%;padding:9px 12px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-size:13px;outline:none;}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,95,165,0.12);}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;transition:background .15s;}
+.btn:hover{background:var(--bg2);}
+.btp{background:var(--ib);color:var(--it);border-color:var(--ibr);}.btp:hover{opacity:.88;}
+.btd{background:var(--db);color:var(--dt);border-color:var(--dbr);}
+.bts{font-size:12px;padding:6px 12px;}
+.btbl{width:100%;justify-content:center;margin-top:14px;}
+.ebox{background:var(--db);color:var(--dt);border-radius:var(--r);padding:8px 12px;font-size:13px;margin-top:10px;display:none;}
+.hint{font-size:12px;color:var(--text3);text-align:center;margin-top:14px;}
+.shell{max-width:1100px;margin:0 auto;padding:0 1.5rem 3rem;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:0.5px solid var(--border);margin-bottom:1.5rem;}
+.tbl{display:flex;align-items:center;gap:10px;}
+.bi{width:34px;height:34px;border-radius:var(--r);background:var(--ib);display:flex;align-items:center;justify-content:center;}
+.bi i{font-size:18px;color:var(--it);}
+.bn{font-size:15px;font-weight:600;}
+.bs{font-size:11px;color:var(--text2);}
+.tbr{display:flex;align-items:center;gap:10px;}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
+.nav{display:flex;gap:2px;margin-bottom:1.5rem;border-bottom:0.5px solid var(--border);}
+.ni{font-size:13px;padding:9px 14px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-0.5px;display:flex;align-items:center;gap:6px;border-radius:var(--r) var(--r) 0 0;transition:color .15s;}
+.ni:hover{color:var(--text);background:var(--bg2);}
+.ni.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500;background:transparent;}
+.tp{display:none;}.tp.active{display:block;}
+.card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);padding:1.25rem;margin-bottom:1rem;}
+.ct{font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.ct i{font-size:16px;color:var(--text2);}
+.g2{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:1rem;}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1rem;}
+.met{background:var(--bg2);border-radius:var(--r);padding:14px;}
+.ml{font-size:12px;color:var(--text2);margin-bottom:4px;}
+.mv{font-size:26px;font-weight:600;}
+.ms{font-size:11px;color:var(--text3);margin-top:3px;}
+.mu{color:#3B6D11;font-size:11px;margin-top:3px;}
+.md{color:#A32D2D;font-size:11px;margin-top:3px;}
+.bdg{display:inline-block;font-size:11px;padding:2px 9px;border-radius:99px;font-weight:500;}
+.bi2{background:var(--ib);color:var(--it);}
+.bs2{background:var(--sb);color:var(--st);}
+.bw{background:var(--wb);color:var(--wt);}
+.bd{background:var(--db);color:var(--dt);}
+.bg{background:var(--bg2);color:var(--text2);}
+.ir{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);}
+.ir:last-child{border-bottom:none;}
+.il{font-size:13px;min-width:170px;}
+.ibg{flex:1;background:var(--bg2);border-radius:4px;height:7px;overflow:hidden;}
+.ib2{height:100%;border-radius:4px;}
+.ic{font-size:12px;color:var(--text2);min-width:28px;text-align:right;}
+.notice{font-size:12px;background:var(--bg2);border-radius:var(--r);padding:10px 12px;display:flex;gap:8px;align-items:flex-start;margin-bottom:12px;line-height:1.5;color:var(--text3);}
+.notice i{font-size:14px;flex-shrink:0;margin-top:1px;}
+.ni2{background:var(--ib);color:var(--it);}
+.ni2 i{color:var(--it);}
+.nw{background:var(--wb);color:var(--wt);}
+.nw i{color:var(--wt);}
+.ur{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);}
+.ur:last-child{border-bottom:none;}
+.ua{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
+.ar{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:13px;}
+.ar:last-child{border-bottom:none;}
+.ad{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;}
+.fqi{border-bottom:0.5px solid var(--border);padding:10px 0;}
+.fqi:last-child{border-bottom:none;}
+.fqq{font-size:13px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.fqa{font-size:13px;color:var(--text2);margin-top:8px;line-height:1.7;display:none;}
+.fqa.open{display:block;}
+.spin{animation:spin 1s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
+.pb{padding:7px 16px;border-radius:99px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);font-size:13px;cursor:pointer;transition:all .15s;font-weight:500;}
+.pb:hover{background:var(--bg2);}
+.pb.active{background:var(--ib);color:var(--it);border-color:var(--ibr);}
+.ldo{text-align:center;padding:3rem 1rem;}
+.ldo i{font-size:32px;color:var(--blue);display:block;margin-bottom:12px;}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:0.5px solid var(--border);}
+.step:last-child{border-bottom:none;}
+.sn{width:28px;height:28px;border-radius:50%;background:var(--ib);color:var(--it);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px;}
+.sc h4{font-size:13px;font-weight:600;margin-bottom:4px;}
+.sc p{font-size:13px;color:var(--text2);line-height:1.6;}
+.code{background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--r);padding:10px 14px;font-family:'Courier New',monospace;font-size:12px;margin:8px 0;white-space:pre-wrap;line-height:1.8;color:var(--text);}
+@media(max-width:680px){.g2{grid-template-columns:1fr;}.shell{padding:0 1rem 2rem;}.topbar{flex-wrap:wrap;gap:8px;}}
 </style>
 </head>
 <body>
 
-<!-- ── LOGIN PAGE ── -->
+<!-- LOGIN -->
 <div id="page-login" class="page active">
-  <div class="login-screen">
+  <div class="ls">
     <div>
-      <div class="login-box">
-        <div class="login-header">
-          <div class="login-logo"><i class="ti ti-mail-search"></i></div>
+      <div class="lb">
+        <div class="lh">
+          <div class="li"><i class="ti ti-mail-search"></i></div>
           <h1>Support Analyzer</h1>
           <p>Membership Anywhere &middot; Team access only</p>
         </div>
         <label>Username</label>
-        <input type="text" id="loginUser" placeholder="Enter your username" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()" />
+        <input type="text" id="lu" placeholder="Your username" autocomplete="username" onkeydown="if(event.key==='Enter')login()"/>
         <label>Password</label>
-        <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()" />
-        <button class="btn btn-primary btn-block" onclick="doLogin()"><i class="ti ti-arrow-right"></i> Sign in</button>
-        <div class="error-box" id="loginErr"><i class="ti ti-alert-circle"></i> Incorrect username or password. Please try again.</div>
+        <input type="password" id="lp" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"/>
+        <button class="btn btp btbl" onclick="login()"><i class="ti ti-arrow-right"></i> Sign in</button>
+        <div class="ebox" id="lerr"><i class="ti ti-alert-circle"></i> Incorrect username or password.</div>
       </div>
-      <p class="hint">Access is restricted to authorised team members only.<br>Contact your admin to request an account.</p>
+      <p class="hint">Restricted to authorised team members only.</p>
     </div>
   </div>
 </div>
 
-<!-- ── MAIN APP ── -->
+<!-- APP -->
 <div id="page-app" class="page">
-  <div class="app-shell">
+  <div class="shell">
     <div class="topbar">
-      <div class="topbar-brand">
-        <div class="brand-icon"><i class="ti ti-mail-search"></i></div>
-        <div>
-          <div class="brand-name">Support Analyzer</div>
-          <div class="brand-sub">Membership Anywhere</div>
-        </div>
+      <div class="tbl">
+        <div class="bi"><i class="ti ti-mail-search"></i></div>
+        <div><div class="bn">Support Analyzer</div><div class="bs">Membership Anywhere</div></div>
       </div>
-      <div class="topbar-right">
-        <span class="user-name" id="topName"></span>
-        <div class="avatar" id="topAvatar"></div>
-        <button class="btn btn-sm" onclick="doLogout()"><i class="ti ti-logout"></i> Sign out</button>
+      <div class="tbr">
+        <span class="bdg bg" id="srcBadge">connecting...</span>
+        <span style="font-size:13px;color:var(--text2);" id="topName"></span>
+        <div class="av" id="topAv"></div>
+        <button class="btn bts" onclick="logout()"><i class="ti ti-logout"></i> Sign out</button>
       </div>
     </div>
 
-    <div class="nav" id="mainNav">
-      <div class="nav-item active" onclick="switchTab('home',this)"><i class="ti ti-home"></i> Home</div>
-      <div class="nav-item" onclick="switchTab('analyzer',this)"><i class="ti ti-chart-bar"></i> Analyzer</div>
-      <div class="nav-item" onclick="switchTab('faq',this)"><i class="ti ti-help-circle"></i> FAQ builder</div>
-      <div class="nav-item" id="adminTab" onclick="switchTab('admin',this)" style="display:none;"><i class="ti ti-settings"></i> Team admin</div>
+    <div class="nav">
+      <div class="ni active" onclick="sw('home',this)"><i class="ti ti-home"></i> Home</div>
+      <div class="ni" onclick="sw('analyzer',this)"><i class="ti ti-chart-bar"></i> Analyzer</div>
+      <div class="ni" onclick="sw('faq',this)"><i class="ti ti-help-circle"></i> FAQ</div>
+      <div class="ni" id="adminTab" onclick="sw('admin',this)" style="display:none"><i class="ti ti-settings"></i> Admin</div>
     </div>
 
     <!-- HOME -->
-    <div id="tab-home" class="tab-panel active">
-      <div class="grid4" id="homeMetrics"></div>
-      <div class="grid2">
+    <div id="tab-home" class="tp active">
+      <div class="g4" id="hMet"></div>
+      <div class="g2">
         <div>
           <div class="card">
-            <div class="card-title"><i class="ti ti-chart-line"></i> Issue trend — last 6 months</div>
-            <div style="position:relative;height:200px;"><canvas id="homeChart"></canvas></div>
-            <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:var(--text2);">
-              <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#185FA5;margin-right:4px;"></span>Login issues</span>
-              <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#5F5E5A;margin-right:4px;"></span>Tech errors</span>
-              <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#639922;margin-right:4px;"></span>Portal problems</span>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-title"><i class="ti ti-tag"></i> Top issues this month</div>
-            <div id="homeIssues"></div>
+            <div class="ct"><i class="ti ti-tag"></i> Top issues — last 30 days</div>
+            <div id="hIssues"><div class="ldo"><i class="ti ti-loader spin"></i><p>Loading from inbox...</p></div></div>
           </div>
         </div>
         <div>
           <div class="card">
-            <div class="card-title"><i class="ti ti-activity"></i> Recent activity</div>
-            <div id="activityFeed"></div>
+            <div class="ct"><i class="ti ti-users"></i> Team</div>
+            <div id="hTeam"></div>
           </div>
           <div class="card">
-            <div class="card-title"><i class="ti ti-users"></i> Team members</div>
-            <div id="teamList"></div>
+            <div class="ct"><i class="ti ti-clock"></i> Last refreshed</div>
+            <p style="font-size:13px;color:var(--text2);" id="hTime">Loading...</p>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ANALYZER -->
-    <div id="tab-analyzer" class="tab-panel">
-      <div class="notice"><i class="ti ti-shield-lock"></i> Confidential emails (invoices, contracts, payments, legal) are automatically excluded. No data is stored after you close this page.</div>
-      <div class="card">
-        <div class="card-title"><i class="ti ti-adjustments"></i> Analysis settings</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
-          <div>
-            <label>Mailbox address</label>
-            <input type="email" id="mbInput" value="support@membershipanywhere.com" style="width:270px;" />
-          </div>
-          <div>
-            <label>Time period</label>
-            <select id="periodSel">
-              <option value="7">Last 7 days</option>
-              <option value="30" selected>Last 30 days</option>
-              <option value="90">Last 3 months</option>
-              <option value="365">Last 12 months</option>
-            </select>
-          </div>
-          <button class="btn btn-primary" onclick="runAnalysis()" id="runBtn"><i class="ti ti-plug"></i> Run analysis</button>
-        </div>
+    <div id="tab-analyzer" class="tp">
+      <div class="notice ni2"><i class="ti ti-mail"></i><span>Reading directly from <strong>support@membershipanywhere.com</strong> — select a period and results load automatically. No manual work needed.</span></div>
+      <div class="pbar">
+        <button class="pb active" onclick="selPeriod('today',this)">Today</button>
+        <button class="pb" onclick="selPeriod('7',this)">Last 7 days</button>
+        <button class="pb" onclick="selPeriod('30',this)">Last 30 days</button>
+        <button class="pb" onclick="selPeriod('90',this)">Last 3 months</button>
+        <button class="pb" onclick="selPeriod('365',this)">Last 12 months</button>
+        <button class="btn bts" onclick="loadAnalyzer(curPeriod)" style="margin-left:auto"><i class="ti ti-refresh"></i> Refresh</button>
       </div>
-      <div id="analyzerLoading" style="display:none;">
-        <div class="card" style="text-align:center;padding:2rem;">
-          <i class="ti ti-loader" style="font-size:30px;color:var(--blue);display:block;margin-bottom:10px;"></i>
-          <p style="font-size:14px;font-weight:600;" id="loadMsg">Connecting to inbox...</p>
-          <p style="font-size:12px;color:var(--text2);margin-top:4px;" id="loadSub">Please wait</p>
-          <div class="load-bar-bg"><div class="load-bar" id="loadBar" style="width:0%;"></div></div>
-        </div>
+
+      <div id="aLoad" class="ldo">
+        <i class="ti ti-loader spin"></i>
+        <p style="font-size:14px;font-weight:600;margin-bottom:4px">Reading your inbox...</p>
+        <p style="font-size:13px;color:var(--text2)">Fetching from support@membershipanywhere.com</p>
       </div>
-      <div id="analyzerResults" style="display:none;">
-        <div class="grid4" id="analyzerMetrics"></div>
-        <div class="grid2">
+
+      <div id="aRes" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span style="font-size:13px;color:var(--text2)" id="aLabel"></span>
+          <span class="bdg" id="aSrc"></span>
+        </div>
+        <div class="g4" id="aMet"></div>
+        <div class="g2">
           <div class="card">
-            <div class="card-title"><i class="ti ti-list-details"></i> Issues by category</div>
-            <div id="analyzerIssues"></div>
+            <div class="ct"><i class="ti ti-list-details"></i> Issues by category</div>
+            <div id="aIssues"></div>
           </div>
           <div class="card">
-            <div class="card-title"><i class="ti ti-chart-donut"></i> Category split</div>
-            <div style="position:relative;height:200px;"><canvas id="pieChart"></canvas></div>
-            <div id="pieLegend" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;"></div>
+            <div class="ct"><i class="ti ti-chart-donut"></i> Category split</div>
+            <div style="position:relative;height:200px"><canvas id="pieC"></canvas></div>
+            <div id="pieLeg" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px"></div>
           </div>
         </div>
         <div class="card">
-          <div class="card-title"><i class="ti ti-mail"></i> Support email log <span class="badge b-gray" id="emailCount" style="margin-left:6px;"></span></div>
-          <div id="emailLog"></div>
+          <div class="ct"><i class="ti ti-mail"></i> Email log <span class="bdg bg" id="eCnt" style="margin-left:6px"></span></div>
+          <div class="notice"><i class="ti ti-shield-lock"></i> Financial, contractual and legal emails are automatically excluded.</div>
+          <div id="eLog"></div>
+        </div>
+      </div>
+
+      <div id="aErr" style="display:none">
+        <div class="card" style="border-color:var(--dbr)">
+          <div class="ct" style="color:var(--dt)"><i class="ti ti-alert-circle"></i> Cannot connect to inbox</div>
+          <p style="font-size:13px;color:var(--text2);margin-bottom:12px" id="aErrMsg"></p>
+          <div class="notice nw"><i class="ti ti-info-circle"></i><span>Check the <strong>Admin</strong> tab — make sure your Render backend URL is saved correctly.</span></div>
         </div>
       </div>
     </div>
 
     <!-- FAQ -->
-    <div id="tab-faq" class="tab-panel">
+    <div id="tab-faq" class="tp">
       <div class="card">
-        <div class="card-title"><i class="ti ti-help-circle"></i> Auto-generated FAQ</div>
-        <div class="notice"><i class="ti ti-info-circle"></i> Review and edit these before publishing to your website. Click any question to expand the answer.</div>
+        <div class="ct"><i class="ti ti-help-circle"></i> Auto-generated FAQ</div>
+        <div class="notice"><i class="ti ti-info-circle"></i> Review before publishing to your website.</div>
         <div id="faqList"></div>
-        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
-          <button class="btn btn-sm btn-primary" onclick="exportFAQ()"><i class="ti ti-download"></i> Download FAQ as HTML</button>
+        <div style="margin-top:14px">
+          <button class="btn btp bts" onclick="exportFAQ()"><i class="ti ti-download"></i> Download as HTML</button>
         </div>
       </div>
     </div>
 
     <!-- ADMIN -->
-    <div id="tab-admin" class="tab-panel">
+    <div id="tab-admin" class="tp">
+
       <div class="card">
-        <div class="card-title"><i class="ti ti-users"></i> Team accounts</div>
-        <div id="userList"></div>
-        <div style="margin-top:14px;">
-          <button class="btn btn-sm btn-primary" onclick="document.getElementById('addCard').style.display='block'"><i class="ti ti-plus"></i> Add team member</button>
+        <div class="ct"><i class="ti ti-plug"></i> Render backend URL</div>
+        <div class="notice ni2"><i class="ti ti-info-circle"></i><span>Paste your Render URL here after deploying the backend. The dashboard uses this to fetch live emails automatically.</span></div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <input type="text" id="buInput" placeholder="https://your-app-name.onrender.com" style="flex:1"/>
+          <button class="btn btp bts" onclick="saveBU()"><i class="ti ti-check"></i> Save</button>
+        </div>
+        <p style="font-size:12px;color:var(--text3);margin-top:8px">Current: <span id="buCurrent"></span></p>
+        <div style="margin-top:12px">
+          <button class="btn bts" onclick="testBackend()"><i class="ti ti-plug"></i> Test connection</button>
+          <span id="testResult" style="font-size:12px;margin-left:10px;color:var(--text2)"></span>
         </div>
       </div>
-      <div class="card" id="addCard" style="display:none;">
-        <div class="card-title"><i class="ti ti-user-plus"></i> Add new team member</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div><label>Full name</label><input type="text" id="nName" placeholder="e.g. Alex Johnson" /></div>
-          <div><label>Username</label><input type="text" id="nUser" placeholder="e.g. alex" /></div>
-          <div><label>Password</label><input type="password" id="nPass" placeholder="Set a strong password" /></div>
-          <div><label>Role</label>
-            <select id="nRole">
-              <option value="viewer">Viewer — read only</option>
-              <option value="analyst">Analyst — can run analysis</option>
-              <option value="admin">Admin — full access</option>
-            </select>
+
+      <div class="card">
+        <div class="ct"><i class="ti ti-terminal"></i> Step-by-step deploy guide</div>
+        <div class="step">
+          <div class="sn">1</div>
+          <div class="sc">
+            <h4>Upload backend to GitHub</h4>
+            <p>Go to github.com → New repository → name it <strong>ma-support-backend</strong> → Public → Create. Upload all files from the <strong>ma-backend</strong> folder you downloaded.</p>
           </div>
         </div>
-        <div style="margin-top:12px;display:flex;gap:8px;">
-          <button class="btn btn-sm btn-primary" onclick="addUser()"><i class="ti ti-check"></i> Add member</button>
-          <button class="btn btn-sm" onclick="document.getElementById('addCard').style.display='none'">Cancel</button>
+        <div class="step">
+          <div class="sn">2</div>
+          <div class="sc">
+            <h4>Deploy to Render (free)</h4>
+            <p>Go to <strong>render.com</strong> → sign up with GitHub → New → Web Service → connect <strong>ma-support-backend</strong> repo. Set:</p>
+            <div class="code">Build command:  npm install
+Start command:  node server.js
+Plan:           Free</div>
+            <p>Click <strong>Create Web Service</strong>. Render gives you a URL like <code>https://ma-support-backend-xxxx.onrender.com</code>. Copy it.</p>
+          </div>
         </div>
-        <div class="error-box" id="addErr" style="margin-top:8px;"></div>
+        <div class="step">
+          <div class="sn">3</div>
+          <div class="sc">
+            <h4>Add environment variables in Render</h4>
+            <p>In your Render service → <strong>Environment</strong> tab → add these 4 variables:</p>
+            <div class="code">TENANT_ID      = (from your IT admin — see Step 4)
+CLIENT_ID      = (from your IT admin — see Step 4)
+CLIENT_SECRET  = (from your IT admin — see Step 4)
+MAILBOX        = support@membershipanywhere.com</div>
+            <p>Render restarts automatically when you save.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="sn">4</div>
+          <div class="sc">
+            <h4>Send this message to your IT admin</h4>
+            <p>Copy and send exactly this — they need about 15 minutes:</p>
+            <div class="code">Hi,
+
+I need an Azure App Registration to read the support@membershipanywhere.com 
+shared mailbox automatically for our internal support dashboard.
+
+Please do the following in Azure Portal:
+
+1. Go to Azure Active Directory → App registrations → New registration
+   - Name: MA Support Analyzer
+   - Account type: Single tenant
+   - Click Register
+
+2. Go to API permissions → Add a permission
+   - Microsoft Graph → Application permissions
+   - Search and add: Mail.Read
+   - Click "Grant admin consent"
+
+3. Go to Certificates & secrets → New client secret
+   - Description: MA Support Analyzer
+   - Expires: 24 months
+   - Click Add — COPY THE VALUE immediately (you can't see it again)
+
+4. Please send me these 3 values:
+   - Tenant ID (from Overview page)
+   - Application (client) ID (from Overview page)
+   - Client Secret VALUE (from step 3)
+
+This only reads the support mailbox — it cannot send emails 
+or access anything else.
+
+Thank you!</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="sn">5</div>
+          <div class="sc">
+            <h4>Connect this dashboard to your backend</h4>
+            <p>Once Render is deployed, paste your Render URL in the field above and click <strong>Save</strong>. Then click <strong>Test connection</strong> to confirm it's working.</p>
+            <p style="margin-top:6px">From that moment — clicking Today, Last 7 days, etc. reads your real inbox <strong>automatically</strong> with zero manual work.</p>
+          </div>
+        </div>
       </div>
+
       <div class="card">
-        <div class="card-title"><i class="ti ti-shield-lock"></i> Access log</div>
-        <div id="accessLog"></div>
+        <div class="ct"><i class="ti ti-users"></i> Team accounts</div>
+        <div id="uList"></div>
+        <div style="margin-top:14px">
+          <button class="btn btp bts" onclick="document.getElementById('addCard').style.display='block'"><i class="ti ti-plus"></i> Add member</button>
+        </div>
+      </div>
+      <div class="card" id="addCard" style="display:none">
+        <div class="ct"><i class="ti ti-user-plus"></i> Add team member</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><label>Full name</label><input type="text" id="nN" placeholder="Alex Johnson"/></div>
+          <div><label>Username</label><input type="text" id="nU" placeholder="alex"/></div>
+          <div><label>Password</label><input type="password" id="nP" placeholder="Strong password"/></div>
+          <div><label>Role</label><select id="nR"><option value="viewer">Viewer</option><option value="analyst">Analyst</option><option value="admin">Admin</option></select></div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn btp bts" onclick="addUser()"><i class="ti ti-check"></i> Add</button>
+          <button class="btn bts" onclick="document.getElementById('addCard').style.display='none'">Cancel</button>
+        </div>
+        <div class="ebox" id="addErr" style="margin-top:8px"></div>
       </div>
     </div>
 
@@ -328,264 +367,242 @@
 </div>
 
 <script>
+// ── UPDATE THIS after deploying to Render ─────────────────
+let BACKEND = localStorage.getItem('ma_backend') || 'https://YOUR-APP.onrender.com';
+
+const COLORS = {
+  'Login & access issues':'#185FA5','Technical errors':'#5F5E5A',
+  'Member portal problems':'#639922','Email & comms issues':'#A32D2D',
+  'Event registration':'#533AB7','Membership renewal':'#993556',
+  'Feature requests':'#0F6E56','General enquiry':'#888780'
+};
+
 const USERS = [
-  { username:'admin',  password:'admin123',  name:'Admin User',      role:'admin',   initials:'AU', color:'#185FA5', online:true  },
-  { username:'sarah',  password:'sarah2024', name:'Sarah Mitchell',  role:'analyst', initials:'SM', color:'#1D9E75', online:true  },
-  { username:'james',  password:'james2024', name:'James Okonkwo',   role:'viewer',  initials:'JO', color:'#533AB7', online:false }
+  {u:'admin',p:'admin123', name:'Admin User',     role:'admin',   i:'AU',c:'#185FA5',on:true},
+  {u:'sarah',p:'sarah2024',name:'Sarah Mitchell', role:'analyst', i:'SM',c:'#1D9E75',on:true},
+  {u:'james',p:'james2024',name:'James Okonkwo',  role:'viewer',  i:'JO',c:'#533AB7',on:false}
 ];
 
-const ISSUES = [
-  { name:'Login & access issues',  color:'#185FA5', count:14 },
-  { name:'Technical errors',        color:'#5F5E5A', count:11 },
-  { name:'Member portal problems',  color:'#639922', count:9  },
-  { name:'Email / comms issues',    color:'#A32D2D', count:7  },
-  { name:'Event registration',      color:'#533AB7', count:5  },
-  { name:'Membership renewal',      color:'#993556', count:4  },
-  { name:'Feature requests',        color:'#0F6E56', count:3  }
+const FAQS=[
+  {q:'How do I reset my password?',a:'Go to the login page and click "Forgot password". An email arrives within a few minutes — check spam. Contact support if nothing arrives.'},
+  {q:'Why am I not receiving newsletter emails?',a:'Check your spam folder first. Add support@membershipanywhere.com to your safe senders list. Contact us if it continues.'},
+  {q:'How do I update my billing details?',a:'Log in → Account Settings → Billing → Update payment method. Changes apply at your next renewal.'},
+  {q:'The portal is showing an error — what should I do?',a:'Try Ctrl+Shift+R (Mac: Cmd+Shift+R) to hard-refresh. Try a different browser. Send the error code to support.'},
+  {q:'How do I cancel or transfer an event booking?',a:'Email support@membershipanywhere.com with your booking reference. Refunds available up to 7 days before the event.'},
+  {q:'My membership says lapsed but I renewed — why?',a:'Wait 1 hour and refresh. If still showing lapsed, contact support with your payment confirmation.'},
+  {q:'Can multiple staff from one organisation join?',a:'Yes — we offer group membership. Contact us for a quote and we will set up one shared organisation account.'},
+  {q:'I am not receiving my 2FA code — what do I do?',a:'Check signal and request a new code. If you changed your number contact support to update your 2FA settings.'}
 ];
 
-const EMAILS = [
-  { subject:'Cannot log into my member portal',       from:'j.smith@email.com',   date:'2026-06-08', cat:'Login & access issues'  },
-  { subject:'Event registration page not loading',    from:'member@company.com',  date:'2026-06-07', cat:'Technical errors'         },
-  { subject:'Not receiving the monthly newsletter',   from:'alice@org.net',       date:'2026-06-06', cat:'Email / comms issues'    },
-  { subject:'Feature request — bulk member import',   from:'admin@assoc.com',     date:'2026-06-05', cat:'Feature requests'         },
-  { subject:'Membership renewal not processing',      from:'b.jones@email.com',   date:'2026-06-04', cat:'Membership renewal'      },
-  { subject:'2FA code not arriving by SMS',           from:'c.brown@org.uk',      date:'2026-06-03', cat:'Login & access issues'  },
-  { subject:'Error when editing profile',             from:'d.wilson@member.org', date:'2026-06-03', cat:'Technical errors'         },
-  { subject:'Event calendar not showing May events',  from:'i.clark@member.net',  date:'2026-06-02', cat:'Member portal problems'  },
-  { subject:'Account locked after failed attempts',   from:'k.allen@org.com',     date:'2026-06-01', cat:'Login & access issues'  },
-  { subject:'Portal shows wrong subscription tier',   from:'f.martin@club.com',   date:'2026-05-31', cat:'Member portal problems'  }
-];
+let CU=null, pie=null, curPeriod='today';
 
-const FAQS = [
-  { q:'How do I reset my password?',                       a:'Go to the login page and click "Forgot password". An email will be sent to your registered address within a few minutes. Check your spam folder if it does not arrive. Contact support if the problem persists.' },
-  { q:'Why am I not receiving newsletter emails?',         a:'Check your spam or junk folder first. Add support@membershipanywhere.com to your safe senders list. If the issue continues, contact us to check your communication preferences in the system.' },
-  { q:'How do I update my payment or billing details?',    a:'Log into your member portal, go to Account Settings > Billing, and click "Update payment method". You can update card details or direct debit information here. Changes take effect at your next renewal.' },
-  { q:'The portal is showing an error — what do I do?',    a:'Try a hard refresh (Ctrl+Shift+R on Windows, Cmd+Shift+R on Mac). If the issue persists, try a different browser or clear your cache and cookies. Include any error code you see when contacting support.' },
-  { q:'How do I cancel or transfer an event booking?',     a:'Email support@membershipanywhere.com with your booking reference. Refunds are available up to 7 days before the event. We can also transfer your place to a colleague.' },
-  { q:'My membership says "lapsed" but I renewed — why?',  a:'Wait 1 hour and refresh your portal. If your status has not updated, contact support with your payment confirmation and we will correct it manually within the hour.' },
-  { q:'Can multiple staff from one organisation join?',    a:'Yes — we offer group membership. Contact us for a quote and we will set up an organisation account so you can manage all your team members in one place.' },
-  { q:'I am not receiving my 2FA code — what do I do?',    a:'Check you have a signal and request a new code. If you have changed your phone number, contact support to update your 2FA settings. We can temporarily disable 2FA so you can log in.' }
-];
-
-const ACTIVITY = [
-  { text:'12 new support emails since yesterday', color:'#185FA5', time:'2h ago' },
-  { text:'Login issues up 20% this week',          color:'#A32D2D', time:'4h ago' },
-  { text:'Sarah ran monthly analysis',              color:'#1D9E75', time:'6h ago' },
-  { text:'3 new feature requests received',        color:'#533AB7', time:'1d ago'  },
-  { text:'FAQ last updated by Admin',               color:'#639922', time:'2d ago'  }
-];
-
-const ACCESS_LOG = [
-  { user:'Admin User',      action:'Signed in',                         time:'Today 09:14' },
-  { user:'Sarah Mitchell',  action:'Ran analysis — last 30 days',        time:'Today 09:02' },
-  { user:'James Okonkwo',   action:'Viewed FAQ builder',                 time:'Yesterday 16:45' },
-  { user:'Sarah Mitchell',  action:'Signed in',                          time:'Yesterday 08:30' },
-  { user:'Admin User',      action:'Added team member: James Okonkwo',   time:'Jun 5, 10:12' }
-];
-
-let currentUser = null;
-let homeChartInst = null;
-let pieChartInst  = null;
-
-function doLogin() {
-  const u = document.getElementById('loginUser').value.trim().toLowerCase();
-  const p = document.getElementById('loginPass').value;
-  const found = USERS.find(x => x.username === u && x.password === p);
-  const err = document.getElementById('loginErr');
-  if (!found) { err.style.display = 'block'; return; }
-  err.style.display = 'none';
-  currentUser = found;
+function login(){
+  const u=document.getElementById('lu').value.trim().toLowerCase();
+  const p=document.getElementById('lp').value;
+  const f=USERS.find(x=>x.u===u&&x.p===p);
+  const e=document.getElementById('lerr');
+  if(!f){e.style.display='block';return;}
+  e.style.display='none'; CU=f;
   document.getElementById('page-login').classList.remove('active');
   document.getElementById('page-app').classList.add('active');
-  document.getElementById('topName').textContent = found.name;
-  const av = document.getElementById('topAvatar');
-  av.textContent = found.initials;
-  av.style.background = found.color + '22';
-  av.style.color = found.color;
-  if (found.role === 'admin') document.getElementById('adminTab').style.display = '';
-  renderHome(); renderFAQ(); renderAdmin();
+  document.getElementById('topName').textContent=f.name;
+  const av=document.getElementById('topAv');
+  av.textContent=f.i; av.style.background=f.c+'22'; av.style.color=f.c;
+  if(f.role==='admin')document.getElementById('adminTab').style.display='';
+  renderTeam(); renderFAQ(); renderAdmin();
+  loadHome();
 }
 
-function doLogout() {
-  currentUser = null;
+function logout(){
+  CU=null;
   document.getElementById('page-app').classList.remove('active');
   document.getElementById('page-login').classList.add('active');
-  document.getElementById('loginUser').value = '';
-  document.getElementById('loginPass').value = '';
-  document.getElementById('analyzerResults').style.display = 'none';
-  document.getElementById('analyzerLoading').style.display = 'none';
-  document.getElementById('adminTab').style.display = 'none';
-  if (homeChartInst) { homeChartInst.destroy(); homeChartInst = null; }
-  if (pieChartInst)  { pieChartInst.destroy();  pieChartInst  = null; }
-  switchTab('home', document.querySelector('.nav-item'));
+  document.getElementById('lu').value='';
+  document.getElementById('lp').value='';
+  document.getElementById('adminTab').style.display='none';
+  if(pie){pie.destroy();pie=null;}
 }
 
-function switchTab(name, el) {
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+function sw(n,el){
+  document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));
   el.classList.add('active');
-  ['home','analyzer','faq','admin'].forEach(t => {
-    document.getElementById('tab-'+t).classList.toggle('active', t === name);
-  });
+  ['home','analyzer','faq','admin'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t===n));
+  if(n==='analyzer')loadAnalyzer(curPeriod);
+  if(n==='admin')renderAdmin();
 }
 
-function renderHome() {
-  const total = ISSUES.reduce((s,i) => s + i.count, 0);
-  document.getElementById('homeMetrics').innerHTML = `
-    <div class="metric"><div class="metric-label">Total tickets (30 days)</div><div class="metric-value">${total}</div><div class="metric-up">↑ +8% vs last month</div></div>
-    <div class="metric"><div class="metric-label">Top issue</div><div class="metric-value" style="font-size:15px;padding-top:4px;">Login issues</div><div class="metric-sub">14 tickets</div></div>
-    <div class="metric"><div class="metric-label">Avg tickets / day</div><div class="metric-value">${(total/30).toFixed(1)}</div><div class="metric-sub">last 30 days</div></div>
-    <div class="metric"><div class="metric-label">Open tickets</div><div class="metric-value">7</div><div class="metric-down">↓ -3 from last week</div></div>`;
-  const max = ISSUES[0].count;
-  document.getElementById('homeIssues').innerHTML = ISSUES.slice(0,5).map(i => `
-    <div class="issue-row">
-      <div class="issue-label">${i.name}</div>
-      <div class="issue-bar-bg"><div class="issue-bar" style="width:${Math.round(i.count/max*100)}%;background:${i.color};"></div></div>
-      <div class="issue-count">${i.count}</div>
-    </div>`).join('');
-  document.getElementById('activityFeed').innerHTML = ACTIVITY.map(a => `
-    <div class="act-row">
-      <div class="act-dot" style="background:${a.color};"></div>
-      <div style="flex:1;"><span style="color:var(--text);">${a.text}</span><div style="font-size:11px;color:var(--text3);margin-top:2px;">${a.time}</div></div>
-    </div>`).join('');
-  document.getElementById('teamList').innerHTML = USERS.map(u => `
-    <div class="user-row">
-      <div class="user-av" style="background:${u.color}22;color:${u.color};">${u.initials}</div>
-      <div style="flex:1;"><div style="font-size:13px;font-weight:500;">${u.name}</div><div style="font-size:11px;color:var(--text3);">${u.role}</div></div>
-      <span style="width:8px;height:8px;border-radius:50%;background:${u.online?'#3B6D11':'#B4B2A9'};display:inline-block;" title="${u.online?'Online':'Offline'}"></span>
-    </div>`).join('');
-  if (homeChartInst) homeChartInst.destroy();
-  homeChartInst = new Chart(document.getElementById('homeChart'), {
-    type: 'line',
-    data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun'],
-      datasets: [
-        { label:'Login issues',       data:[8,10,9,12,11,14], borderColor:'#185FA5', backgroundColor:'#185FA522', tension:0.4, fill:false, pointStyle:'circle'   },
-        { label:'Tech errors',        data:[6,7,8,9,10,11],   borderColor:'#5F5E5A', backgroundColor:'#5F5E5A22', tension:0.4, fill:false, borderDash:[5,3], pointStyle:'rect'     },
-        { label:'Portal problems',    data:[4,5,6,7,8,9],     borderColor:'#639922', backgroundColor:'#63992222', tension:0.4, fill:false, borderDash:[2,2], pointStyle:'triangle'  }
-      ]
-    },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ stepSize:2 } } } }
-  });
+async function apiFetch(period){
+  const r=await fetch(`${BACKEND}/emails?period=${period}`);
+  if(!r.ok)throw new Error('Server returned '+r.status);
+  return r.json();
 }
 
-function runAnalysis() {
-  if (currentUser && currentUser.role === 'viewer') {
-    alert('Your account (viewer) does not have permission to run analysis. Please contact your admin.'); return;
+async function loadHome(){
+  try{
+    const d=await apiFetch('30');
+    setBadge(d.source);
+    const top=d.categories[0]||{name:'None',count:0};
+    document.getElementById('hMet').innerHTML=`
+      <div class="met"><div class="ml">Total tickets (30 days)</div><div class="mv">${d.total}</div><div class="mu">↑ from inbox</div></div>
+      <div class="met"><div class="ml">Top issue</div><div class="mv" style="font-size:15px;padding-top:4px">${top.name.split(' ')[0]}</div><div class="ms">${top.count} tickets</div></div>
+      <div class="met"><div class="ml">Avg per day</div><div class="mv">${(d.total/30).toFixed(1)}</div><div class="ms">last 30 days</div></div>
+      <div class="met"><div class="ml">Confidential skipped</div><div class="mv">${d.skipped}</div><div class="ms">auto-filtered</div></div>`;
+    const mx=d.categories[0]?.count||1;
+    document.getElementById('hIssues').innerHTML=d.categories.slice(0,6).map(c=>`
+      <div class="ir"><div class="il">${c.name}</div>
+      <div class="ibg"><div class="ib2" style="width:${Math.round(c.count/mx*100)}%;background:${COLORS[c.name]||'#888'}"></div></div>
+      <div class="ic">${c.count}</div></div>`).join('');
+    document.getElementById('hTime').textContent='Last updated: '+new Date().toLocaleTimeString();
+  }catch(e){
+    document.getElementById('hMet').innerHTML=`<div class="met" style="grid-column:1/-1"><div class="notice nw" style="margin:0"><i class="ti ti-alert-circle"></i><span>Cannot reach backend. Go to <strong>Admin</strong> tab and check your Render URL.</span></div></div>`;
+    document.getElementById('hIssues').innerHTML='';
+    setBadge('error');
   }
-  document.getElementById('analyzerResults').style.display = 'none';
-  document.getElementById('analyzerLoading').style.display = 'block';
-  const steps = [
-    [0,   10, 'Connecting to Microsoft 365...', 'Authenticating your account'],
-    [700, 30, 'Reading support inbox...',        'Fetching emails from the last 30 days'],
-    [1400,55, 'Filtering confidential emails...','Skipping invoices, contracts & payments'],
-    [2100,75, 'Categorising issues...',          'Grouping emails by problem type'],
-    [2800,95, 'Building report...',              'Almost done']
-  ];
-  steps.forEach(([d,p,t,s]) => setTimeout(() => {
-    document.getElementById('loadBar').style.width = p + '%';
-    document.getElementById('loadMsg').textContent = t;
-    document.getElementById('loadSub').textContent = s;
-  }, d));
-  setTimeout(() => {
-    document.getElementById('analyzerLoading').style.display = 'none';
-    document.getElementById('analyzerResults').style.display = 'block';
-    document.getElementById('loadBar').style.width = '100%';
-    renderAnalyzerResults();
-  }, 3400);
 }
 
-function renderAnalyzerResults() {
-  document.getElementById('analyzerMetrics').innerHTML = `
-    <div class="metric"><div class="metric-label">Emails read</div><div class="metric-value">${EMAILS.length}</div><div class="metric-sub">support only</div></div>
-    <div class="metric"><div class="metric-label">Confidential skipped</div><div class="metric-value">3</div><div class="metric-sub">auto-filtered</div></div>
-    <div class="metric"><div class="metric-label">Issue categories</div><div class="metric-value">7</div><div class="metric-sub">identified</div></div>
-    <div class="metric"><div class="metric-label">Top issue</div><div class="metric-value" style="font-size:15px;padding-top:4px;">Login</div><div class="metric-sub">3 tickets</div></div>`;
-  const max = ISSUES[0].count;
-  document.getElementById('analyzerIssues').innerHTML = ISSUES.map(i => `
-    <div class="issue-row">
-      <div class="issue-label">${i.name}</div>
-      <div class="issue-bar-bg"><div class="issue-bar" style="width:${Math.round(i.count/max*100)}%;background:${i.color};"></div></div>
-      <div class="issue-count">${i.count}</div>
-    </div>`).join('');
-  const catBadge = { 'Login & access issues':'b-info','Technical errors':'b-danger','Member portal problems':'b-success','Email / comms issues':'b-warn','Membership renewal':'b-warn','Feature requests':'b-gray','Event registration':'b-info' };
-  document.getElementById('emailCount').textContent = EMAILS.length + ' emails';
-  document.getElementById('emailLog').innerHTML = EMAILS.map(e => `
-    <div style="padding:9px 0;border-bottom:0.5px solid var(--border);">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
-        <div><p style="font-size:13px;font-weight:500;">${e.subject}</p><p style="font-size:12px;color:var(--text2);margin-top:2px;">${e.from} &middot; ${e.date}</p></div>
-        <span class="badge ${catBadge[e.cat]||'b-gray'}" style="flex-shrink:0;margin-top:2px;">${e.cat.split(' ')[0]}</span>
-      </div>
-    </div>`).join('');
-  if (pieChartInst) pieChartInst.destroy();
-  const top5 = ISSUES.slice(0,5);
-  pieChartInst = new Chart(document.getElementById('pieChart'), {
-    type: 'doughnut',
-    data: { labels: top5.map(i=>i.name), datasets:[{ data:top5.map(i=>i.count), backgroundColor:top5.map(i=>i.color), borderWidth:2 }] },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } } }
-  });
-  document.getElementById('pieLegend').innerHTML = top5.map(i =>
-    `<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--text2);"><span style="width:9px;height:9px;border-radius:2px;background:${i.color};display:inline-block;"></span>${i.name.split(' ')[0]} (${i.count})</span>`
-  ).join('');
+function selPeriod(p,btn){
+  document.querySelectorAll('.pb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); curPeriod=p; loadAnalyzer(p);
 }
 
-function renderFAQ() {
-  document.getElementById('faqList').innerHTML = FAQS.map((f,i) => `
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFAQ(${i})"><span>${f.q}</span><i class="ti ti-chevron-down" id="fi-${i}" style="font-size:14px;color:var(--text3);transition:transform .2s;"></i></div>
-      <div class="faq-a" id="fa-${i}">${f.a}</div>
-    </div>`).join('');
+async function loadAnalyzer(p){
+  if(CU&&CU.role==='viewer'){
+    show('aErr'); document.getElementById('aErrMsg').textContent='Your account (viewer) cannot run analysis. Contact your admin.'; return;
+  }
+  show('aLoad');
+  try{
+    const d=await apiFetch(p);
+    show('aRes'); renderResults(d); setBadge(d.source);
+  }catch(e){
+    show('aErr'); document.getElementById('aErrMsg').textContent=e.message||'Cannot connect to backend.';
+  }
 }
 
-function toggleFAQ(i) {
-  const el = document.getElementById('fa-'+i), ic = document.getElementById('fi-'+i);
-  el.classList.toggle('open');
-  ic.style.transform = el.classList.contains('open') ? 'rotate(180deg)' : '';
+function show(id){
+  ['aLoad','aRes','aErr'].forEach(x=>document.getElementById(x).style.display=x===id?'block':'none');
 }
 
-function exportFAQ() {
-  const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Support FAQ — Membership Anywhere</title><style>body{font-family:sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem;color:#1a1a18;}h1{font-size:22px;margin-bottom:1.5rem;}details{border-bottom:1px solid #e5e5e3;padding:12px 0;}summary{font-size:15px;font-weight:600;cursor:pointer;list-style:none;}summary::-webkit-details-marker{display:none;}p{font-size:14px;color:#5c5b57;margin-top:8px;line-height:1.7;}</style></head><body><h1>Frequently asked questions</h1>${FAQS.map(f=>`<details><summary>${f.q}</summary><p>${f.a}</p></details>`).join('')}</body></html>`;
-  const blob = new Blob([html], { type:'text/html' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'support-faq.html';
-  a.click();
+function renderResults(d){
+  const labels={today:'Today','7':'Last 7 days','30':'Last 30 days','90':'Last 3 months','365':'Last 12 months'};
+  document.getElementById('aLabel').textContent=`${labels[d.period]||d.period} · ${d.total} emails · ${d.skipped} confidential skipped`;
+  const sb=document.getElementById('aSrc');
+  sb.textContent=d.source==='live'?'Live data':'Demo data';
+  sb.className='bdg '+(d.source==='live'?'bs2':'bw');
+  const top=d.categories[0]||{name:'None',count:0};
+  document.getElementById('aMet').innerHTML=`
+    <div class="met"><div class="ml">Emails analysed</div><div class="mv">${d.total}</div><div class="ms">support only</div></div>
+    <div class="met"><div class="ml">Confidential skipped</div><div class="mv">${d.skipped}</div><div class="ms">auto-filtered</div></div>
+    <div class="met"><div class="ml">Categories found</div><div class="mv">${d.categories.length}</div></div>
+    <div class="met"><div class="ml">Top issue</div><div class="mv" style="font-size:15px;padding-top:4px">${top.name.split(' ')[0]}</div><div class="ms">${top.count} tickets</div></div>`;
+  const mx=d.categories[0]?.count||1;
+  document.getElementById('aIssues').innerHTML=d.categories.map(c=>`
+    <div class="ir"><div class="il">${c.name}</div>
+    <div class="ibg"><div class="ib2" style="width:${Math.round(c.count/mx*100)}%;background:${COLORS[c.name]||'#888'}"></div></div>
+    <div class="ic">${c.count}</div></div>`).join('')||'<p style="font-size:13px;color:var(--text2);padding:8px 0">No issues found for this period.</p>';
+  const cb={'Login & access issues':'bi2','Technical errors':'bd','Member portal problems':'bs2','Email & comms issues':'bw','Membership renewal':'bw','Feature requests':'bg','Event registration':'bi2'};
+  document.getElementById('eCnt').textContent=d.emails.length+' emails';
+  document.getElementById('eLog').innerHTML=d.emails.map(e=>`
+    <div style="padding:9px 0;border-bottom:0.5px solid var(--border)">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+        <div><p style="font-size:13px;font-weight:500">${e.subject}</p><p style="font-size:12px;color:var(--text2);margin-top:2px">${e.from} &middot; ${e.date}</p></div>
+        <span class="bdg ${cb[e.category]||'bg'}" style="flex-shrink:0;margin-top:2px">${e.category.split(' ')[0]}</span>
+      </div></div>`).join('')||'<p style="font-size:13px;color:var(--text2);padding:8px 0">No emails found for this period.</p>';
+  if(pie)pie.destroy();
+  const t5=d.categories.slice(0,5);
+  if(t5.length){
+    pie=new Chart(document.getElementById('pieC'),{type:'doughnut',data:{labels:t5.map(c=>c.name),datasets:[{data:t5.map(c=>c.count),backgroundColor:t5.map(c=>COLORS[c.name]||'#888'),borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+    document.getElementById('pieLeg').innerHTML=t5.map(c=>`<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:9px;height:9px;border-radius:2px;background:${COLORS[c.name]||'#888'};display:inline-block"></span>${c.name.split(' ')[0]} (${c.count})</span>`).join('');
+  }
 }
 
-function renderAdmin() {
-  if (!currentUser || currentUser.role !== 'admin') return;
-  document.getElementById('userList').innerHTML = USERS.map((u,i) => `
-    <div class="user-row">
-      <div class="user-av" style="background:${u.color}22;color:${u.color};">${u.initials}</div>
-      <div style="flex:1;"><div style="font-size:13px;font-weight:500;">${u.name}</div><div style="font-size:11px;color:var(--text3);">@${u.username} &middot; ${u.role}</div></div>
-      <span class="badge ${u.role==='admin'?'b-danger':u.role==='analyst'?'b-info':'b-gray'}">${u.role}</span>
-      ${u.username!=='admin'?`<button class="btn btn-sm btn-danger" onclick="removeUser(${i})" style="margin-left:8px;"><i class="ti ti-trash"></i></button>`:''}
-    </div>`).join('');
-  document.getElementById('accessLog').innerHTML = ACCESS_LOG.map(a => `
-    <div class="act-row">
-      <div class="act-dot" style="background:#185FA5;"></div>
-      <div style="flex:1;"><span style="font-weight:500;">${a.user}</span> <span style="color:var(--text2);">${a.action}</span><div style="font-size:11px;color:var(--text3);margin-top:2px;">${a.time}</div></div>
+function setBadge(src){
+  const b=document.getElementById('srcBadge');
+  if(src==='live'){b.textContent='Live data';b.className='bdg bs2';}
+  else if(src==='demo'){b.textContent='Demo data';b.className='bdg bw';}
+  else{b.textContent='Offline';b.className='bdg bd';}
+}
+
+function renderTeam(){
+  document.getElementById('hTeam').innerHTML=USERS.map(u=>`
+    <div class="ur">
+      <div class="ua" style="background:${u.c}22;color:${u.c}">${u.i}</div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:500">${u.name}</div><div style="font-size:11px;color:var(--text3)">${u.role}</div></div>
+      <span style="width:8px;height:8px;border-radius:50%;background:${u.on?'#3B6D11':'#B4B2A9'};display:inline-block"></span>
     </div>`).join('');
 }
 
-function addUser() {
-  const name=document.getElementById('nName').value.trim(), user=document.getElementById('nUser').value.trim().toLowerCase();
-  const pass=document.getElementById('nPass').value, role=document.getElementById('nRole').value;
+function renderFAQ(){
+  document.getElementById('faqList').innerHTML=FAQS.map((f,i)=>`
+    <div class="fqi">
+      <div class="fqq" onclick="tFAQ(${i})"><span>${f.q}</span><i class="ti ti-chevron-down" id="fi${i}" style="font-size:14px;color:var(--text3);transition:transform .2s"></i></div>
+      <div class="fqa" id="fa${i}">${f.a}</div>
+    </div>`).join('');
+}
+
+function tFAQ(i){
+  const e=document.getElementById('fa'+i),ic=document.getElementById('fi'+i);
+  e.classList.toggle('open');ic.style.transform=e.classList.contains('open')?'rotate(180deg)':'';
+}
+
+function exportFAQ(){
+  const h=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Support FAQ</title><style>body{font-family:sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h1{font-size:22px;margin-bottom:1.5rem}details{border-bottom:1px solid #e5e5e3;padding:12px 0}summary{font-size:15px;font-weight:600;cursor:pointer}p{font-size:14px;color:#5c5b57;margin-top:8px;line-height:1.7}</style></head><body><h1>Frequently asked questions</h1>${FAQS.map(f=>`<details><summary>${f.q}</summary><p>${f.a}</p></details>`).join('')}</body></html>`;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));
+  a.download='support-faq.html';a.click();
+}
+
+function renderAdmin(){
+  if(!CU||CU.role!=='admin')return;
+  document.getElementById('buInput').value=BACKEND;
+  document.getElementById('buCurrent').textContent=BACKEND;
+  document.getElementById('uList').innerHTML=USERS.map((u,i)=>`
+    <div class="ur">
+      <div class="ua" style="background:${u.c}22;color:${u.c}">${u.i}</div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:500">${u.name}</div><div style="font-size:11px;color:var(--text3)">@${u.u} &middot; ${u.role}</div></div>
+      <span class="bdg ${u.role==='admin'?'bd':u.role==='analyst'?'bi2':'bg'}">${u.role}</span>
+      ${u.u!=='admin'?`<button class="btn bts btd" onclick="delUser(${i})" style="margin-left:8px"><i class="ti ti-trash"></i></button>`:''}
+    </div>`).join('');
+}
+
+function saveBU(){
+  const v=document.getElementById('buInput').value.trim().replace(/\/$/,'');
+  BACKEND=v; localStorage.setItem('ma_backend',v);
+  document.getElementById('buCurrent').textContent=v;
+  document.getElementById('testResult').textContent='Saved! Testing...';
+  testBackend();
+}
+
+async function testBackend(){
+  const el=document.getElementById('testResult');
+  el.textContent='Testing...';
+  try{
+    const r=await fetch(BACKEND+'/');
+    const d=await r.json();
+    el.textContent=d.mode==='live'?'✓ Connected — live mode active':'✓ Connected — demo mode (add Azure env vars to go live)';
+    el.style.color='var(--st)';
+    setBadge(d.mode==='live'?'live':'demo');
+  }catch(e){
+    el.textContent='✗ Cannot reach backend. Check your URL.';
+    el.style.color='var(--dt)';
+  }
+}
+
+function addUser(){
+  const n=document.getElementById('nN').value.trim(), u=document.getElementById('nU').value.trim().toLowerCase();
+  const p=document.getElementById('nP').value, r=document.getElementById('nR').value;
   const err=document.getElementById('addErr');
-  if (!name||!user||!pass) { err.textContent='Please fill in all fields.'; err.style.display='block'; return; }
-  if (USERS.find(u=>u.username===user)) { err.textContent='That username already exists.'; err.style.display='block'; return; }
+  if(!n||!u||!p){err.textContent='Fill in all fields.';err.style.display='block';return;}
+  if(USERS.find(x=>x.u===u)){err.textContent='Username already exists.';err.style.display='block';return;}
   const cols=['#185FA5','#1D9E75','#533AB7','#BA7517','#993556'];
-  USERS.push({ username:user, password:pass, name, role, initials:name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(), color:cols[USERS.length%cols.length], online:false });
+  USERS.push({u,p,name:n,role:r,i:n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(),c:cols[USERS.length%cols.length],on:false});
   document.getElementById('addCard').style.display='none';
-  ['nName','nUser','nPass'].forEach(id=>document.getElementById(id).value='');
-  err.style.display='none';
-  renderAdmin(); renderHome();
+  ['nN','nU','nP'].forEach(id=>document.getElementById(id).value='');
+  err.style.display='none'; renderAdmin(); renderTeam();
 }
 
-function removeUser(i) {
-  if (USERS[i].username===currentUser.username) { alert("You can't remove your own account."); return; }
-  USERS.splice(i,1);
-  renderAdmin(); renderHome();
+function delUser(i){
+  if(USERS[i].u===CU.u){alert("You can't remove your own account.");return;}
+  USERS.splice(i,1); renderAdmin(); renderTeam();
 }
 </script>
 </body>
