@@ -430,14 +430,31 @@ function renderMetrics(d,id,label){
 function renderInsights(insights,id){
   if(!insights||!insights.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2);padding:8px 0">No insights yet — run the analyzer first.</p>';return;}
   document.getElementById(id).innerHTML=insights.map(ins=>`
-    <div class="insight ${ins.type}">
+    <div class="insight ${ins.type}" style="cursor:${ins.filterCat?'pointer':'default'}" onclick="${ins.filterCat?`goFilterCat('${ins.filterCat.replace(/'/g,"\\'")}')`:''}" title="${ins.filterCat?'Click to filter emails by this category':''}">
       <div class="insight-icon"><i class="ti ${ins.icon}" style="font-size:16px"></i></div>
-      <div>
-        <h4>${ins.title}</h4>
+      <div style="flex:1">
+        <h4>${ins.title} ${ins.filterCat?'<span style="font-size:10px;opacity:0.7">— click to filter emails</span>':''}</h4>
         <p>${ins.detail}</p>
         <span class="insight-action">→ ${ins.action}</span>
       </div>
+      ${ins.filterCat?`<i class="ti ti-arrow-right" style="font-size:14px;opacity:0.5;margin-top:4px"></i>`:''}
     </div>`).join('');
+}
+
+function goFilterCat(cat){
+  // Switch to analyzer tab and filter
+  document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.ni')[1].classList.add('active');
+  ['home','analyzer','faq','admin'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t==='analyzer'));
+  if(window._emails){
+    document.getElementById('aLoad').style.display='none';
+    document.getElementById('aErr').style.display='none';
+    document.getElementById('aRes').style.display='block';
+    filterCat(cat);
+    document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'});
+  } else {
+    loadAnalyzer(curP).then(()=>{ setTimeout(()=>filterCat(cat),500); });
+  }
 }
 
 function renderTrend(trend,id){
