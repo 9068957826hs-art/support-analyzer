@@ -169,6 +169,7 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
     <div class="nav">
       <div class="ni active" onclick="sw('home',this)"><i class="ti ti-home"></i> Home</div>
       <div class="ni" onclick="sw('analyzer',this)"><i class="ti ti-chart-bar"></i> Analyzer</div>
+      <div class="ni" onclick="sw('painpoints',this)"><i class="ti ti-target"></i> Pain points</div>
       <div class="ni" onclick="sw('replies',this)"><i class="ti ti-clock"></i> Reply tracker <span class="bdg bd2" id="overdueCount" style="margin-left:4px;display:none">0</span></div>
       <div class="ni" onclick="sw('members',this)"><i class="ti ti-users"></i> Members at risk</div>
       <div class="ni" onclick="sw('faq',this)"><i class="ti ti-help-circle"></i> FAQ</div>
@@ -276,6 +277,17 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
           <div class="notice"><i class="ti ti-shield-lock"></i> Confidential and marketing emails automatically excluded.</div>
           <div id="eLog"></div>
         </div>
+      </div>
+    </div>
+
+    <!-- PAIN POINTS -->
+    <div id="tab-painpoints" class="tp">
+      <div id="ppLoad" class="ldo"><i class="ti ti-loader spin"></i><p style="font-size:13px;color:var(--text2);margin-top:8px">Analysing pain points...</p></div>
+      <div id="ppRes" style="display:none">
+        <div class="notice ni2"><i class="ti ti-info-circle"></i><span>Based on real client emails only — platform, automated and marketing emails excluded. Click any pain point to see the actual emails behind it.</span></div>
+        <div class="g4" id="ppMet"></div>
+        <!-- Pain point cards -->
+        <div id="ppCards"></div>
       </div>
     </div>
 
@@ -392,8 +404,9 @@ function logout(){
 
 function sw(n,el){
   document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));el.classList.add('active');
-  ['home','analyzer','replies','members','faq','admin'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t===n));
+  ['home','analyzer','painpoints','replies','members','faq','admin'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t===n));
   if(n==='analyzer')loadAnalyzer(curP,curFrom,curTo);
+  if(n==='painpoints')renderPainPoints();
   if(n==='replies')renderReplies();
   if(n==='members')renderMembers();
   if(n==='admin')renderAdmin();
@@ -436,11 +449,12 @@ function renderMetrics(d,id,label){
   const top=d.categories[0]||{name:'None',count:0};
   const overdue=d.responseStats?d.responseStats.totalOverdue:0;
   const avgReply=d.responseStats&&d.responseStats.avgReplyHours!=null?d.responseStats.avgReplyHours+'h avg reply':'—';
+  const filtered=(d.skipped||0)+(d.platform||0);
   document.getElementById(id).innerHTML=`
-    <div class="met"><div class="ml">Support emails</div><div class="mv">${d.total}</div><div class="ms">${label}</div></div>
+    <div class="met"><div class="ml">Client emails</div><div class="mv">${d.total}</div><div class="ms">${label}</div></div>
     <div class="met"><div class="ml">Top issue</div><div class="mv" style="font-size:15px;padding-top:4px">${top.name.split(' ')[0]}</div><div class="ms">${top.count} tickets</div></div>
     <div class="met"><div class="ml">Overdue replies</div><div class="mv ${overdue>0?'md':''}">${overdue}</div><div class="ms">no reply >${(d.responseStats||{}).slaHours||24}h</div></div>
-    <div class="met"><div class="ml">Avg reply time</div><div class="mv" style="font-size:18px;padding-top:4px">${avgReply}</div><div class="ms">this period</div></div>`;
+    <div class="met"><div class="ml">Filtered out</div><div class="mv">${filtered}</div><div class="ms">platform + confidential</div></div>`;
 }
 
 function renderInsights(insights,id){
@@ -635,7 +649,106 @@ function renderLog(emails,filter){
       </div></div>`).join(''):'<p style="font-size:13px;color:var(--text2);padding:8px 0">No emails for this filter.</p>');
 }
 
-// ── REPLY TRACKER ─────────────────────────────────────────
+// ── PAIN POINTS ───────────────────────────────────────────
+function renderPainPoints(){
+  if(!lastData){
+    document.getElementById('ppLoad').style.display='block';
+    document.getElementById('ppRes').style.display='none';
+    loadHome().then(()=>renderPainPoints());return;
+  }
+  const pp=lastData.painPoints||[];
+  document.getElementById('ppLoad').style.display='none';
+  document.getElementById('ppRes').style.display='block';
+
+  const total=pp.reduce((s,p)=>s+p.total,0);
+  const critical=pp.filter(p=>p.severity==='critical'||p.severity==='high').length;
+  const topPain=pp[0]||{name:'None',total:0};
+
+  document.getElementById('ppMet').innerHTML=`
+    <div class="met"><div class="ml">Total client tickets</div><div class="mv">${total}</div><div class="ms">real client emails only</div></div>
+    <div class="met"><div class="ml">Pain areas identified</div><div class="mv">${pp.length}</div><div class="ms">active areas</div></div>
+    <div class="met"><div class="ml">High/critical areas</div><div class="mv ${critical>0?'md':''}">${critical}</div><div class="ms">need attention now</div></div>
+    <div class="met"><div class="ml">Biggest pain point</div><div class="mv" style="font-size:14px;padding-top:4px">${topPain.name.split(' ')[0]}</div><div class="ms">${topPain.total} tickets</div></div>`;
+
+  const sevColors={'critical':'var(--dt)','high':'var(--wt)','medium':'var(--it)','low':'var(--st)','none':'var(--text3)'};
+  const sevBg={'critical':'var(--db)','high':'var(--wb)','medium':'var(--ib)','low':'var(--sb)','none':'var(--bg2)'};
+  const sevBorder={'critical':'var(--dbr)','high':'var(--wbr)','medium':'var(--ibr)','low':'var(--sbr)','none':'var(--border)'};
+
+  document.getElementById('ppCards').innerHTML = pp.map((p,idx)=>{
+    const pct=total?Math.round(p.total/total*100):0;
+    const expanded = idx===0; // first one open by default
+    return `
+    <div class="card" style="border-left:4px solid ${sevColors[p.severity]};margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;cursor:pointer" onclick="togglePP(${idx})">
+        <div style="display:flex;align-items:flex-start;gap:12px;flex:1">
+          <div style="width:40px;height:40px;border-radius:var(--r);background:${sevBg[p.severity]};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <i class="ti ${p.icon}" style="font-size:20px;color:${sevColors[p.severity]}"></i>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:15px;font-weight:600">${p.name}</span>
+              <span class="bdg" style="background:${sevBg[p.severity]};color:${sevColors[p.severity]};border:0.5px solid ${sevBorder[p.severity]}">${p.severity}</span>
+              ${p.urgent>0?`<span class="bdg bd2"><i class="ti ti-flame" style="font-size:11px"></i> ${p.urgent} urgent</span>`:''}
+            </div>
+            <p style="font-size:13px;color:var(--text2);margin-top:4px">${p.description}</p>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+              <div style="flex:1;max-width:300px;background:var(--bg2);border-radius:4px;height:6px;overflow:hidden">
+                <div style="width:${pct}%;height:100%;background:${sevColors[p.severity]};border-radius:4px"></div>
+              </div>
+              <span style="font-size:13px;font-weight:600">${p.total} tickets</span>
+              <span style="font-size:12px;color:var(--text3)">(${pct}%)</span>
+            </div>
+          </div>
+        </div>
+        <i class="ti ti-chevron-down" id="pp-icon-${idx}" style="font-size:16px;color:var(--text3);transition:transform .2s;margin-top:4px;flex-shrink:0;transform:${expanded?'rotate(180deg)':''}"></i>
+      </div>
+      <div id="pp-detail-${idx}" style="display:${expanded?'block':'none'};margin-top:14px;padding-top:14px;border-top:0.5px solid var(--border)">
+        <div class="g2">
+          <div>
+            <p style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Top issues in this area</p>
+            ${p.topSubjects.length?p.topSubjects.map(s=>`
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid var(--border);font-size:13px">
+                <span style="color:var(--text)">${s.subject}</span>
+                <span class="bdg bg2">${s.count}x</span>
+              </div>`).join(''):'<p style="font-size:13px;color:var(--text2)">No repeated subjects.</p>'}
+          </div>
+          <div>
+            <p style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Recent emails</p>
+            ${p.emails.slice(0,5).map(e=>`
+              <div style="padding:6px 0;border-bottom:0.5px solid var(--border)">
+                <p style="font-size:13px;font-weight:500">${e.sentiment==='urgent'?'🔥 ':''} ${e.subject}</p>
+                <p style="font-size:11px;color:var(--text3)">${e.fromName||e.from} · ${e.date}</p>
+              </div>`).join('')}
+            ${p.emails.length>5?`<button class="btn bts" style="margin-top:8px;font-size:11px" onclick="goFilterCat('${p.categories[0]}')"><i class="ti ti-arrow-right"></i> See all ${p.total} emails</button>`:''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('') || '<div class="notice ns2"><i class="ti ti-circle-check"></i><span>No pain points found for this period. Try a longer time range.</span></div>';
+}
+
+function togglePP(idx){
+  const el=document.getElementById('pp-detail-'+idx);
+  const ic=document.getElementById('pp-icon-'+idx);
+  const open=el.style.display==='block';
+  el.style.display=open?'none':'block';
+  ic.style.transform=open?'':'rotate(180deg)';
+}
+
+function goFilterCat(cat){
+  document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.ni')[1].classList.add('active');
+  ['home','analyzer','painpoints','replies','members','faq','admin'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t==='analyzer'));
+  if(window._emails){
+    document.getElementById('aLoad').style.display='none';
+    document.getElementById('aErr').style.display='none';
+    document.getElementById('aRes').style.display='block';
+    filterCat(cat);
+    setTimeout(()=>document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'}),300);
+  } else {
+    loadAnalyzer(curP,curFrom,curTo).then(()=>setTimeout(()=>filterCat(cat),500));
+  }
+}
 function renderReplies(){
   if(!lastData){document.getElementById('rLoad').style.display='block';document.getElementById('rRes').style.display='none';loadHome().then(()=>renderReplies());return;}
   const rs=lastData.responseStats;
@@ -727,13 +840,19 @@ function renderMembers(){
 
 // ── FAQ ───────────────────────────────────────────────────
 function renderFAQ(data){
-  const notice=`<div class="notice ni2" style="margin-bottom:12px"><i class="ti ti-sparkles"></i><span>Auto-generated from your <strong>${data.length}</strong> most common real support issues. Updates every time you run the analyzer.</span></div>`;
+  if(!data||!data.length){
+    document.getElementById('faqList').innerHTML=`
+      <div class="notice nw"><i class="ti ti-alert-circle"></i><span>Not enough real client email data to generate FAQ yet. Run the Analyzer on a longer period (30 days or more) to generate questions from actual member emails.</span></div>`;
+    return;
+  }
+  const notice=`<div class="notice ni2" style="margin-bottom:12px"><i class="ti ti-sparkles"></i><span>Generated from <strong>${data.length}</strong> real questions your members actually asked. Updates every time you run the Analyzer.</span></div>`;
   document.getElementById('faqList').innerHTML=notice+data.map((f,i)=>`
     <div class="fqi">
       <div class="fqq" onclick="tFAQ(${i})">
         <span>${f.q}</span>
         <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
           ${f.category?`<span class="bdg bg2" style="font-size:10px">${f.category.split(' ')[0]}</span>`:''}
+          <span class="bdg bg2" style="font-size:10px">${f.count} members asked</span>
           <i class="ti ti-chevron-down" id="fi${i}" style="font-size:14px;color:var(--text3);transition:transform .2s"></i>
         </div>
       </div>
