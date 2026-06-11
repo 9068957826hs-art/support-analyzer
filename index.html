@@ -484,40 +484,51 @@ function show(id){
 
 function renderResults(d){
   const labels={today:'Today','7':'Last 7 days','30':'Last 30 days','90':'Last 3 months','365':'Last 12 months'};
-  document.getElementById('aLabel').textContent=`${labels[d.period]||d.period} · ${d.total} emails · ${d.skipped} confidential skipped`;
+  document.getElementById('aLabel').textContent=`${labels[d.period]||d.period} · ${d.total} support emails · ${d.skipped||0} confidential · ${d.marketing||0} marketing skipped`;
   const sb=document.getElementById('aSrc');
   sb.textContent=d.source==='live'?'Live data':'Demo data';
   sb.className='bdg '+(d.source==='live'?'bs2':'bw');
   const top=d.categories[0]||{name:'None',count:0};
   document.getElementById('aMet').innerHTML=`
-    <div class="met"><div class="ml">Emails analysed</div><div class="mv">${d.total}</div><div class="ms">support only</div></div>
-    <div class="met"><div class="ml">Confidential skipped</div><div class="mv">${d.skipped}</div><div class="ms">auto-filtered</div></div>
-    <div class="met"><div class="ml">Categories found</div><div class="mv">${d.categories.length}</div></div>
+    <div class="met"><div class="ml">Support emails</div><div class="mv">${d.total}</div><div class="ms">${labels[d.period]||d.period}</div></div>
+    <div class="met"><div class="ml">Confidential skipped</div><div class="mv">${d.skipped||0}</div><div class="ms">auto-filtered</div></div>
+    <div class="met"><div class="ml">Marketing skipped</div><div class="mv">${d.marketing||0}</div><div class="ms">auto-filtered</div></div>
     <div class="met"><div class="ml">Top issue</div><div class="mv" style="font-size:15px;padding-top:4px">${top.name.split(' ')[0]}</div><div class="ms">${top.count} tickets</div></div>`;
   const mx=d.categories[0]?.count||1;
-  document.getElementById('aIssues').innerHTML=d.categories.map(c=>`
-    <div class="ir"><div class="il">${c.name}</div>
-    <div class="ibg"><div class="ib2" style="width:${Math.round(c.count/mx*100)}%;background:${COLORS[c.name]||'#888'}"></div></div>
-    <div class="ic">${c.count}</div></div>`).join('')||'<p style="font-size:13px;color:var(--text2);padding:8px 0">No issues found for this period.</p>';
-  const cb={'Login & access issues':'bi2','Technical errors':'bd','Member portal problems':'bs2','Email & comms issues':'bw','Membership renewal':'bw','Feature requests':'bg','Event registration':'bi2'};
-  document.getElementById('eCnt').textContent=d.emails.length+' emails';
-  document.getElementById('eLog').innerHTML=d.emails.map(e=>`
-    <div style="padding:9px 0;border-bottom:0.5px solid var(--border)">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
-        <div><p style="font-size:13px;font-weight:500">${e.subject}</p><p style="font-size:12px;color:var(--text2);margin-top:2px">${e.from} &middot; ${e.date}</p></div>
-        <span class="bdg ${cb[e.category]||'bg'}" style="flex-shrink:0;margin-top:2px">${e.category.split(' ')[0]}</span>
-      </div></div>`).join('')||'<p style="font-size:13px;color:var(--text2);padding:8px 0">No emails found for this period.</p>';
+  document.getElementById('aIssues').innerHTML=`<p style="font-size:11px;color:var(--text3);margin-bottom:8px">Click any category to filter the email log below</p>`+
+    d.categories.map(c=>`
+    <div class="ir" style="cursor:pointer" onclick="filterByCategory('${c.name.replace(/'/g,"\\'")}')">
+      <div class="il" style="color:var(--blue)">${c.name}</div>
+      <div class="ibg"><div class="ib2" style="width:${Math.round(c.count/mx*100)}%;background:${COLORS[c.name]||'#888'}"></div></div>
+      <div class="ic">${c.count}</div>
+    </div>`).join('')||'<p style="font-size:13px;color:var(--text2);padding:8px 0">No issues found.</p>';
   if(pie)pie.destroy();
   const t5=d.categories.slice(0,5);
   if(t5.length){
     pie=new Chart(document.getElementById('pieC'),{type:'doughnut',data:{labels:t5.map(c=>c.name),datasets:[{data:t5.map(c=>c.count),backgroundColor:t5.map(c=>COLORS[c.name]||'#888'),borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
     document.getElementById('pieLeg').innerHTML=t5.map(c=>`<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:9px;height:9px;border-radius:2px;background:${COLORS[c.name]||'#888'};display:inline-block"></span>${c.name.split(' ')[0]} (${c.count})</span>`).join('');
   }
-  // Update FAQ with live data from this analysis
-  if(d.faq && d.faq.length){
-    liveFAQ = d.faq;
-    renderFAQ(d.faq);
-  }
+  window._allEmails=d.emails;
+  renderEmailLog(d.emails, null);
+  if(d.faq&&d.faq.length){ liveFAQ=d.faq; renderFAQ(d.faq); }
+}
+
+function filterByCategory(cat){
+  const filtered=(window._allEmails||[]).filter(e=>e.category===cat);
+  renderEmailLog(filtered, cat);
+  document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderEmailLog(emails, activeFilter){
+  const cb={'Login & access issues':'bi2','Technical errors':'bd','Member portal problems':'bs2','Email & comms issues':'bw','Membership renewal':'bw','Feature requests':'bg','Event registration':'bi2','Billing & payments':'bw','Account management':'bg','General enquiry':'bg'};
+  const bar=activeFilter?`<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px 12px;background:var(--ib);border-radius:var(--r)"><i class="ti ti-filter" style="color:var(--it);font-size:14px"></i><span style="font-size:13px;color:var(--it);flex:1">Showing: <strong>${activeFilter}</strong> — ${emails.length} emails</span><button class="btn bts" onclick="renderEmailLog(window._allEmails,null)" style="font-size:11px;padding:4px 8px">✕ Clear</button></div>`:'';
+  document.getElementById('eCnt').textContent=activeFilter?`${emails.length} of ${(window._allEmails||[]).length}`:emails.length+' emails';
+  document.getElementById('eLog').innerHTML=bar+(emails.length?emails.map(e=>`
+    <div style="padding:9px 0;border-bottom:0.5px solid var(--border)">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+        <div><p style="font-size:13px;font-weight:500">${e.subject}</p><p style="font-size:12px;color:var(--text2);margin-top:2px">${e.from} &middot; ${e.date}</p></div>
+        <span class="bdg ${cb[e.category]||'bg'}" style="flex-shrink:0;margin-top:2px;cursor:pointer" onclick="filterByCategory('${e.category.replace(/'/g,"\\'")}')">${e.category.split(' ')[0]}</span>
+      </div></div>`).join(''):'<p style="font-size:13px;color:var(--text2);padding:8px 0">No emails for this filter.</p>');
 }
 
 function setBadge(src){
