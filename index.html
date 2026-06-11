@@ -513,6 +513,11 @@ function renderResults(d){
     pie=new Chart(document.getElementById('pieC'),{type:'doughnut',data:{labels:t5.map(c=>c.name),datasets:[{data:t5.map(c=>c.count),backgroundColor:t5.map(c=>COLORS[c.name]||'#888'),borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
     document.getElementById('pieLeg').innerHTML=t5.map(c=>`<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:9px;height:9px;border-radius:2px;background:${COLORS[c.name]||'#888'};display:inline-block"></span>${c.name.split(' ')[0]} (${c.count})</span>`).join('');
   }
+  // Update FAQ with live data from this analysis
+  if(d.faq && d.faq.length){
+    liveFAQ = d.faq;
+    renderFAQ(d.faq);
+  }
 }
 
 function setBadge(src){
@@ -531,10 +536,23 @@ function renderTeam(){
     </div>`).join('');
 }
 
-function renderFAQ(){
-  document.getElementById('faqList').innerHTML=FAQS.map((f,i)=>`
+// liveFAQ holds the latest FAQ from the API — updated every time emails are fetched
+let liveFAQ = FAQS;
+
+function renderFAQ(faqData){
+  const data = faqData || liveFAQ;
+  const notice = faqData
+    ? `<div class="notice ni2" style="margin-bottom:12px"><i class="ti ti-sparkles"></i><span>Auto-generated from your last <strong>${faqData.length}</strong> most common support issues. Updates every time you run the analyzer.</span></div>`
+    : `<div class="notice" style="margin-bottom:12px"><i class="ti ti-info-circle"></i><span>Run the Analyzer first to generate a FAQ from your real emails.</span></div>`;
+  document.getElementById('faqList').innerHTML = notice + data.map((f,i)=>`
     <div class="fqi">
-      <div class="fqq" onclick="tFAQ(${i})"><span>${f.q}</span><i class="ti ti-chevron-down" id="fi${i}" style="font-size:14px;color:var(--text3);transition:transform .2s"></i></div>
+      <div class="fqq" onclick="tFAQ(${i})">
+        <span>${f.q}</span>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+          ${f.category ? `<span class="bdg bg" style="font-size:10px">${f.category.split(' ')[0]}</span>` : ''}
+          <i class="ti ti-chevron-down" id="fi${i}" style="font-size:14px;color:var(--text3);transition:transform .2s"></i>
+        </div>
+      </div>
       <div class="fqa" id="fa${i}">${f.a}</div>
     </div>`).join('');
 }
@@ -545,7 +563,8 @@ function tFAQ(i){
 }
 
 function exportFAQ(){
-  const h=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Support FAQ</title><style>body{font-family:sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h1{font-size:22px;margin-bottom:1.5rem}details{border-bottom:1px solid #e5e5e3;padding:12px 0}summary{font-size:15px;font-weight:600;cursor:pointer}p{font-size:14px;color:#5c5b57;margin-top:8px;line-height:1.7}</style></head><body><h1>Frequently asked questions</h1>${FAQS.map(f=>`<details><summary>${f.q}</summary><p>${f.a}</p></details>`).join('')}</body></html>`;
+  const data = liveFAQ;
+  const h=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Support FAQ — Membership Anywhere</title><style>body{font-family:sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h1{font-size:22px;margin-bottom:4px}p.sub{font-size:13px;color:#888;margin-bottom:1.5rem}details{border-bottom:1px solid #e5e5e3;padding:12px 0}summary{font-size:15px;font-weight:600;cursor:pointer}p{font-size:14px;color:#5c5b57;margin-top:8px;line-height:1.7}</style></head><body><h1>Frequently asked questions</h1><p class="sub">Last updated: ${new Date().toLocaleDateString()}</p>${data.map(f=>`<details><summary>${f.q}</summary><p>${f.a}</p></details>`).join('')}</body></html>`;
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));
   a.download='support-faq.html';a.click();
