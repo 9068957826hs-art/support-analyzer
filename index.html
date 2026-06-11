@@ -8,24 +8,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --bg:#fff;--bg2:#f5f5f4;--bg3:#efefed;--text:#1a1a18;--text2:#5c5b57;--text3:#9a9893;
-  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.2);
-  --ib:#e6f1fb;--it:#0c447c;--ibr:rgba(24,95,165,0.3);
-  --sb:#eaf3de;--st:#27500a;--sbr:rgba(63,109,17,0.3);
-  --wb:#faeeda;--wt:#633806;--wbr:rgba(186,117,23,0.3);
-  --db:#fcebeb;--dt:#791f1f;--dbr:rgba(163,45,45,0.3);
-  --r:8px;--rl:12px;--blue:#185FA5;
-}
+:root{--bg:#fff;--bg2:#f5f5f4;--bg3:#efefed;--text:#1a1a18;--text2:#5c5b57;--text3:#9a9893;--border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.2);--ib:#e6f1fb;--it:#0c447c;--ibr:rgba(24,95,165,0.3);--sb:#eaf3de;--st:#27500a;--sbr:rgba(63,109,17,0.3);--wb:#faeeda;--wt:#633806;--wbr:rgba(186,117,23,0.3);--db:#fcebeb;--dt:#791f1f;--dbr:rgba(163,45,45,0.3);--r:8px;--rl:12px;--blue:#185FA5;}
 @media(prefers-color-scheme:dark){:root{--bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;--text:#f0ede8;--text2:#a8a59e;--text3:#6b6965;--border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);--ib:#0c2a47;--it:#85b7eb;--ibr:rgba(55,138,221,0.3);--sb:#173404;--st:#c0dd97;--sbr:rgba(99,153,34,0.3);--wb:#412402;--wt:#fac775;--wbr:rgba(186,117,23,0.3);--db:#501313;--dt:#f09595;--dbr:rgba(226,75,74,0.3);}}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh;}
 .page{display:none;}.page.active{display:block;}
-/* LOGIN */
 .ls{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
 .lb{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);padding:2rem;width:100%;max-width:380px;}
 .lh{text-align:center;margin-bottom:1.5rem;}
-.li{width:52px;height:52px;border-radius:var(--rl);background:var(--ib);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
-.li i{font-size:26px;color:var(--it);}
+.lic{width:52px;height:52px;border-radius:var(--rl);background:var(--ib);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.lic i{font-size:26px;color:var(--it);}
 label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px;margin-top:12px;}
 input,select{width:100%;padding:9px 12px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-size:13px;outline:none;}
 input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,95,165,0.12);}
@@ -37,33 +28,32 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
 .btbl{width:100%;justify-content:center;margin-top:14px;}
 .ebox{background:var(--db);color:var(--dt);border-radius:var(--r);padding:8px 12px;font-size:13px;margin-top:10px;display:none;}
 .hint{font-size:12px;color:var(--text3);text-align:center;margin-top:14px;}
-/* APP */
 .shell{max-width:1140px;margin:0 auto;padding:0 1.5rem 3rem;}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:0.5px solid var(--border);margin-bottom:1.5rem;}
 .tbl{display:flex;align-items:center;gap:10px;}
-.bi2{width:34px;height:34px;border-radius:var(--r);background:var(--ib);display:flex;align-items:center;justify-content:center;}
-.bi2 i{font-size:18px;color:var(--it);}
+.bic{width:34px;height:34px;border-radius:var(--r);background:var(--ib);display:flex;align-items:center;justify-content:center;}
+.bic i{font-size:18px;color:var(--it);}
 .bn{font-size:15px;font-weight:600;}
-.bs2{font-size:11px;color:var(--text2);}
+.bns{font-size:11px;color:var(--text2);}
 .tbr{display:flex;align-items:center;gap:10px;}
 .av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
-.nav{display:flex;gap:2px;margin-bottom:1.5rem;border-bottom:0.5px solid var(--border);}
-.ni{font-size:13px;padding:9px 14px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-0.5px;display:flex;align-items:center;gap:6px;border-radius:var(--r) var(--r) 0 0;transition:color .15s;}
+.nav{display:flex;gap:2px;margin-bottom:1.5rem;border-bottom:0.5px solid var(--border);overflow-x:auto;}
+.ni{font-size:13px;padding:9px 14px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-0.5px;display:flex;align-items:center;gap:6px;border-radius:var(--r) var(--r) 0 0;transition:color .15s;white-space:nowrap;}
 .ni:hover{color:var(--text);background:var(--bg2);}
 .ni.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500;background:transparent;}
 .tp{display:none;}.tp.active{display:block;}
 .card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);padding:1.25rem;margin-bottom:1rem;}
-.ct{font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.ct{font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .ct i{font-size:16px;color:var(--text2);}
 .g2{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:1rem;}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;}
 .g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1rem;}
 .met{background:var(--bg2);border-radius:var(--r);padding:14px;}
 .ml{font-size:12px;color:var(--text2);margin-bottom:4px;}
 .mv{font-size:26px;font-weight:600;}
 .ms{font-size:11px;color:var(--text3);margin-top:3px;}
-.mu{color:#3B6D11;font-size:12px;margin-top:3px;display:flex;align-items:center;gap:3px;}
-.md{color:#A32D2D;font-size:12px;margin-top:3px;display:flex;align-items:center;gap:3px;}
+.mu{color:#3B6D11;font-size:12px;margin-top:3px;}
+.md{color:#A32D2D;font-size:12px;margin-top:3px;}
 .bdg{display:inline-block;font-size:11px;padding:2px 9px;border-radius:99px;font-weight:500;}
 .bi{background:var(--ib);color:var(--it);}
 .bsu{background:var(--sb);color:var(--st);}
@@ -80,52 +70,35 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
 .ni2 i{color:var(--it);}
 .nw{background:var(--wb);color:var(--wt);}
 .nd{background:var(--db);color:var(--dt);}
-.ns{background:var(--sb);color:var(--st);}
-/* INSIGHT CARDS */
-.insight{border-radius:var(--r);padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;border:0.5px solid;}
+.ns2{background:var(--sb);color:var(--st);}
+.insight{border-radius:var(--r);padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;border:0.5px solid;transition:opacity .15s;}
 .insight:last-child{margin-bottom:0;}
+.insight.clickable{cursor:pointer;}.insight.clickable:hover{opacity:.85;}
 .insight.warning{background:var(--wb);border-color:var(--wbr);}
 .insight.danger{background:var(--db);border-color:var(--dbr);}
 .insight.success{background:var(--sb);border-color:var(--sbr);}
 .insight.info{background:var(--ib);border-color:var(--ibr);}
-.insight-icon{width:32px;height:32px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.insight.warning .insight-icon{background:rgba(186,117,23,0.15);}
-.insight.danger .insight-icon{background:rgba(163,45,45,0.15);}
-.insight.success .insight-icon{background:rgba(63,109,17,0.15);}
-.insight.info .insight-icon{background:rgba(24,95,165,0.15);}
-.insight.warning .insight-icon i,.insight.warning h4{color:var(--wt);}
-.insight.danger .insight-icon i,.insight.danger h4{color:var(--dt);}
-.insight.success .insight-icon i,.insight.success h4{color:var(--st);}
-.insight.info .insight-icon i,.insight.info h4{color:var(--it);}
+.iico{width:32px;height:32px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.insight.warning .iico{background:rgba(186,117,23,0.15);}
+.insight.danger .iico{background:rgba(163,45,45,0.15);}
+.insight.success .iico{background:rgba(63,109,17,0.15);}
+.insight.info .iico{background:rgba(24,95,165,0.15);}
+.insight.warning .iico i,.insight.warning h4{color:var(--wt);}
+.insight.danger .iico i,.insight.danger h4{color:var(--dt);}
+.insight.success .iico i,.insight.success h4{color:var(--st);}
+.insight.info .iico i,.insight.info h4{color:var(--it);}
 .insight h4{font-size:13px;font-weight:600;margin-bottom:3px;}
 .insight p{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:4px;}
-.insight-action{font-size:11px;font-weight:500;padding:3px 8px;border-radius:99px;display:inline-block;margin-top:2px;}
-.insight.warning .insight-action{background:rgba(186,117,23,0.15);color:var(--wt);}
-.insight.danger .insight-action{background:rgba(163,45,45,0.15);color:var(--dt);}
-.insight.success .insight-action{background:rgba(63,109,17,0.15);color:var(--st);}
-.insight.info .insight-action{background:rgba(24,95,165,0.15);color:var(--it);}
-/* TREND ROW */
-.tr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);}
-.tr:last-child{border-bottom:none;}
-.tr-name{font-size:13px;min-width:170px;}
-.tr-curr{font-size:13px;font-weight:600;min-width:30px;text-align:right;}
-.tr-change{font-size:12px;min-width:60px;text-align:right;font-weight:500;}
-.tr-up{color:#A32D2D;}
-.tr-down{color:#3B6D11;}
-.tr-flat{color:var(--text3);}
-/* HEATMAP */
-.heatmap{display:grid;grid-template-columns:40px repeat(7,1fr);gap:3px;font-size:11px;}
-.hm-label{color:var(--text3);display:flex;align-items:center;justify-content:center;}
-.hm-cell{height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;transition:opacity .15s;}
-/* SENTIMENT */
-.sent-bar{display:flex;border-radius:99px;overflow:hidden;height:10px;margin:8px 0;}
-/* FAQ */
-.fqi{border-bottom:0.5px solid var(--border);padding:10px 0;}
-.fqi:last-child{border-bottom:none;}
-.fqq{font-size:13px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;}
-.fqa{font-size:13px;color:var(--text2);margin-top:8px;line-height:1.7;display:none;}
-.fqa.open{display:block;}
-/* PERIOD BUTTONS */
+.iact{font-size:11px;font-weight:500;padding:3px 8px;border-radius:99px;display:inline-block;margin-top:2px;}
+.insight.warning .iact{background:rgba(186,117,23,0.15);color:var(--wt);}
+.insight.danger .iact{background:rgba(163,45,45,0.15);color:var(--dt);}
+.insight.success .iact{background:rgba(63,109,17,0.15);color:var(--st);}
+.insight.info .iact{background:rgba(24,95,165,0.15);color:var(--it);}
+.tr2{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);}
+.tr2:last-child{border-bottom:none;}
+.tr-up{color:#A32D2D;font-weight:500;}
+.tr-dn{color:#3B6D11;font-weight:500;}
+.tr-fl{color:var(--text3);}
 .pbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
 .pb{padding:7px 16px;border-radius:99px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);font-size:13px;cursor:pointer;transition:all .15s;font-weight:500;}
 .pb:hover{background:var(--bg2);}
@@ -134,15 +107,25 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
 @keyframes spin{to{transform:rotate(360deg)}}
 .ldo{text-align:center;padding:3rem 1rem;}
 .ldo i{font-size:32px;color:var(--blue);display:block;margin-bottom:12px;}
+/* Reply status badges */
+.rs-replied{background:#eaf3de;color:#27500a;}
+.rs-waiting{background:#faeeda;color:#633806;}
+.rs-overdue{background:#fcebeb;color:#791f1f;}
+/* Member risk */
+.risk-high{background:#fcebeb;color:#791f1f;}
+.risk-medium{background:#faeeda;color:#633806;}
+.risk-low{background:#eaf3de;color:#27500a;}
+.member-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:0.5px solid var(--border);}
+.member-row:last-child{border-bottom:none;}
+.member-av{width:38px;height:38px;border-radius:50%;background:var(--ib);color:var(--it);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;}
+.fqi{border-bottom:0.5px solid var(--border);padding:10px 0;}
+.fqi:last-child{border-bottom:none;}
+.fqq{font-size:13px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.fqa{font-size:13px;color:var(--text2);margin-top:8px;line-height:1.7;display:none;}
+.fqa.open{display:block;}
 .ur{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);}
 .ur:last-child{border-bottom:none;}
 .ua{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
-.step{display:flex;gap:14px;padding:14px 0;border-bottom:0.5px solid var(--border);}
-.step:last-child{border-bottom:none;}
-.sn{width:28px;height:28px;border-radius:50%;background:var(--ib);color:var(--it);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px;}
-.sc h4{font-size:13px;font-weight:600;margin-bottom:4px;}
-.sc p{font-size:13px;color:var(--text2);line-height:1.6;}
-.code{background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--r);padding:10px 14px;font-family:'Courier New',monospace;font-size:12px;margin:8px 0;white-space:pre-wrap;line-height:1.8;color:var(--text);}
 @media(max-width:700px){.g2,.g3{grid-template-columns:1fr;}.shell{padding:0 1rem 2rem;}.topbar{flex-wrap:wrap;gap:8px;}}
 </style>
 </head>
@@ -153,7 +136,7 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
   <div class="ls"><div>
     <div class="lb">
       <div class="lh">
-        <div class="li"><i class="ti ti-mail-search"></i></div>
+        <div class="lic"><i class="ti ti-mail-search"></i></div>
         <h1 style="font-size:18px;font-weight:600">Support Analyzer</h1>
         <p style="font-size:13px;color:var(--text2);margin-top:4px">Membership Anywhere &middot; Team access only</p>
       </div>
@@ -173,8 +156,8 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
   <div class="shell">
     <div class="topbar">
       <div class="tbl">
-        <div class="bi2"><i class="ti ti-mail-search"></i></div>
-        <div><div class="bn">Support Analyzer</div><div class="bs2">Membership Anywhere</div></div>
+        <div class="bic"><i class="ti ti-mail-search"></i></div>
+        <div><div class="bn">Support Analyzer</div><div class="bns">Membership Anywhere</div></div>
       </div>
       <div class="tbr">
         <span class="bdg bg2" id="srcBadge">connecting...</span>
@@ -186,6 +169,8 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
     <div class="nav">
       <div class="ni active" onclick="sw('home',this)"><i class="ti ti-home"></i> Home</div>
       <div class="ni" onclick="sw('analyzer',this)"><i class="ti ti-chart-bar"></i> Analyzer</div>
+      <div class="ni" onclick="sw('replies',this)"><i class="ti ti-clock"></i> Reply tracker <span class="bdg bd2" id="overdueCount" style="margin-left:4px;display:none">0</span></div>
+      <div class="ni" onclick="sw('members',this)"><i class="ti ti-users"></i> Members at risk</div>
       <div class="ni" onclick="sw('faq',this)"><i class="ti ti-help-circle"></i> FAQ</div>
       <div class="ni" id="adminTab" onclick="sw('admin',this)" style="display:none"><i class="ti ti-settings"></i> Admin</div>
     </div>
@@ -193,36 +178,30 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
     <!-- HOME -->
     <div id="tab-home" class="tp active">
       <div class="g4" id="hMet"></div>
-      <!-- Insights -->
       <div class="card">
         <div class="ct"><i class="ti ti-bulb"></i> Key insights <span class="bdg bi" style="margin-left:4px;font-size:10px">AI-powered</span></div>
         <div id="hInsights"><div class="ldo" style="padding:1.5rem"><i class="ti ti-loader spin"></i><p style="margin-top:8px;font-size:13px;color:var(--text2)">Analysing your inbox...</p></div></div>
       </div>
       <div class="g2">
         <div>
-          <!-- Trend comparison -->
           <div class="card">
             <div class="ct"><i class="ti ti-arrows-diff"></i> This period vs previous period</div>
-            <div id="hTrend"><div class="ldo" style="padding:1rem"><i class="ti ti-loader spin"></i></div></div>
+            <div id="hTrend"></div>
           </div>
-          <!-- Weekly chart -->
           <div class="card">
             <div class="ct"><i class="ti ti-chart-line"></i> Weekly volume</div>
             <div style="position:relative;height:180px"><canvas id="weeklyChart"></canvas></div>
           </div>
         </div>
         <div>
-          <!-- Top issues -->
           <div class="card">
-            <div class="ct"><i class="ti ti-tag"></i> Top issues</div>
+            <div class="ct"><i class="ti ti-tag"></i> Top issues — 30 days</div>
             <div id="hIssues"></div>
           </div>
-          <!-- Sentiment -->
           <div class="card">
             <div class="ct"><i class="ti ti-mood-smile"></i> Member sentiment</div>
             <div id="hSentiment"></div>
           </div>
-          <!-- Heatmap -->
           <div class="card">
             <div class="ct"><i class="ti ti-calendar-stats"></i> Busiest days</div>
             <div id="hHeatmap"></div>
@@ -233,26 +212,33 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
 
     <!-- ANALYZER -->
     <div id="tab-analyzer" class="tp">
-      <div class="notice ni2"><i class="ti ti-mail"></i><span>Reading directly from <strong>support@membershipanywhere.com</strong> — select a period and results load automatically.</span></div>
+      <div class="notice ni2"><i class="ti ti-mail"></i><span>Reading directly from <strong>support@membershipanywhere.com</strong> — results load automatically.</span></div>
       <div class="pbar">
         <button class="pb active" onclick="selPeriod('today',this)">Today</button>
         <button class="pb" onclick="selPeriod('7',this)">Last 7 days</button>
         <button class="pb" onclick="selPeriod('30',this)">Last 30 days</button>
         <button class="pb" onclick="selPeriod('90',this)">Last 3 months</button>
         <button class="pb" onclick="selPeriod('365',this)">Last 12 months</button>
-        <button class="btn bts" onclick="loadAnalyzer(curP)" style="margin-left:auto"><i class="ti ti-refresh"></i> Refresh</button>
+        <button class="btn bts" onclick="showDatePicker()" style="margin-left:4px"><i class="ti ti-calendar"></i> Custom dates</button>
+        <button class="btn bts" onclick="loadAnalyzer(curP,curFrom,curTo)" style="margin-left:auto"><i class="ti ti-refresh"></i> Refresh</button>
       </div>
-      <div id="aLoad" class="ldo"><i class="ti ti-loader spin"></i><p style="font-size:14px;font-weight:600;margin-bottom:4px">Reading your inbox...</p><p style="font-size:13px;color:var(--text2)">Fetching from support@membershipanywhere.com</p></div>
-      <div id="aErr" style="display:none">
-        <div class="card" style="border-color:var(--dbr)"><div class="ct" style="color:var(--dt)"><i class="ti ti-alert-circle"></i> Cannot connect</div><p style="font-size:13px;color:var(--text2);margin-bottom:10px" id="aErrMsg"></p><div class="notice nw"><i class="ti ti-info-circle"></i><span>Check the Admin tab — make sure your Render backend URL is saved correctly.</span></div></div>
+      <!-- Custom date picker -->
+      <div id="datePicker" style="display:none" class="card" style="margin-bottom:1rem">
+        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+          <div><label>From date</label><input type="date" id="dateFrom" style="width:160px"/></div>
+          <div><label>To date</label><input type="date" id="dateTo" style="width:160px"/></div>
+          <button class="btn btp bts" onclick="applyCustomDates()"><i class="ti ti-check"></i> Apply</button>
+          <button class="btn bts" onclick="document.getElementById('datePicker').style.display='none'">Cancel</button>
+        </div>
       </div>
+      <div id="aLoad" class="ldo"><i class="ti ti-loader spin"></i><p style="font-size:14px;font-weight:600;margin-bottom:4px">Reading your inbox...</p><p style="font-size:13px;color:var(--text2)">Fetching support emails</p></div>
+      <div id="aErr" style="display:none"><div class="card" style="border-color:var(--dbr)"><div class="ct" style="color:var(--dt)"><i class="ti ti-alert-circle"></i> Cannot connect</div><p style="font-size:13px;color:var(--text2);margin-bottom:10px" id="aErrMsg"></p><div class="notice nw"><i class="ti ti-info-circle"></i><span>Check the Admin tab — make sure your Render URL is saved.</span></div></div></div>
       <div id="aRes" style="display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
           <span style="font-size:13px;color:var(--text2)" id="aLabel"></span>
           <span class="bdg" id="aSrc"></span>
         </div>
         <div class="g4" id="aMet"></div>
-        <!-- Insights in analyzer -->
         <div class="card">
           <div class="ct"><i class="ti ti-bulb"></i> Insights & recommendations <span class="bdg bi" style="margin-left:4px;font-size:10px">AI-powered</span></div>
           <div id="aInsights"></div>
@@ -261,11 +247,11 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
           <div>
             <div class="card">
               <div class="ct"><i class="ti ti-arrows-diff"></i> Trend vs previous period</div>
-              <p style="font-size:11px;color:var(--text3);margin-bottom:10px">↑ Red = getting worse &nbsp;↓ Green = improving</p>
+              <p style="font-size:11px;color:var(--text3);margin-bottom:10px">↑ Red = getting worse &nbsp; ↓ Green = improving</p>
               <div id="aTrend"></div>
             </div>
             <div class="card">
-              <div class="ct"><i class="ti ti-list-details"></i> Issues by category <span style="font-size:11px;color:var(--text3);font-weight:400;margin-left:4px">— click to filter</span></div>
+              <div class="ct"><i class="ti ti-list-details"></i> Issues by category <span style="font-size:11px;color:var(--text3);font-weight:400">— click to filter</span></div>
               <div id="aIssues"></div>
             </div>
           </div>
@@ -276,7 +262,7 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
               <div id="pieLeg" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px"></div>
             </div>
             <div class="card">
-              <div class="ct"><i class="ti ti-mood-smile"></i> Sentiment breakdown</div>
+              <div class="ct"><i class="ti ti-mood-smile"></i> Sentiment</div>
               <div id="aSentiment"></div>
             </div>
             <div class="card">
@@ -293,12 +279,53 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
       </div>
     </div>
 
+    <!-- REPLY TRACKER -->
+    <div id="tab-replies" class="tp">
+      <div id="rLoad" class="ldo"><i class="ti ti-loader spin"></i><p style="font-size:13px;color:var(--text2);margin-top:8px">Loading reply data...</p></div>
+      <div id="rRes" style="display:none">
+        <div class="g4" id="rMet"></div>
+        <!-- Overdue emails -->
+        <div class="card" style="border-color:var(--dbr)">
+          <div class="ct" style="color:var(--dt)"><i class="ti ti-clock-exclamation"></i> Overdue emails <span style="font-size:11px;font-weight:400;color:var(--text2)">— no reply after <span id="slaLabel">24</span>h</span></div>
+          <div id="rOverdue"></div>
+        </div>
+        <!-- Response time by category -->
+        <div class="g2">
+          <div class="card">
+            <div class="ct"><i class="ti ti-chart-bar"></i> Avg response time by category</div>
+            <div style="position:relative;height:220px"><canvas id="replyChart"></canvas></div>
+          </div>
+          <div class="card">
+            <div class="ct"><i class="ti ti-list"></i> All emails with reply status</div>
+            <div id="rAll"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEMBERS AT RISK -->
+    <div id="tab-members" class="tp">
+      <div id="mLoad" class="ldo"><i class="ti ti-loader spin"></i><p style="font-size:13px;color:var(--text2);margin-top:8px">Analysing member patterns...</p></div>
+      <div id="mRes" style="display:none">
+        <div class="notice ni2"><i class="ti ti-info-circle"></i><span>Members ranked by support volume, urgency, and unreplied emails. High risk members may churn if not addressed.</span></div>
+        <div class="g4" id="mMet"></div>
+        <div class="card">
+          <div class="ct"><i class="ti ti-flame"></i> High risk members</div>
+          <div id="mHigh"></div>
+        </div>
+        <div class="card">
+          <div class="ct"><i class="ti ti-users"></i> All members with support history</div>
+          <div id="mAll"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- FAQ -->
     <div id="tab-faq" class="tp">
       <div class="card">
         <div class="ct"><i class="ti ti-help-circle"></i> Auto-generated FAQ</div>
         <div class="notice"><i class="ti ti-info-circle"></i> Built from your most common real support issues. Run the Analyzer first to generate from live data.</div>
-        <div id="faqList"></div>
+        <div id="faqList"><div class="notice"><i class="ti ti-info-circle"></i><span>Run the Analyzer first to generate FAQ from your real emails.</span></div></div>
         <div style="margin-top:14px"><button class="btn btp bts" onclick="exportFAQ()"><i class="ti ti-download"></i> Download as HTML</button></div>
       </div>
     </div>
@@ -307,13 +334,12 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
     <div id="tab-admin" class="tp">
       <div class="card">
         <div class="ct"><i class="ti ti-plug"></i> Render backend URL</div>
-        <div class="notice ni2"><i class="ti ti-info-circle"></i><span>Paste your Render URL here. The dashboard uses this to fetch live emails automatically.</span></div>
         <div style="display:flex;gap:8px;margin-top:4px">
           <input type="text" id="buInput" placeholder="https://your-app.onrender.com" style="flex:1"/>
           <button class="btn btp bts" onclick="saveBU()"><i class="ti ti-check"></i> Save</button>
         </div>
         <p style="font-size:12px;color:var(--text3);margin-top:8px">Current: <span id="buCur"></span></p>
-        <div style="margin-top:10px"><button class="btn bts" onclick="testBU()"><i class="ti ti-plug"></i> Test connection</button><span id="testRes" style="font-size:12px;margin-left:10px;color:var(--text2)"></span></div>
+        <div style="margin-top:10px"><button class="btn bts" onclick="testBU()"><i class="ti ti-plug"></i> Test connection</button><span id="testRes" style="font-size:12px;margin-left:10px"></span></div>
       </div>
       <div class="card">
         <div class="ct"><i class="ti ti-users"></i> Team accounts</div>
@@ -339,61 +365,45 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
 </div>
 
 <script>
-let BACKEND = localStorage.getItem('ma_backend')||'https://ma-support-backend.onrender.com';
-
-const COLORS={
-  'Login & access issues':'#185FA5','Technical errors':'#5F5E5A',
-  'Member portal problems':'#639922','Email & comms issues':'#A32D2D',
-  'Event registration':'#533AB7','Membership renewal':'#993556',
-  'Feature requests':'#0F6E56','Billing & payments':'#BA7517',
-  'Account management':'#4A4A8A','General enquiry':'#888780'
-};
-
-const USERS=[
-  {u:'admin',p:'admin123', name:'Admin User',     role:'admin',  i:'AU',c:'#185FA5',on:true},
-  {u:'sarah',p:'sarah2024',name:'Sarah Mitchell', role:'analyst',i:'SM',c:'#1D9E75',on:true},
-  {u:'james',p:'james2024',name:'James Okonkwo',  role:'viewer', i:'JO',c:'#533AB7',on:false}
-];
-
-let CU=null, pie=null, weeklyChart=null, curP='today', liveFAQ=[];
+let BACKEND=localStorage.getItem('ma_backend')||'https://ma-support-backend.onrender.com';
+const COLORS={'Login & access issues':'#185FA5','Technical errors':'#5F5E5A','Member portal problems':'#639922','Email & comms issues':'#A32D2D','Event registration':'#533AB7','Membership renewal':'#993556','Feature requests':'#0F6E56','Billing & payments':'#BA7517','Account management':'#4A4A8A','Help & how-to questions':'#6B7280','General enquiry':'#888780'};
+const USERS=[{u:'admin',p:'admin123',name:'Admin User',role:'admin',i:'AU',c:'#185FA5',on:true},{u:'sarah',p:'sarah2024',name:'Sarah Mitchell',role:'analyst',i:'SM',c:'#1D9E75',on:true},{u:'james',p:'james2024',name:'James Okonkwo',role:'viewer',i:'JO',c:'#533AB7',on:false}];
+let CU=null,pie=null,weeklyChart=null,replyChart=null,curP='today',curFrom=null,curTo=null,liveFAQ=[],lastData=null;
 
 function login(){
-  const u=document.getElementById('lu').value.trim().toLowerCase();
-  const p=document.getElementById('lp').value;
+  const u=document.getElementById('lu').value.trim().toLowerCase(),p=document.getElementById('lp').value;
   const f=USERS.find(x=>x.u===u&&x.p===p);
-  const e=document.getElementById('lerr');
-  if(!f){e.style.display='block';return;}
-  e.style.display='none';CU=f;
+  if(!f){document.getElementById('lerr').style.display='block';return;}
+  document.getElementById('lerr').style.display='none';CU=f;
   document.getElementById('page-login').classList.remove('active');
   document.getElementById('page-app').classList.add('active');
   document.getElementById('topName').textContent=f.name;
-  const av=document.getElementById('topAv');
-  av.textContent=f.i;av.style.background=f.c+'22';av.style.color=f.c;
+  const av=document.getElementById('topAv');av.textContent=f.i;av.style.background=f.c+'22';av.style.color=f.c;
   if(f.role==='admin')document.getElementById('adminTab').style.display='';
-  renderTeam();renderFAQDefault();renderAdmin();
-  loadHome();
+  renderAdmin();loadHome();
 }
 
 function logout(){
-  CU=null;
-  document.getElementById('page-app').classList.remove('active');
-  document.getElementById('page-login').classList.add('active');
+  CU=null;document.getElementById('page-app').classList.remove('active');document.getElementById('page-login').classList.add('active');
   document.getElementById('lu').value='';document.getElementById('lp').value='';
   document.getElementById('adminTab').style.display='none';
-  if(pie){pie.destroy();pie=null;}
-  if(weeklyChart){weeklyChart.destroy();weeklyChart=null;}
+  if(pie){pie.destroy();pie=null;}if(weeklyChart){weeklyChart.destroy();weeklyChart=null;}if(replyChart){replyChart.destroy();replyChart=null;}
 }
 
 function sw(n,el){
-  document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));
-  el.classList.add('active');
-  ['home','analyzer','faq','admin'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t===n));
-  if(n==='analyzer')loadAnalyzer(curP);
+  document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));el.classList.add('active');
+  ['home','analyzer','replies','members','faq','admin'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t===n));
+  if(n==='analyzer')loadAnalyzer(curP,curFrom,curTo);
+  if(n==='replies')renderReplies();
+  if(n==='members')renderMembers();
   if(n==='admin')renderAdmin();
 }
 
-async function apiFetch(period){
-  const r=await fetch(`${BACKEND}/emails?period=${period}`);
+async function apiFetch(period,from,to){
+  let url=`${BACKEND}/emails?period=${period}`;
+  if(from)url+=`&from=${from}`;
+  if(to)url+=`&to=${to}`;
+  const r=await fetch(url);
   if(!r.ok)throw new Error('Server returned '+r.status);
   return r.json();
 }
@@ -402,7 +412,7 @@ async function apiFetch(period){
 async function loadHome(){
   try{
     const d=await apiFetch('30');
-    setBadge(d.source);
+    lastData=d;setBadge(d.source);
     renderMetrics(d,'hMet','30 days');
     renderInsights(d.insights,'hInsights');
     renderTrend(d.trend,'hTrend');
@@ -411,6 +421,11 @@ async function loadHome(){
     renderWeeklyChart(d.weekly);
     renderTopIssues(d.categories,'hIssues');
     if(d.faq&&d.faq.length){liveFAQ=d.faq;renderFAQ(d.faq);}
+    // Update overdue badge
+    if(d.responseStats&&d.responseStats.totalOverdue>0){
+      const ob=document.getElementById('overdueCount');
+      ob.textContent=d.responseStats.totalOverdue;ob.style.display='';
+    }
   }catch(e){
     document.getElementById('hMet').innerHTML=`<div class="met" style="grid-column:1/-1"><div class="notice nw" style="margin:0"><i class="ti ti-alert-circle"></i><span>Cannot reach backend. Go to <strong>Admin</strong> tab and check your Render URL.</span></div></div>`;
     setBadge('error');
@@ -419,195 +434,298 @@ async function loadHome(){
 
 function renderMetrics(d,id,label){
   const top=d.categories[0]||{name:'None',count:0};
-  const urgent=(d.emails||[]).filter(e=>e.sentiment==='urgent').length;
+  const overdue=d.responseStats?d.responseStats.totalOverdue:0;
+  const avgReply=d.responseStats&&d.responseStats.avgReplyHours!=null?d.responseStats.avgReplyHours+'h avg reply':'—';
   document.getElementById(id).innerHTML=`
     <div class="met"><div class="ml">Support emails</div><div class="mv">${d.total}</div><div class="ms">${label}</div></div>
     <div class="met"><div class="ml">Top issue</div><div class="mv" style="font-size:15px;padding-top:4px">${top.name.split(' ')[0]}</div><div class="ms">${top.count} tickets</div></div>
-    <div class="met"><div class="ml">Urgent/frustrated</div><div class="mv" style="color:${urgent>0?'#A32D2D':'inherit'}">${urgent}</div><div class="ms">need priority</div></div>
-    <div class="met"><div class="ml">Filtered out</div><div class="mv">${(d.skipped||0)+(d.marketing||0)}</div><div class="ms">confidential + marketing</div></div>`;
+    <div class="met"><div class="ml">Overdue replies</div><div class="mv ${overdue>0?'md':''}">${overdue}</div><div class="ms">no reply >${(d.responseStats||{}).slaHours||24}h</div></div>
+    <div class="met"><div class="ml">Avg reply time</div><div class="mv" style="font-size:18px;padding-top:4px">${avgReply}</div><div class="ms">this period</div></div>`;
 }
 
 function renderInsights(insights,id){
-  if(!insights||!insights.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2);padding:8px 0">No insights yet — run the analyzer first.</p>';return;}
+  if(!insights||!insights.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2);padding:8px 0">No insights yet.</p>';return;}
   document.getElementById(id).innerHTML=insights.map(ins=>`
-    <div class="insight ${ins.type}" style="cursor:${ins.filterCat?'pointer':'default'}" onclick="${ins.filterCat?`goFilterCat('${ins.filterCat.replace(/'/g,"\\'")}')`:''}" title="${ins.filterCat?'Click to filter emails by this category':''}">
-      <div class="insight-icon"><i class="ti ${ins.icon}" style="font-size:16px"></i></div>
+    <div class="insight ${ins.type}${ins.filterCat||ins.filterStatus||ins.filterSentiment?' clickable':''}"
+      onclick="${ins.filterCat?`goFilter('cat','${ins.filterCat.replace(/'/g,"\\'")}')`:ins.filterStatus?`goFilter('status','${ins.filterStatus}')`:ins.filterSentiment?`goFilter('sentiment','${ins.filterSentiment}')`:''}"
+      title="${ins.filterCat||ins.filterStatus||ins.filterSentiment?'Click to filter emails':''}">
+      <div class="iico"><i class="ti ${ins.icon}" style="font-size:16px"></i></div>
       <div style="flex:1">
-        <h4>${ins.title} ${ins.filterCat?'<span style="font-size:10px;opacity:0.7">— click to filter emails</span>':''}</h4>
+        <h4>${ins.title}</h4>
         <p>${ins.detail}</p>
-        <span class="insight-action">→ ${ins.action}</span>
+        <span class="iact">→ ${ins.action}</span>
       </div>
-      ${ins.filterCat?`<i class="ti ti-arrow-right" style="font-size:14px;opacity:0.5;margin-top:4px"></i>`:''}
+      ${ins.filterCat||ins.filterStatus||ins.filterSentiment?'<i class="ti ti-arrow-right" style="font-size:14px;opacity:0.5;margin-top:4px"></i>':''}
     </div>`).join('');
 }
 
-function goFilterCat(cat){
-  // Switch to analyzer tab and filter
+function goFilter(type,value){
+  // Switch to analyzer tab
   document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.ni')[1].classList.add('active');
-  ['home','analyzer','faq','admin'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t==='analyzer'));
-  if(window._emails){
+  ['home','analyzer','replies','members','faq','admin'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t==='analyzer'));
+  if(lastData&&window._emails){
     document.getElementById('aLoad').style.display='none';
     document.getElementById('aErr').style.display='none';
     document.getElementById('aRes').style.display='block';
-    filterCat(cat);
-    document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'});
+    if(type==='cat')filterCat(value);
+    else if(type==='status')filterStatus(value);
+    else if(type==='sentiment')filterSentiment(value);
+    setTimeout(()=>document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'}),300);
   } else {
-    loadAnalyzer(curP).then(()=>{ setTimeout(()=>filterCat(cat),500); });
+    loadAnalyzer(curP,curFrom,curTo).then(()=>{
+      setTimeout(()=>{
+        if(type==='cat')filterCat(value);
+        else if(type==='status')filterStatus(value);
+        else if(type==='sentiment')filterSentiment(value);
+        setTimeout(()=>document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'}),300);
+      },500);
+    });
   }
 }
 
 function renderTrend(trend,id){
-  if(!trend||!trend.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2)">No comparison data yet.</p>';return;}
+  if(!trend||!trend.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2)">No comparison data.</p>';return;}
   document.getElementById(id).innerHTML=trend.map(t=>{
-    const arrow = t.change>0?'↑':t.change<0?'↓':'→';
-    const cls   = t.change>15?'tr-up':t.change<-15?'tr-down':'tr-flat';
-    const label = t.change===0?'no change':Math.abs(t.change)+'%';
-    return `<div class="tr">
+    const arrow=t.change>0?'↑':t.change<0?'↓':'→';
+    const cls=t.change>15?'tr-up':t.change<-15?'tr-dn':'tr-fl';
+    const label=t.change===0?'no change':Math.abs(t.change)+'%';
+    return `<div class="tr2">
       <div style="width:10px;height:10px;border-radius:2px;background:${t.color||COLORS[t.name]||'#888'};flex-shrink:0"></div>
-      <div class="tr-name">${t.name}</div>
-      <div class="tr-curr">${t.current}</div>
-      <div class="tr-change ${cls}">${arrow} ${label}</div>
+      <div style="font-size:13px;flex:1">${t.name}</div>
+      <div style="font-size:13px;font-weight:600;min-width:28px;text-align:right">${t.current}</div>
+      <div class="${cls}" style="min-width:70px;text-align:right;font-size:12px">${arrow} ${label}</div>
     </div>`;
   }).join('');
 }
 
 function renderHeatmap(heatmap,id){
-  if(!heatmap||!heatmap.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2)">No data yet.</p>';return;}
-  const maxVal=Math.max(...heatmap.map(d=>d.total),1);
-  document.getElementById(id).innerHTML=`
-    <div style="display:flex;gap:4px;flex-direction:column">
-      ${heatmap.map(d=>{
-        const pct=d.total/maxVal;
-        const alpha=0.15+pct*0.75;
-        const hr=d.peakHour;
-        const hrLabel=hr<12?hr+'am':hr===12?'12pm':(hr-12)+'pm';
-        return `<div style="display:flex;align-items:center;gap:8px">
-          <div style="font-size:11px;color:var(--text2);min-width:28px">${d.day}</div>
-          <div style="flex:1;height:18px;border-radius:4px;background:rgba(24,95,165,${alpha});"></div>
-          <div style="font-size:11px;color:var(--text3);min-width:50px">${d.total} emails</div>
-          <div style="font-size:10px;color:var(--text3);min-width:30px">peak:${hrLabel}</div>
-        </div>`;
-      }).join('')}
+  if(!heatmap||!heatmap.length){document.getElementById(id).innerHTML='';return;}
+  const mx=Math.max(...heatmap.map(d=>d.total),1);
+  document.getElementById(id).innerHTML=heatmap.map(d=>{
+    const a=0.15+(d.total/mx)*0.75;
+    const hr=d.peakHour;
+    const hl=hr<12?hr+'am':hr===12?'12pm':(hr-12)+'pm';
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+      <div style="font-size:11px;color:var(--text2);min-width:28px">${d.day}</div>
+      <div style="flex:1;height:18px;border-radius:4px;background:rgba(24,95,165,${a})"></div>
+      <div style="font-size:11px;color:var(--text3);min-width:55px">${d.total} emails</div>
+      <div style="font-size:10px;color:var(--text3);min-width:36px">pk:${hl}</div>
     </div>`;
+  }).join('');
 }
 
 function renderSentiment(emails,id){
-  if(!emails||!emails.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2)">No data yet.</p>';return;}
-  const urgent  =emails.filter(e=>e.sentiment==='urgent').length;
-  const positive=emails.filter(e=>e.sentiment==='positive').length;
-  const neutral =emails.length-urgent-positive;
-  const total=emails.length;
-  const up=Math.round(urgent/total*100);
-  const pp=Math.round(positive/total*100);
-  const np=100-up-pp;
+  if(!emails||!emails.length){document.getElementById(id).innerHTML='';return;}
+  const u=emails.filter(e=>e.sentiment==='urgent').length;
+  const p=emails.filter(e=>e.sentiment==='positive').length;
+  const n=emails.length-u-p,t=emails.length;
+  const up=Math.round(u/t*100),pp=Math.round(p/t*100),np=100-up-pp;
   document.getElementById(id).innerHTML=`
     <div style="display:flex;border-radius:99px;overflow:hidden;height:12px;margin-bottom:10px">
-      <div style="width:${up}%;background:#A32D2D" title="Urgent/frustrated: ${urgent}"></div>
-      <div style="width:${np}%;background:#9a9893" title="Neutral: ${neutral}"></div>
-      <div style="width:${pp}%;background:#3B6D11" title="Positive: ${positive}"></div>
+      <div style="width:${up}%;background:#A32D2D" title="Urgent: ${u}"></div>
+      <div style="width:${np}%;background:#9a9893" title="Neutral: ${n}"></div>
+      <div style="width:${pp}%;background:#3B6D11" title="Positive: ${p}"></div>
     </div>
     <div style="display:flex;gap:12px;font-size:12px;flex-wrap:wrap">
-      <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#A32D2D;margin-right:4px"></span><strong>${urgent}</strong> urgent (${up}%)</span>
-      <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#9a9893;margin-right:4px"></span><strong>${neutral}</strong> neutral (${np}%)</span>
-      <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3B6D11;margin-right:4px"></span><strong>${positive}</strong> positive (${pp}%)</span>
-    </div>
-    ${urgent>0?`<div class="notice nd" style="margin-top:10px;margin-bottom:0"><i class="ti ti-flame"></i><span>${urgent} member${urgent>1?'s':''} used urgent or frustrated language — review these first.</span></div>`:''}`;
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#A32D2D;margin-right:4px"></span><strong>${u}</strong> urgent (${up}%)</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#9a9893;margin-right:4px"></span><strong>${n}</strong> neutral</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3B6D11;margin-right:4px"></span><strong>${p}</strong> positive (${pp}%)</span>
+    </div>`;
 }
 
 function renderWeeklyChart(weekly){
-  if(!weekly||!weekly.length) return;
-  const labels=weekly.map(w=>{const d=new Date(w.week);return (d.getMonth()+1)+'/'+d.getDate();});
-  const data=weekly.map(w=>w.count);
+  if(!weekly||!weekly.length)return;
+  const labels=weekly.map(w=>{const d=new Date(w.week);return(d.getMonth()+1)+'/'+(d.getDate());});
   if(weeklyChart)weeklyChart.destroy();
-  weeklyChart=new Chart(document.getElementById('weeklyChart'),{
-    type:'bar',
-    data:{labels,datasets:[{label:'Emails',data,backgroundColor:'rgba(24,95,165,0.7)',borderRadius:4}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}
-  });
+  weeklyChart=new Chart(document.getElementById('weeklyChart'),{type:'bar',data:{labels,datasets:[{label:'Emails',data:weekly.map(w=>w.count),backgroundColor:'rgba(24,95,165,0.7)',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
 }
 
-function renderTopIssues(categories,id){
-  const mx=categories[0]?.count||1;
-  document.getElementById(id).innerHTML=categories.slice(0,6).map(c=>`
-    <div class="ir"><div style="font-size:13px;min-width:160px">${c.name}</div>
+function renderTopIssues(cats,id){
+  const mx=cats[0]?.count||1;
+  document.getElementById(id).innerHTML=cats.slice(0,6).map(c=>`
+    <div class="ir"><div style="font-size:13px;flex:1">${c.name}</div>
     <div class="ibg"><div class="ibar" style="width:${Math.round(c.count/mx*100)}%;background:${c.color||COLORS[c.name]||'#888'}"></div></div>
     <div style="font-size:12px;color:var(--text2);min-width:28px;text-align:right">${c.count}</div></div>`).join('');
 }
 
 // ── ANALYZER ─────────────────────────────────────────────
 function selPeriod(p,btn){
-  document.querySelectorAll('.pb').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');curP=p;loadAnalyzer(p);
+  document.querySelectorAll('.pb').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  curP=p;curFrom=null;curTo=null;loadAnalyzer(p,null,null);
 }
 
-async function loadAnalyzer(p){
-  if(CU&&CU.role==='viewer'){showA('aErr');document.getElementById('aErrMsg').textContent='Your account (viewer) cannot run analysis.';return;}
+function showDatePicker(){document.getElementById('datePicker').style.display='block';}
+
+function applyCustomDates(){
+  const f=document.getElementById('dateFrom').value,t=document.getElementById('dateTo').value;
+  if(!f||!t){alert('Please select both dates.');return;}
+  document.getElementById('datePicker').style.display='none';
+  document.querySelectorAll('.pb').forEach(b=>b.classList.remove('active'));
+  curP='30';curFrom=f;curTo=t;
+  loadAnalyzer(curP,f,t);
+}
+
+async function loadAnalyzer(p,from,to){
+  if(CU&&CU.role==='viewer'){showA('aErr');document.getElementById('aErrMsg').textContent='Viewer accounts cannot run analysis.';return;}
   showA('aLoad');
   try{
-    const d=await apiFetch(p);
-    showA('aRes');
-    renderAnalyzer(d);
-    setBadge(d.source);
+    const d=await apiFetch(p,from,to);
+    lastData=d;window._emails=d.emails;
+    showA('aRes');renderAnalyzer(d);setBadge(d.source);
     if(d.faq&&d.faq.length){liveFAQ=d.faq;renderFAQ(d.faq);}
   }catch(e){showA('aErr');document.getElementById('aErrMsg').textContent=e.message||'Cannot connect.';}
 }
 
-function showA(id){['aLoad','aRes','aErr'].forEach(x=>{const el=document.getElementById(x);el.style.display=x===id?'block':'none';});}
+function showA(id){['aLoad','aRes','aErr'].forEach(x=>{document.getElementById(x).style.display=x===id?'block':'none';});}
 
 function renderAnalyzer(d){
   const labels={today:'Today','7':'Last 7 days','30':'Last 30 days','90':'Last 3 months','365':'Last 12 months'};
-  document.getElementById('aLabel').textContent=`${labels[d.period]||d.period} · ${d.total} support emails · ${d.skipped||0} confidential · ${d.marketing||0} marketing skipped`;
-  document.getElementById('aSrc').textContent=d.source==='live'?'Live data':'Demo data';
-  document.getElementById('aSrc').className='bdg '+(d.source==='live'?'bsu':'bw2');
-  renderMetrics(d,'aMet',labels[d.period]||d.period);
+  const periodLabel=curFrom?`${curFrom} to ${curTo||'today'}`:labels[d.period]||d.period;
+  document.getElementById('aLabel').textContent=`${periodLabel} · ${d.total} support emails · ${d.skipped||0} confidential · ${d.marketing||0} marketing skipped`;
+  const sb=document.getElementById('aSrc');sb.textContent=d.source==='live'?'Live data':'Demo data';sb.className='bdg '+(d.source==='live'?'bsu':'bw2');
+  renderMetrics(d,'aMet',periodLabel);
   renderInsights(d.insights,'aInsights');
   renderTrend(d.trend,'aTrend');
   const mx=d.categories[0]?.count||1;
-  document.getElementById('aIssues').innerHTML=d.categories.map(c=>`
-    <div class="ir" style="cursor:pointer" onclick="filterCat('${c.name.replace(/'/g,"\\'")}')">
-      <div style="font-size:13px;min-width:160px;color:var(--blue)">${c.name}</div>
+  document.getElementById('aIssues').innerHTML=`<p style="font-size:11px;color:var(--text3);margin-bottom:8px">Click any category to filter email log</p>`+
+    d.categories.map(c=>`<div class="ir" style="cursor:pointer" onclick="filterCat('${c.name.replace(/'/g,"\\'")}')">
+      <div style="font-size:13px;color:var(--blue);flex:1">${c.name}</div>
       <div class="ibg"><div class="ibar" style="width:${Math.round(c.count/mx*100)}%;background:${c.color||COLORS[c.name]||'#888'}"></div></div>
       <div style="font-size:12px;color:var(--text2);min-width:28px;text-align:right">${c.count}</div>
-    </div>`).join('')||'<p style="font-size:13px;color:var(--text2);padding:8px 0">No issues found.</p>';
+    </div>`).join('')||'<p style="font-size:13px;color:var(--text2)">No issues found.</p>';
   if(pie)pie.destroy();
   const t5=d.categories.slice(0,5);
   if(t5.length){
     pie=new Chart(document.getElementById('pieC'),{type:'doughnut',data:{labels:t5.map(c=>c.name),datasets:[{data:t5.map(c=>c.count),backgroundColor:t5.map(c=>c.color||COLORS[c.name]||'#888'),borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
     document.getElementById('pieLeg').innerHTML=t5.map(c=>`<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:9px;height:9px;border-radius:2px;background:${c.color||COLORS[c.name]||'#888'};display:inline-block"></span>${c.name.split(' ')[0]} (${c.count})</span>`).join('');
   }
-  renderHeatmap(d.heatmap,'aHeatmap');
-  renderSentiment(d.emails,'aSentiment');
-  window._emails=d.emails;
+  renderHeatmap(d.heatmap,'aHeatmap');renderSentiment(d.emails,'aSentiment');
   renderLog(d.emails,null);
 }
 
-function filterCat(cat){
-  const f=(window._emails||[]).filter(e=>e.category===cat);
-  renderLog(f,cat);
-  document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'});
-}
+function filterCat(cat){renderLog((window._emails||[]).filter(e=>e.category===cat),{type:'cat',val:cat});document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'});}
+function filterStatus(s){renderLog((window._emails||[]).filter(e=>e.replyStatus===s),{type:'status',val:s});document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'});}
+function filterSentiment(s){renderLog((window._emails||[]).filter(e=>e.sentiment===s),{type:'sentiment',val:s});document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'});}
 
 function renderLog(emails,filter){
-  const cb={'Login & access issues':'bi','Technical errors':'bd2','Member portal problems':'bsu','Email & comms issues':'bw2','Membership renewal':'bw2','Feature requests':'bg2','Event registration':'bi','Billing & payments':'bw2','Account management':'bg2','General enquiry':'bg2'};
-  const sentIcon={'urgent':'<i class="ti ti-flame" style="color:#A32D2D;font-size:12px" title="Urgent"></i>','positive':'<i class="ti ti-thumb-up" style="color:#3B6D11;font-size:12px" title="Positive"></i>','neutral':''};
-  const bar=filter?`<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px 12px;background:var(--ib);border-radius:var(--r)"><i class="ti ti-filter" style="color:var(--it);font-size:14px"></i><span style="font-size:13px;color:var(--it);flex:1">Filtered: <strong>${filter}</strong> — ${emails.length} emails</span><button class="btn bts" onclick="renderLog(window._emails,null)" style="font-size:11px;padding:3px 8px">✕ Clear</button></div>`:'';
+  const cb={'Login & access issues':'bi','Technical errors':'bd2','Member portal problems':'bsu','Email & comms issues':'bw2','Membership renewal':'bw2','Feature requests':'bg2','Event registration':'bi','Billing & payments':'bw2','Account management':'bg2','Help & how-to questions':'bg2','General enquiry':'bg2'};
+  const rs={'replied':'rs-replied','waiting':'rs-waiting','overdue':'rs-overdue'};
+  const rsLabel={'replied':'✓ Replied','waiting':'⏳ Waiting','overdue':'🔴 Overdue'};
+  const sentIcon={'urgent':'<i class="ti ti-flame" style="color:#A32D2D;font-size:12px;margin-right:2px" title="Urgent"></i>','positive':'<i class="ti ti-thumb-up" style="color:#3B6D11;font-size:12px;margin-right:2px" title="Positive"></i>','neutral':''};
+  const bar=filter?`<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px 12px;background:var(--ib);border-radius:var(--r)">
+    <i class="ti ti-filter" style="color:var(--it);font-size:14px"></i>
+    <span style="font-size:13px;color:var(--it);flex:1">Filtered: <strong>${filter.val}</strong> — ${emails.length} emails</span>
+    <button class="btn bts" onclick="renderLog(window._emails,null)" style="font-size:11px;padding:3px 8px">✕ Clear</button>
+  </div>`:'';
   document.getElementById('eCnt').textContent=filter?`${emails.length} of ${(window._emails||[]).length}`:emails.length+' emails';
   document.getElementById('eLog').innerHTML=bar+(emails.length?emails.map(e=>`
     <div style="padding:9px 0;border-bottom:0.5px solid var(--border)">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
-        <div><p style="font-size:13px;font-weight:500">${sentIcon[e.sentiment]||''} ${e.subject}</p><p style="font-size:12px;color:var(--text2);margin-top:2px">${e.from} &middot; ${e.date}</p></div>
-        <span class="bdg ${cb[e.category]||'bg2'}" style="flex-shrink:0;margin-top:2px;cursor:pointer" onclick="filterCat('${e.category.replace(/'/g,"\\'")}')">
-          ${e.category.split(' ')[0]}
-        </span>
+        <div>
+          <p style="font-size:13px;font-weight:500">${sentIcon[e.sentiment]||''}${e.subject}</p>
+          <p style="font-size:12px;color:var(--text2);margin-top:2px">${e.fromName||e.from} &middot; ${e.date} ${e.replyHours!=null?'· replied in '+e.replyHours+'h':e.hoursWaiting?'· waiting '+e.hoursWaiting+'h':''}</p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+          <span class="bdg ${cb[e.category]||'bg2'}" style="cursor:pointer" onclick="filterCat('${e.category.replace(/'/g,"\\'")}')">
+            ${e.category.split(' ')[0]}
+          </span>
+          ${e.replyStatus?`<span class="bdg ${rs[e.replyStatus]||'bg2'}" style="font-size:10px">${rsLabel[e.replyStatus]||e.replyStatus}</span>`:''}
+        </div>
       </div></div>`).join(''):'<p style="font-size:13px;color:var(--text2);padding:8px 0">No emails for this filter.</p>');
 }
 
-// ── FAQ ───────────────────────────────────────────────────
-function renderFAQDefault(){
-  document.getElementById('faqList').innerHTML='<div class="notice"><i class="ti ti-info-circle"></i><span>Run the Analyzer to generate a FAQ from your real support emails.</span></div>';
+// ── REPLY TRACKER ─────────────────────────────────────────
+function renderReplies(){
+  if(!lastData){document.getElementById('rLoad').style.display='block';document.getElementById('rRes').style.display='none';loadHome().then(()=>renderReplies());return;}
+  const rs=lastData.responseStats;
+  if(!rs){document.getElementById('rLoad').style.display='none';document.getElementById('rRes').style.display='block';return;}
+  document.getElementById('rLoad').style.display='none';
+  document.getElementById('rRes').style.display='block';
+  document.getElementById('slaLabel').textContent=rs.slaHours||24;
+  document.getElementById('rMet').innerHTML=`
+    <div class="met"><div class="ml">Replied</div><div class="mv bsu" style="color:var(--st)">${rs.totalReplied}</div><div class="ms">${rs.totalReplied&&lastData.total?Math.round(rs.totalReplied/lastData.total*100):0}% reply rate</div></div>
+    <div class="met"><div class="ml">Waiting</div><div class="mv bw2" style="color:var(--wt)">${rs.totalWaiting}</div><div class="ms">within SLA</div></div>
+    <div class="met"><div class="ml">Overdue 🔴</div><div class="mv md">${rs.totalOverdue}</div><div class="ms">no reply >${rs.slaHours||24}h</div></div>
+    <div class="met"><div class="ml">Avg reply time</div><div class="mv" style="font-size:18px;padding-top:4px">${rs.avgReplyHours!=null?rs.avgReplyHours+'h':'—'}</div><div class="ms">this period</div></div>`;
+
+  // Overdue list
+  document.getElementById('rOverdue').innerHTML=rs.overdueEmails&&rs.overdueEmails.length
+    ?rs.overdueEmails.map(e=>`
+      <div style="padding:9px 0;border-bottom:0.5px solid var(--border)">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+          <div><p style="font-size:13px;font-weight:500">${e.subject}</p><p style="font-size:12px;color:var(--text2);margin-top:2px">${e.fromName||e.from} · ${e.date} · waiting ${e.hoursWaiting}h</p></div>
+          <span class="bdg bd2" style="flex-shrink:0">🔴 Overdue</span>
+        </div></div>`).join('')
+    :'<p style="font-size:13px;color:var(--st);padding:8px 0">✓ No overdue emails — great work!</p>';
+
+  // Response time by category chart
+  if(rs.categoryStats&&rs.categoryStats.length){
+    if(replyChart)replyChart.destroy();
+    const top8=rs.categoryStats.slice(0,8);
+    replyChart=new Chart(document.getElementById('replyChart'),{
+      type:'bar',
+      data:{labels:top8.map(c=>c.name.split(' ')[0]),datasets:[{label:'Avg hours',data:top8.map(c=>c.avgHours),backgroundColor:top8.map(c=>c.color||'#888'),borderRadius:4}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'Hours'}}}}
+    });
+  }
+
+  // All emails with status
+  const emails=lastData.emails||[];
+  document.getElementById('rAll').innerHTML=emails.slice(0,50).map(e=>{
+    const rs2={'replied':'rs-replied','waiting':'rs-waiting','overdue':'rs-overdue'};
+    const rl={'replied':'✓ Replied','waiting':'⏳ Waiting','overdue':'🔴 Overdue'};
+    return `<div style="padding:8px 0;border-bottom:0.5px solid var(--border)">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+        <div><p style="font-size:12px;font-weight:500">${e.subject}</p><p style="font-size:11px;color:var(--text2)">${e.date}${e.replyHours!=null?' · replied in '+e.replyHours+'h':e.hoursWaiting?' · waiting '+e.hoursWaiting+'h':''}</p></div>
+        <span class="bdg ${rs2[e.replyStatus]||'bg2'}" style="flex-shrink:0;font-size:10px">${rl[e.replyStatus]||'—'}</span>
+      </div></div>`;
+  }).join('');
 }
 
+// ── MEMBERS AT RISK ───────────────────────────────────────
+function renderMembers(){
+  if(!lastData){document.getElementById('mLoad').style.display='block';document.getElementById('mRes').style.display='none';loadHome().then(()=>renderMembers());return;}
+  const profiles=lastData.memberProfiles||[];
+  document.getElementById('mLoad').style.display='none';
+  document.getElementById('mRes').style.display='block';
+  const high=profiles.filter(p=>p.riskLevel==='high');
+  const med =profiles.filter(p=>p.riskLevel==='medium');
+  document.getElementById('mMet').innerHTML=`
+    <div class="met"><div class="ml">Total members</div><div class="mv">${profiles.length}</div><div class="ms">contacted support</div></div>
+    <div class="met"><div class="ml">High risk 🔴</div><div class="mv md">${high.length}</div><div class="ms">need attention</div></div>
+    <div class="met"><div class="ml">Medium risk</div><div class="mv" style="color:var(--wt)">${med.length}</div><div class="ms">monitor closely</div></div>
+    <div class="met"><div class="ml">Repeat contacts</div><div class="mv">${profiles.filter(p=>p.count>=3).length}</div><div class="ms">3+ support emails</div></div>`;
+
+  function memberCard(p){
+    const initials=p.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase()||'??';
+    return `<div class="member-row">
+      <div class="member-av">${initials}</div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-size:13px;font-weight:600">${p.name}</span>
+          <span class="bdg risk-${p.riskLevel}">${p.riskLevel} risk</span>
+          ${p.unreplied>0?`<span class="bdg bd2">${p.unreplied} unreplied</span>`:''}
+        </div>
+        <p style="font-size:12px;color:var(--text2);margin-top:2px">${p.email}</p>
+        <div style="display:flex;gap:10px;margin-top:4px;flex-wrap:wrap;font-size:12px;color:var(--text2)">
+          <span><i class="ti ti-mail" style="font-size:11px"></i> ${p.count} emails</span>
+          <span><i class="ti ti-tag" style="font-size:11px"></i> ${p.topIssue}</span>
+          ${p.urgent>0?`<span style="color:#A32D2D"><i class="ti ti-flame" style="font-size:11px"></i> ${p.urgent} urgent</span>`:''}
+          ${p.avgReplyHours!=null?`<span><i class="ti ti-clock" style="font-size:11px"></i> avg reply ${p.avgReplyHours}h</span>`:''}
+          <span><i class="ti ti-calendar" style="font-size:11px"></i> latest ${p.latest}</span>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('mHigh').innerHTML=high.length
+    ?high.map(memberCard).join('')
+    :'<p style="font-size:13px;color:var(--st);padding:8px 0">✓ No high risk members right now.</p>';
+  document.getElementById('mAll').innerHTML=profiles.length?profiles.map(memberCard).join(''):'<p style="font-size:13px;color:var(--text2);padding:8px 0">No member data yet.</p>';
+}
+
+// ── FAQ ───────────────────────────────────────────────────
 function renderFAQ(data){
   const notice=`<div class="notice ni2" style="margin-bottom:12px"><i class="ti ti-sparkles"></i><span>Auto-generated from your <strong>${data.length}</strong> most common real support issues. Updates every time you run the analyzer.</span></div>`;
   document.getElementById('faqList').innerHTML=notice+data.map((f,i)=>`
@@ -626,20 +744,17 @@ function renderFAQ(data){
 function tFAQ(i){const e=document.getElementById('fa'+i),ic=document.getElementById('fi'+i);e.classList.toggle('open');ic.style.transform=e.classList.contains('open')?'rotate(180deg)':'';}
 
 function exportFAQ(){
-  const data=liveFAQ.length?liveFAQ:[{q:'No FAQ generated yet',a:'Run the Analyzer first to generate FAQ from your real emails.'}];
-  const h=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Support FAQ — Membership Anywhere</title><style>body{font-family:sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h1{font-size:22px;margin-bottom:4px}.sub{font-size:13px;color:#888;margin-bottom:1.5rem}details{border-bottom:1px solid #e5e5e3;padding:12px 0}summary{font-size:15px;font-weight:600;cursor:pointer}p{font-size:14px;color:#5c5b57;margin-top:8px;line-height:1.7}.cat{font-size:11px;background:#e6f1fb;color:#0c447c;padding:2px 8px;border-radius:99px;margin-left:8px;font-weight:normal}</style></head><body><h1>Frequently Asked Questions</h1><p class="sub">Last updated: ${new Date().toLocaleDateString()} &middot; Generated from real support emails</p>${data.map(f=>`<details><summary>${f.q}${f.category?`<span class="cat">${f.category}</span>`:''}</summary><p>${f.a}</p></details>`).join('')}</body></html>`;
+  const data=liveFAQ.length?liveFAQ:[{q:'No FAQ generated yet',a:'Run the Analyzer first.'}];
+  const h=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Support FAQ</title><style>body{font-family:sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h1{font-size:22px;margin-bottom:4px}.sub{font-size:13px;color:#888;margin-bottom:1.5rem}details{border-bottom:1px solid #e5e5e3;padding:12px 0}summary{font-size:15px;font-weight:600;cursor:pointer}p{font-size:14px;color:#5c5b57;margin-top:8px;line-height:1.7}.cat{font-size:11px;background:#e6f1fb;color:#0c447c;padding:2px 8px;border-radius:99px;margin-left:8px;font-weight:normal}</style></head><body><h1>Frequently Asked Questions</h1><p class="sub">Last updated: ${new Date().toLocaleDateString()}</p>${data.map(f=>`<details><summary>${f.q}${f.category?`<span class="cat">${f.category}</span>`:''}</summary><p>${f.a}</p></details>`).join('')}</body></html>`;
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));a.download='support-faq.html';a.click();
 }
 
 // ── ADMIN ─────────────────────────────────────────────────
 function setBadge(src){const b=document.getElementById('srcBadge');if(src==='live'){b.textContent='Live data';b.className='bdg bsu';}else if(src==='demo'){b.textContent='Demo data';b.className='bdg bw2';}else{b.textContent='Offline';b.className='bdg bd2';}}
 
-function renderTeam(){}
-
 function renderAdmin(){
   if(!CU||CU.role!=='admin')return;
-  document.getElementById('buInput').value=BACKEND;
-  document.getElementById('buCur').textContent=BACKEND;
+  document.getElementById('buInput').value=BACKEND;document.getElementById('buCur').textContent=BACKEND;
   document.getElementById('uList').innerHTML=USERS.map((u,i)=>`
     <div class="ur">
       <div class="ua" style="background:${u.c}22;color:${u.c}">${u.i}</div>
@@ -649,22 +764,8 @@ function renderAdmin(){
     </div>`).join('');
 }
 
-function saveBU(){
-  const v=document.getElementById('buInput').value.trim().replace(/\/$/,'');
-  BACKEND=v;localStorage.setItem('ma_backend',v);
-  document.getElementById('buCur').textContent=v;
-  testBU();
-}
-
-async function testBU(){
-  const el=document.getElementById('testRes');
-  el.textContent='Testing...';
-  try{
-    const r=await fetch(BACKEND+'/');const d=await r.json();
-    el.textContent=d.mode==='live'?'✓ Connected — live mode':'✓ Connected — demo mode (add Azure env vars to go live)';
-    el.style.color='var(--st)';setBadge(d.mode);
-  }catch(e){el.textContent='✗ Cannot reach backend.';el.style.color='var(--dt)';}
-}
+function saveBU(){const v=document.getElementById('buInput').value.trim().replace(/\/$/,'');BACKEND=v;localStorage.setItem('ma_backend',v);document.getElementById('buCur').textContent=v;testBU();}
+async function testBU(){const el=document.getElementById('testRes');el.textContent='Testing...';try{const r=await fetch(BACKEND+'/');const d=await r.json();el.textContent=d.mode==='live'?'✓ Live mode active':'✓ Connected (demo mode)';el.style.color='var(--st)';setBadge(d.mode);}catch(e){el.textContent='✗ Cannot reach backend.';el.style.color='var(--dt)';}}
 
 function addUser(){
   const n=document.getElementById('nN').value.trim(),u=document.getElementById('nU').value.trim().toLowerCase();
@@ -674,15 +775,11 @@ function addUser(){
   if(USERS.find(x=>x.u===u)){err.textContent='Username exists.';err.style.display='block';return;}
   const cols=['#185FA5','#1D9E75','#533AB7','#BA7517','#993556'];
   USERS.push({u,p,name:n,role:r,i:n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(),c:cols[USERS.length%cols.length],on:false});
-  document.getElementById('addCard').style.display='none';
-  ['nN','nU','nP'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('addCard').style.display='none';['nN','nU','nP'].forEach(id=>document.getElementById(id).value='');
   err.style.display='none';renderAdmin();
 }
 
-function delUser(i){
-  if(USERS[i].u===CU.u){alert("Can't remove your own account.");return;}
-  USERS.splice(i,1);renderAdmin();
-}
+function delUser(i){if(USERS[i].u===CU.u){alert("Can't remove your own account.");return;}USERS.splice(i,1);renderAdmin();}
 </script>
 </body>
 </html>
