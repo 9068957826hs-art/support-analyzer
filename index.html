@@ -9,9 +9,8 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#fff;--bg2:#f5f5f4;--bg3:#efefed;
-  --text:#1a1a18;--text2:#5c5b57;--text3:#9a9893;
-  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.22);
+  --bg:#fff;--bg2:#f5f5f4;--bg3:#efefed;--text:#1a1a18;--text2:#5c5b57;--text3:#9a9893;
+  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.2);
   --ib:#e6f1fb;--it:#0c447c;--ibr:rgba(24,95,165,0.3);
   --sb:#eaf3de;--st:#27500a;--sbr:rgba(63,109,17,0.3);
   --wb:#faeeda;--wt:#633806;--wbr:rgba(186,117,23,0.3);
@@ -21,13 +20,12 @@
 @media(prefers-color-scheme:dark){:root{--bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;--text:#f0ede8;--text2:#a8a59e;--text3:#6b6965;--border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);--ib:#0c2a47;--it:#85b7eb;--ibr:rgba(55,138,221,0.3);--sb:#173404;--st:#c0dd97;--sbr:rgba(99,153,34,0.3);--wb:#412402;--wt:#fac775;--wbr:rgba(186,117,23,0.3);--db:#501313;--dt:#f09595;--dbr:rgba(226,75,74,0.3);}}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh;}
 .page{display:none;}.page.active{display:block;}
+/* LOGIN */
 .ls{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
 .lb{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--rl);padding:2rem;width:100%;max-width:380px;}
 .lh{text-align:center;margin-bottom:1.5rem;}
 .li{width:52px;height:52px;border-radius:var(--rl);background:var(--ib);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
 .li i{font-size:26px;color:var(--it);}
-.lh h1{font-size:18px;font-weight:600;}
-.lh p{font-size:13px;color:var(--text2);margin-top:4px;}
 label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px;margin-top:12px;}
 input,select{width:100%;padding:9px 12px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-size:13px;outline:none;}
 input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,95,165,0.12);}
@@ -39,13 +37,14 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
 .btbl{width:100%;justify-content:center;margin-top:14px;}
 .ebox{background:var(--db);color:var(--dt);border-radius:var(--r);padding:8px 12px;font-size:13px;margin-top:10px;display:none;}
 .hint{font-size:12px;color:var(--text3);text-align:center;margin-top:14px;}
-.shell{max-width:1100px;margin:0 auto;padding:0 1.5rem 3rem;}
+/* APP */
+.shell{max-width:1140px;margin:0 auto;padding:0 1.5rem 3rem;}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:0.5px solid var(--border);margin-bottom:1.5rem;}
 .tbl{display:flex;align-items:center;gap:10px;}
-.bi{width:34px;height:34px;border-radius:var(--r);background:var(--ib);display:flex;align-items:center;justify-content:center;}
-.bi i{font-size:18px;color:var(--it);}
+.bi2{width:34px;height:34px;border-radius:var(--r);background:var(--ib);display:flex;align-items:center;justify-content:center;}
+.bi2 i{font-size:18px;color:var(--it);}
 .bn{font-size:15px;font-weight:600;}
-.bs{font-size:11px;color:var(--text2);}
+.bs2{font-size:11px;color:var(--text2);}
 .tbr{display:flex;align-items:center;gap:10px;}
 .av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
 .nav{display:flex;gap:2px;margin-bottom:1.5rem;border-bottom:0.5px solid var(--border);}
@@ -57,81 +56,116 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
 .ct{font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
 .ct i{font-size:16px;color:var(--text2);}
 .g2{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:1rem;}
-.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1rem;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1rem;}
 .met{background:var(--bg2);border-radius:var(--r);padding:14px;}
 .ml{font-size:12px;color:var(--text2);margin-bottom:4px;}
 .mv{font-size:26px;font-weight:600;}
 .ms{font-size:11px;color:var(--text3);margin-top:3px;}
-.mu{color:#3B6D11;font-size:11px;margin-top:3px;}
-.md{color:#A32D2D;font-size:11px;margin-top:3px;}
+.mu{color:#3B6D11;font-size:12px;margin-top:3px;display:flex;align-items:center;gap:3px;}
+.md{color:#A32D2D;font-size:12px;margin-top:3px;display:flex;align-items:center;gap:3px;}
 .bdg{display:inline-block;font-size:11px;padding:2px 9px;border-radius:99px;font-weight:500;}
-.bi2{background:var(--ib);color:var(--it);}
-.bs2{background:var(--sb);color:var(--st);}
-.bw{background:var(--wb);color:var(--wt);}
-.bd{background:var(--db);color:var(--dt);}
-.bg{background:var(--bg2);color:var(--text2);}
+.bi{background:var(--ib);color:var(--it);}
+.bsu{background:var(--sb);color:var(--st);}
+.bw2{background:var(--wb);color:var(--wt);}
+.bd2{background:var(--db);color:var(--dt);}
+.bg2{background:var(--bg2);color:var(--text2);}
 .ir{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);}
 .ir:last-child{border-bottom:none;}
-.il{font-size:13px;min-width:170px;}
 .ibg{flex:1;background:var(--bg2);border-radius:4px;height:7px;overflow:hidden;}
-.ib2{height:100%;border-radius:4px;}
-.ic{font-size:12px;color:var(--text2);min-width:28px;text-align:right;}
+.ibar{height:100%;border-radius:4px;}
 .notice{font-size:12px;background:var(--bg2);border-radius:var(--r);padding:10px 12px;display:flex;gap:8px;align-items:flex-start;margin-bottom:12px;line-height:1.5;color:var(--text3);}
 .notice i{font-size:14px;flex-shrink:0;margin-top:1px;}
 .ni2{background:var(--ib);color:var(--it);}
 .ni2 i{color:var(--it);}
 .nw{background:var(--wb);color:var(--wt);}
-.nw i{color:var(--wt);}
-.ur{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);}
-.ur:last-child{border-bottom:none;}
-.ua{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
-.ar{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:13px;}
-.ar:last-child{border-bottom:none;}
-.ad{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;}
+.nd{background:var(--db);color:var(--dt);}
+.ns{background:var(--sb);color:var(--st);}
+/* INSIGHT CARDS */
+.insight{border-radius:var(--r);padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;border:0.5px solid;}
+.insight:last-child{margin-bottom:0;}
+.insight.warning{background:var(--wb);border-color:var(--wbr);}
+.insight.danger{background:var(--db);border-color:var(--dbr);}
+.insight.success{background:var(--sb);border-color:var(--sbr);}
+.insight.info{background:var(--ib);border-color:var(--ibr);}
+.insight-icon{width:32px;height:32px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.insight.warning .insight-icon{background:rgba(186,117,23,0.15);}
+.insight.danger .insight-icon{background:rgba(163,45,45,0.15);}
+.insight.success .insight-icon{background:rgba(63,109,17,0.15);}
+.insight.info .insight-icon{background:rgba(24,95,165,0.15);}
+.insight.warning .insight-icon i,.insight.warning h4{color:var(--wt);}
+.insight.danger .insight-icon i,.insight.danger h4{color:var(--dt);}
+.insight.success .insight-icon i,.insight.success h4{color:var(--st);}
+.insight.info .insight-icon i,.insight.info h4{color:var(--it);}
+.insight h4{font-size:13px;font-weight:600;margin-bottom:3px;}
+.insight p{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:4px;}
+.insight-action{font-size:11px;font-weight:500;padding:3px 8px;border-radius:99px;display:inline-block;margin-top:2px;}
+.insight.warning .insight-action{background:rgba(186,117,23,0.15);color:var(--wt);}
+.insight.danger .insight-action{background:rgba(163,45,45,0.15);color:var(--dt);}
+.insight.success .insight-action{background:rgba(63,109,17,0.15);color:var(--st);}
+.insight.info .insight-action{background:rgba(24,95,165,0.15);color:var(--it);}
+/* TREND ROW */
+.tr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);}
+.tr:last-child{border-bottom:none;}
+.tr-name{font-size:13px;min-width:170px;}
+.tr-curr{font-size:13px;font-weight:600;min-width:30px;text-align:right;}
+.tr-change{font-size:12px;min-width:60px;text-align:right;font-weight:500;}
+.tr-up{color:#A32D2D;}
+.tr-down{color:#3B6D11;}
+.tr-flat{color:var(--text3);}
+/* HEATMAP */
+.heatmap{display:grid;grid-template-columns:40px repeat(7,1fr);gap:3px;font-size:11px;}
+.hm-label{color:var(--text3);display:flex;align-items:center;justify-content:center;}
+.hm-cell{height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;transition:opacity .15s;}
+/* SENTIMENT */
+.sent-bar{display:flex;border-radius:99px;overflow:hidden;height:10px;margin:8px 0;}
+/* FAQ */
 .fqi{border-bottom:0.5px solid var(--border);padding:10px 0;}
 .fqi:last-child{border-bottom:none;}
 .fqq{font-size:13px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;}
 .fqa{font-size:13px;color:var(--text2);margin-top:8px;line-height:1.7;display:none;}
 .fqa.open{display:block;}
-.spin{animation:spin 1s linear infinite;display:inline-block;}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* PERIOD BUTTONS */
 .pbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
 .pb{padding:7px 16px;border-radius:99px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);font-size:13px;cursor:pointer;transition:all .15s;font-weight:500;}
 .pb:hover{background:var(--bg2);}
 .pb.active{background:var(--ib);color:var(--it);border-color:var(--ibr);}
+.spin{animation:spin 1s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg)}}
 .ldo{text-align:center;padding:3rem 1rem;}
 .ldo i{font-size:32px;color:var(--blue);display:block;margin-bottom:12px;}
+.ur{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);}
+.ur:last-child{border-bottom:none;}
+.ua{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;}
 .step{display:flex;gap:14px;padding:14px 0;border-bottom:0.5px solid var(--border);}
 .step:last-child{border-bottom:none;}
 .sn{width:28px;height:28px;border-radius:50%;background:var(--ib);color:var(--it);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px;}
 .sc h4{font-size:13px;font-weight:600;margin-bottom:4px;}
 .sc p{font-size:13px;color:var(--text2);line-height:1.6;}
 .code{background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--r);padding:10px 14px;font-family:'Courier New',monospace;font-size:12px;margin:8px 0;white-space:pre-wrap;line-height:1.8;color:var(--text);}
-@media(max-width:680px){.g2{grid-template-columns:1fr;}.shell{padding:0 1rem 2rem;}.topbar{flex-wrap:wrap;gap:8px;}}
+@media(max-width:700px){.g2,.g3{grid-template-columns:1fr;}.shell{padding:0 1rem 2rem;}.topbar{flex-wrap:wrap;gap:8px;}}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="page-login" class="page active">
-  <div class="ls">
-    <div>
-      <div class="lb">
-        <div class="lh">
-          <div class="li"><i class="ti ti-mail-search"></i></div>
-          <h1>Support Analyzer</h1>
-          <p>Membership Anywhere &middot; Team access only</p>
-        </div>
-        <label>Username</label>
-        <input type="text" id="lu" placeholder="Your username" autocomplete="username" onkeydown="if(event.key==='Enter')login()"/>
-        <label>Password</label>
-        <input type="password" id="lp" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"/>
-        <button class="btn btp btbl" onclick="login()"><i class="ti ti-arrow-right"></i> Sign in</button>
-        <div class="ebox" id="lerr"><i class="ti ti-alert-circle"></i> Incorrect username or password.</div>
+  <div class="ls"><div>
+    <div class="lb">
+      <div class="lh">
+        <div class="li"><i class="ti ti-mail-search"></i></div>
+        <h1 style="font-size:18px;font-weight:600">Support Analyzer</h1>
+        <p style="font-size:13px;color:var(--text2);margin-top:4px">Membership Anywhere &middot; Team access only</p>
       </div>
-      <p class="hint">Restricted to authorised team members only.</p>
+      <label>Username</label>
+      <input type="text" id="lu" placeholder="Your username" autocomplete="username" onkeydown="if(event.key==='Enter')login()"/>
+      <label>Password</label>
+      <input type="password" id="lp" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"/>
+      <button class="btn btp btbl" onclick="login()"><i class="ti ti-arrow-right"></i> Sign in</button>
+      <div class="ebox" id="lerr"><i class="ti ti-alert-circle"></i> Incorrect username or password.</div>
     </div>
-  </div>
+    <p class="hint">Restricted to authorised team members only.</p>
+  </div></div>
 </div>
 
 <!-- APP -->
@@ -139,17 +173,16 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
   <div class="shell">
     <div class="topbar">
       <div class="tbl">
-        <div class="bi"><i class="ti ti-mail-search"></i></div>
-        <div><div class="bn">Support Analyzer</div><div class="bs">Membership Anywhere</div></div>
+        <div class="bi2"><i class="ti ti-mail-search"></i></div>
+        <div><div class="bn">Support Analyzer</div><div class="bs2">Membership Anywhere</div></div>
       </div>
       <div class="tbr">
-        <span class="bdg bg" id="srcBadge">connecting...</span>
-        <span style="font-size:13px;color:var(--text2);" id="topName"></span>
+        <span class="bdg bg2" id="srcBadge">connecting...</span>
+        <span style="font-size:13px;color:var(--text2)" id="topName"></span>
         <div class="av" id="topAv"></div>
         <button class="btn bts" onclick="logout()"><i class="ti ti-logout"></i> Sign out</button>
       </div>
     </div>
-
     <div class="nav">
       <div class="ni active" onclick="sw('home',this)"><i class="ti ti-home"></i> Home</div>
       <div class="ni" onclick="sw('analyzer',this)"><i class="ti ti-chart-bar"></i> Analyzer</div>
@@ -160,21 +193,39 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
     <!-- HOME -->
     <div id="tab-home" class="tp active">
       <div class="g4" id="hMet"></div>
+      <!-- Insights -->
+      <div class="card">
+        <div class="ct"><i class="ti ti-bulb"></i> Key insights <span class="bdg bi" style="margin-left:4px;font-size:10px">AI-powered</span></div>
+        <div id="hInsights"><div class="ldo" style="padding:1.5rem"><i class="ti ti-loader spin"></i><p style="margin-top:8px;font-size:13px;color:var(--text2)">Analysing your inbox...</p></div></div>
+      </div>
       <div class="g2">
         <div>
+          <!-- Trend comparison -->
           <div class="card">
-            <div class="ct"><i class="ti ti-tag"></i> Top issues — last 30 days</div>
-            <div id="hIssues"><div class="ldo"><i class="ti ti-loader spin"></i><p>Loading from inbox...</p></div></div>
+            <div class="ct"><i class="ti ti-arrows-diff"></i> This period vs previous period</div>
+            <div id="hTrend"><div class="ldo" style="padding:1rem"><i class="ti ti-loader spin"></i></div></div>
+          </div>
+          <!-- Weekly chart -->
+          <div class="card">
+            <div class="ct"><i class="ti ti-chart-line"></i> Weekly volume</div>
+            <div style="position:relative;height:180px"><canvas id="weeklyChart"></canvas></div>
           </div>
         </div>
         <div>
+          <!-- Top issues -->
           <div class="card">
-            <div class="ct"><i class="ti ti-users"></i> Team</div>
-            <div id="hTeam"></div>
+            <div class="ct"><i class="ti ti-tag"></i> Top issues</div>
+            <div id="hIssues"></div>
           </div>
+          <!-- Sentiment -->
           <div class="card">
-            <div class="ct"><i class="ti ti-clock"></i> Last refreshed</div>
-            <p style="font-size:13px;color:var(--text2);" id="hTime">Loading...</p>
+            <div class="ct"><i class="ti ti-mood-smile"></i> Member sentiment</div>
+            <div id="hSentiment"></div>
+          </div>
+          <!-- Heatmap -->
+          <div class="card">
+            <div class="ct"><i class="ti ti-calendar-stats"></i> Busiest days</div>
+            <div id="hHeatmap"></div>
           </div>
         </div>
       </div>
@@ -182,51 +233,62 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
 
     <!-- ANALYZER -->
     <div id="tab-analyzer" class="tp">
-      <div class="notice ni2"><i class="ti ti-mail"></i><span>Reading directly from <strong>support@membershipanywhere.com</strong> — select a period and results load automatically. No manual work needed.</span></div>
+      <div class="notice ni2"><i class="ti ti-mail"></i><span>Reading directly from <strong>support@membershipanywhere.com</strong> — select a period and results load automatically.</span></div>
       <div class="pbar">
         <button class="pb active" onclick="selPeriod('today',this)">Today</button>
         <button class="pb" onclick="selPeriod('7',this)">Last 7 days</button>
         <button class="pb" onclick="selPeriod('30',this)">Last 30 days</button>
         <button class="pb" onclick="selPeriod('90',this)">Last 3 months</button>
         <button class="pb" onclick="selPeriod('365',this)">Last 12 months</button>
-        <button class="btn bts" onclick="loadAnalyzer(curPeriod)" style="margin-left:auto"><i class="ti ti-refresh"></i> Refresh</button>
+        <button class="btn bts" onclick="loadAnalyzer(curP)" style="margin-left:auto"><i class="ti ti-refresh"></i> Refresh</button>
       </div>
-
-      <div id="aLoad" class="ldo">
-        <i class="ti ti-loader spin"></i>
-        <p style="font-size:14px;font-weight:600;margin-bottom:4px">Reading your inbox...</p>
-        <p style="font-size:13px;color:var(--text2)">Fetching from support@membershipanywhere.com</p>
+      <div id="aLoad" class="ldo"><i class="ti ti-loader spin"></i><p style="font-size:14px;font-weight:600;margin-bottom:4px">Reading your inbox...</p><p style="font-size:13px;color:var(--text2)">Fetching from support@membershipanywhere.com</p></div>
+      <div id="aErr" style="display:none">
+        <div class="card" style="border-color:var(--dbr)"><div class="ct" style="color:var(--dt)"><i class="ti ti-alert-circle"></i> Cannot connect</div><p style="font-size:13px;color:var(--text2);margin-bottom:10px" id="aErrMsg"></p><div class="notice nw"><i class="ti ti-info-circle"></i><span>Check the Admin tab — make sure your Render backend URL is saved correctly.</span></div></div>
       </div>
-
       <div id="aRes" style="display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
           <span style="font-size:13px;color:var(--text2)" id="aLabel"></span>
           <span class="bdg" id="aSrc"></span>
         </div>
         <div class="g4" id="aMet"></div>
+        <!-- Insights in analyzer -->
+        <div class="card">
+          <div class="ct"><i class="ti ti-bulb"></i> Insights & recommendations <span class="bdg bi" style="margin-left:4px;font-size:10px">AI-powered</span></div>
+          <div id="aInsights"></div>
+        </div>
         <div class="g2">
-          <div class="card">
-            <div class="ct"><i class="ti ti-list-details"></i> Issues by category</div>
-            <div id="aIssues"></div>
+          <div>
+            <div class="card">
+              <div class="ct"><i class="ti ti-arrows-diff"></i> Trend vs previous period</div>
+              <p style="font-size:11px;color:var(--text3);margin-bottom:10px">↑ Red = getting worse &nbsp;↓ Green = improving</p>
+              <div id="aTrend"></div>
+            </div>
+            <div class="card">
+              <div class="ct"><i class="ti ti-list-details"></i> Issues by category <span style="font-size:11px;color:var(--text3);font-weight:400;margin-left:4px">— click to filter</span></div>
+              <div id="aIssues"></div>
+            </div>
           </div>
-          <div class="card">
-            <div class="ct"><i class="ti ti-chart-donut"></i> Category split</div>
-            <div style="position:relative;height:200px"><canvas id="pieC"></canvas></div>
-            <div id="pieLeg" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px"></div>
+          <div>
+            <div class="card">
+              <div class="ct"><i class="ti ti-chart-donut"></i> Category split</div>
+              <div style="position:relative;height:180px"><canvas id="pieC"></canvas></div>
+              <div id="pieLeg" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px"></div>
+            </div>
+            <div class="card">
+              <div class="ct"><i class="ti ti-mood-smile"></i> Sentiment breakdown</div>
+              <div id="aSentiment"></div>
+            </div>
+            <div class="card">
+              <div class="ct"><i class="ti ti-calendar-stats"></i> Busiest days</div>
+              <div id="aHeatmap"></div>
+            </div>
           </div>
         </div>
         <div class="card">
-          <div class="ct"><i class="ti ti-mail"></i> Email log <span class="bdg bg" id="eCnt" style="margin-left:6px"></span></div>
-          <div class="notice"><i class="ti ti-shield-lock"></i> Financial, contractual and legal emails are automatically excluded.</div>
+          <div class="ct"><i class="ti ti-mail"></i> Email log <span class="bdg bg2" id="eCnt" style="margin-left:6px"></span></div>
+          <div class="notice"><i class="ti ti-shield-lock"></i> Confidential and marketing emails automatically excluded.</div>
           <div id="eLog"></div>
-        </div>
-      </div>
-
-      <div id="aErr" style="display:none">
-        <div class="card" style="border-color:var(--dbr)">
-          <div class="ct" style="color:var(--dt)"><i class="ti ti-alert-circle"></i> Cannot connect to inbox</div>
-          <p style="font-size:13px;color:var(--text2);margin-bottom:12px" id="aErrMsg"></p>
-          <div class="notice nw"><i class="ti ti-info-circle"></i><span>Check the <strong>Admin</strong> tab — make sure your Render backend URL is saved correctly.</span></div>
         </div>
       </div>
     </div>
@@ -235,117 +297,28 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,9
     <div id="tab-faq" class="tp">
       <div class="card">
         <div class="ct"><i class="ti ti-help-circle"></i> Auto-generated FAQ</div>
-        <div class="notice"><i class="ti ti-info-circle"></i> Review before publishing to your website.</div>
+        <div class="notice"><i class="ti ti-info-circle"></i> Built from your most common real support issues. Run the Analyzer first to generate from live data.</div>
         <div id="faqList"></div>
-        <div style="margin-top:14px">
-          <button class="btn btp bts" onclick="exportFAQ()"><i class="ti ti-download"></i> Download as HTML</button>
-        </div>
+        <div style="margin-top:14px"><button class="btn btp bts" onclick="exportFAQ()"><i class="ti ti-download"></i> Download as HTML</button></div>
       </div>
     </div>
 
     <!-- ADMIN -->
     <div id="tab-admin" class="tp">
-
       <div class="card">
         <div class="ct"><i class="ti ti-plug"></i> Render backend URL</div>
-        <div class="notice ni2"><i class="ti ti-info-circle"></i><span>Paste your Render URL here after deploying the backend. The dashboard uses this to fetch live emails automatically.</span></div>
+        <div class="notice ni2"><i class="ti ti-info-circle"></i><span>Paste your Render URL here. The dashboard uses this to fetch live emails automatically.</span></div>
         <div style="display:flex;gap:8px;margin-top:4px">
-          <input type="text" id="buInput" placeholder="https://your-app-name.onrender.com" style="flex:1"/>
+          <input type="text" id="buInput" placeholder="https://your-app.onrender.com" style="flex:1"/>
           <button class="btn btp bts" onclick="saveBU()"><i class="ti ti-check"></i> Save</button>
         </div>
-        <p style="font-size:12px;color:var(--text3);margin-top:8px">Current: <span id="buCurrent"></span></p>
-        <div style="margin-top:12px">
-          <button class="btn bts" onclick="testBackend()"><i class="ti ti-plug"></i> Test connection</button>
-          <span id="testResult" style="font-size:12px;margin-left:10px;color:var(--text2)"></span>
-        </div>
+        <p style="font-size:12px;color:var(--text3);margin-top:8px">Current: <span id="buCur"></span></p>
+        <div style="margin-top:10px"><button class="btn bts" onclick="testBU()"><i class="ti ti-plug"></i> Test connection</button><span id="testRes" style="font-size:12px;margin-left:10px;color:var(--text2)"></span></div>
       </div>
-
-      <div class="card">
-        <div class="ct"><i class="ti ti-terminal"></i> Step-by-step deploy guide</div>
-        <div class="step">
-          <div class="sn">1</div>
-          <div class="sc">
-            <h4>Upload backend to GitHub</h4>
-            <p>Go to github.com → New repository → name it <strong>ma-support-backend</strong> → Public → Create. Upload all files from the <strong>ma-backend</strong> folder you downloaded.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="sn">2</div>
-          <div class="sc">
-            <h4>Deploy to Render (free)</h4>
-            <p>Go to <strong>render.com</strong> → sign up with GitHub → New → Web Service → connect <strong>ma-support-backend</strong> repo. Set:</p>
-            <div class="code">Build command:  npm install
-Start command:  node server.js
-Plan:           Free</div>
-            <p>Click <strong>Create Web Service</strong>. Render gives you a URL like <code>https://ma-support-backend-xxxx.onrender.com</code>. Copy it.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="sn">3</div>
-          <div class="sc">
-            <h4>Add environment variables in Render</h4>
-            <p>In your Render service → <strong>Environment</strong> tab → add these 4 variables:</p>
-            <div class="code">TENANT_ID      = (from your IT admin — see Step 4)
-CLIENT_ID      = (from your IT admin — see Step 4)
-CLIENT_SECRET  = (from your IT admin — see Step 4)
-MAILBOX        = support@membershipanywhere.com</div>
-            <p>Render restarts automatically when you save.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="sn">4</div>
-          <div class="sc">
-            <h4>Send this message to your IT admin</h4>
-            <p>Copy and send exactly this — they need about 15 minutes:</p>
-            <div class="code">Hi,
-
-I need an Azure App Registration to read the support@membershipanywhere.com 
-shared mailbox automatically for our internal support dashboard.
-
-Please do the following in Azure Portal:
-
-1. Go to Azure Active Directory → App registrations → New registration
-   - Name: MA Support Analyzer
-   - Account type: Single tenant
-   - Click Register
-
-2. Go to API permissions → Add a permission
-   - Microsoft Graph → Application permissions
-   - Search and add: Mail.Read
-   - Click "Grant admin consent"
-
-3. Go to Certificates & secrets → New client secret
-   - Description: MA Support Analyzer
-   - Expires: 24 months
-   - Click Add — COPY THE VALUE immediately (you can't see it again)
-
-4. Please send me these 3 values:
-   - Tenant ID (from Overview page)
-   - Application (client) ID (from Overview page)
-   - Client Secret VALUE (from step 3)
-
-This only reads the support mailbox — it cannot send emails 
-or access anything else.
-
-Thank you!</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="sn">5</div>
-          <div class="sc">
-            <h4>Connect this dashboard to your backend</h4>
-            <p>Once Render is deployed, paste your Render URL in the field above and click <strong>Save</strong>. Then click <strong>Test connection</strong> to confirm it's working.</p>
-            <p style="margin-top:6px">From that moment — clicking Today, Last 7 days, etc. reads your real inbox <strong>automatically</strong> with zero manual work.</p>
-          </div>
-        </div>
-      </div>
-
       <div class="card">
         <div class="ct"><i class="ti ti-users"></i> Team accounts</div>
         <div id="uList"></div>
-        <div style="margin-top:14px">
-          <button class="btn btp bts" onclick="document.getElementById('addCard').style.display='block'"><i class="ti ti-plus"></i> Add member</button>
-        </div>
+        <div style="margin-top:14px"><button class="btn btp bts" onclick="document.getElementById('addCard').style.display='block'"><i class="ti ti-plus"></i> Add member</button></div>
       </div>
       <div class="card" id="addCard" style="display:none">
         <div class="ct"><i class="ti ti-user-plus"></i> Add team member</div>
@@ -362,39 +335,27 @@ Thank you!</div>
         <div class="ebox" id="addErr" style="margin-top:8px"></div>
       </div>
     </div>
-
   </div>
 </div>
 
 <script>
-// ── UPDATE THIS after deploying to Render ─────────────────
-let BACKEND = localStorage.getItem('ma_backend') || 'https://YOUR-APP.onrender.com';
+let BACKEND = localStorage.getItem('ma_backend')||'https://ma-support-backend.onrender.com';
 
-const COLORS = {
+const COLORS={
   'Login & access issues':'#185FA5','Technical errors':'#5F5E5A',
   'Member portal problems':'#639922','Email & comms issues':'#A32D2D',
   'Event registration':'#533AB7','Membership renewal':'#993556',
-  'Feature requests':'#0F6E56','General enquiry':'#888780'
+  'Feature requests':'#0F6E56','Billing & payments':'#BA7517',
+  'Account management':'#4A4A8A','General enquiry':'#888780'
 };
 
-const USERS = [
-  {u:'admin',p:'admin123', name:'Admin User',     role:'admin',   i:'AU',c:'#185FA5',on:true},
-  {u:'sarah',p:'sarah2024',name:'Sarah Mitchell', role:'analyst', i:'SM',c:'#1D9E75',on:true},
-  {u:'james',p:'james2024',name:'James Okonkwo',  role:'viewer',  i:'JO',c:'#533AB7',on:false}
+const USERS=[
+  {u:'admin',p:'admin123', name:'Admin User',     role:'admin',  i:'AU',c:'#185FA5',on:true},
+  {u:'sarah',p:'sarah2024',name:'Sarah Mitchell', role:'analyst',i:'SM',c:'#1D9E75',on:true},
+  {u:'james',p:'james2024',name:'James Okonkwo',  role:'viewer', i:'JO',c:'#533AB7',on:false}
 ];
 
-const FAQS=[
-  {q:'How do I reset my password?',a:'Go to the login page and click "Forgot password". An email arrives within a few minutes — check spam. Contact support if nothing arrives.'},
-  {q:'Why am I not receiving newsletter emails?',a:'Check your spam folder first. Add support@membershipanywhere.com to your safe senders list. Contact us if it continues.'},
-  {q:'How do I update my billing details?',a:'Log in → Account Settings → Billing → Update payment method. Changes apply at your next renewal.'},
-  {q:'The portal is showing an error — what should I do?',a:'Try Ctrl+Shift+R (Mac: Cmd+Shift+R) to hard-refresh. Try a different browser. Send the error code to support.'},
-  {q:'How do I cancel or transfer an event booking?',a:'Email support@membershipanywhere.com with your booking reference. Refunds available up to 7 days before the event.'},
-  {q:'My membership says lapsed but I renewed — why?',a:'Wait 1 hour and refresh. If still showing lapsed, contact support with your payment confirmation.'},
-  {q:'Can multiple staff from one organisation join?',a:'Yes — we offer group membership. Contact us for a quote and we will set up one shared organisation account.'},
-  {q:'I am not receiving my 2FA code — what do I do?',a:'Check signal and request a new code. If you changed your number contact support to update your 2FA settings.'}
-];
-
-let CU=null, pie=null, curPeriod='today';
+let CU=null, pie=null, weeklyChart=null, curP='today', liveFAQ=[];
 
 function login(){
   const u=document.getElementById('lu').value.trim().toLowerCase();
@@ -402,14 +363,14 @@ function login(){
   const f=USERS.find(x=>x.u===u&&x.p===p);
   const e=document.getElementById('lerr');
   if(!f){e.style.display='block';return;}
-  e.style.display='none'; CU=f;
+  e.style.display='none';CU=f;
   document.getElementById('page-login').classList.remove('active');
   document.getElementById('page-app').classList.add('active');
   document.getElementById('topName').textContent=f.name;
   const av=document.getElementById('topAv');
-  av.textContent=f.i; av.style.background=f.c+'22'; av.style.color=f.c;
+  av.textContent=f.i;av.style.background=f.c+'22';av.style.color=f.c;
   if(f.role==='admin')document.getElementById('adminTab').style.display='';
-  renderTeam(); renderFAQ(); renderAdmin();
+  renderTeam();renderFAQDefault();renderAdmin();
   loadHome();
 }
 
@@ -417,17 +378,17 @@ function logout(){
   CU=null;
   document.getElementById('page-app').classList.remove('active');
   document.getElementById('page-login').classList.add('active');
-  document.getElementById('lu').value='';
-  document.getElementById('lp').value='';
+  document.getElementById('lu').value='';document.getElementById('lp').value='';
   document.getElementById('adminTab').style.display='none';
   if(pie){pie.destroy();pie=null;}
+  if(weeklyChart){weeklyChart.destroy();weeklyChart=null;}
 }
 
 function sw(n,el){
   document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));
   el.classList.add('active');
   ['home','analyzer','faq','admin'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('active',t===n));
-  if(n==='analyzer')loadAnalyzer(curPeriod);
+  if(n==='analyzer')loadAnalyzer(curP);
   if(n==='admin')renderAdmin();
 }
 
@@ -437,130 +398,207 @@ async function apiFetch(period){
   return r.json();
 }
 
+// ── HOME ─────────────────────────────────────────────────
 async function loadHome(){
   try{
     const d=await apiFetch('30');
     setBadge(d.source);
-    const top=d.categories[0]||{name:'None',count:0};
-    document.getElementById('hMet').innerHTML=`
-      <div class="met"><div class="ml">Total tickets (30 days)</div><div class="mv">${d.total}</div><div class="mu">↑ from inbox</div></div>
-      <div class="met"><div class="ml">Top issue</div><div class="mv" style="font-size:15px;padding-top:4px">${top.name.split(' ')[0]}</div><div class="ms">${top.count} tickets</div></div>
-      <div class="met"><div class="ml">Avg per day</div><div class="mv">${(d.total/30).toFixed(1)}</div><div class="ms">last 30 days</div></div>
-      <div class="met"><div class="ml">Confidential skipped</div><div class="mv">${d.skipped}</div><div class="ms">auto-filtered</div></div>`;
-    const mx=d.categories[0]?.count||1;
-    document.getElementById('hIssues').innerHTML=d.categories.slice(0,6).map(c=>`
-      <div class="ir"><div class="il">${c.name}</div>
-      <div class="ibg"><div class="ib2" style="width:${Math.round(c.count/mx*100)}%;background:${COLORS[c.name]||'#888'}"></div></div>
-      <div class="ic">${c.count}</div></div>`).join('');
-    document.getElementById('hTime').textContent='Last updated: '+new Date().toLocaleTimeString();
+    renderMetrics(d,'hMet','30 days');
+    renderInsights(d.insights,'hInsights');
+    renderTrend(d.trend,'hTrend');
+    renderHeatmap(d.heatmap,'hHeatmap');
+    renderSentiment(d.emails,'hSentiment');
+    renderWeeklyChart(d.weekly);
+    renderTopIssues(d.categories,'hIssues');
+    if(d.faq&&d.faq.length){liveFAQ=d.faq;renderFAQ(d.faq);}
   }catch(e){
     document.getElementById('hMet').innerHTML=`<div class="met" style="grid-column:1/-1"><div class="notice nw" style="margin:0"><i class="ti ti-alert-circle"></i><span>Cannot reach backend. Go to <strong>Admin</strong> tab and check your Render URL.</span></div></div>`;
-    document.getElementById('hIssues').innerHTML='';
     setBadge('error');
   }
 }
 
+function renderMetrics(d,id,label){
+  const top=d.categories[0]||{name:'None',count:0};
+  const urgent=(d.emails||[]).filter(e=>e.sentiment==='urgent').length;
+  document.getElementById(id).innerHTML=`
+    <div class="met"><div class="ml">Support emails</div><div class="mv">${d.total}</div><div class="ms">${label}</div></div>
+    <div class="met"><div class="ml">Top issue</div><div class="mv" style="font-size:15px;padding-top:4px">${top.name.split(' ')[0]}</div><div class="ms">${top.count} tickets</div></div>
+    <div class="met"><div class="ml">Urgent/frustrated</div><div class="mv" style="color:${urgent>0?'#A32D2D':'inherit'}">${urgent}</div><div class="ms">need priority</div></div>
+    <div class="met"><div class="ml">Filtered out</div><div class="mv">${(d.skipped||0)+(d.marketing||0)}</div><div class="ms">confidential + marketing</div></div>`;
+}
+
+function renderInsights(insights,id){
+  if(!insights||!insights.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2);padding:8px 0">No insights yet — run the analyzer first.</p>';return;}
+  document.getElementById(id).innerHTML=insights.map(ins=>`
+    <div class="insight ${ins.type}">
+      <div class="insight-icon"><i class="ti ${ins.icon}" style="font-size:16px"></i></div>
+      <div>
+        <h4>${ins.title}</h4>
+        <p>${ins.detail}</p>
+        <span class="insight-action">→ ${ins.action}</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderTrend(trend,id){
+  if(!trend||!trend.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2)">No comparison data yet.</p>';return;}
+  document.getElementById(id).innerHTML=trend.map(t=>{
+    const arrow = t.change>0?'↑':t.change<0?'↓':'→';
+    const cls   = t.change>15?'tr-up':t.change<-15?'tr-down':'tr-flat';
+    const label = t.change===0?'no change':Math.abs(t.change)+'%';
+    return `<div class="tr">
+      <div style="width:10px;height:10px;border-radius:2px;background:${t.color||COLORS[t.name]||'#888'};flex-shrink:0"></div>
+      <div class="tr-name">${t.name}</div>
+      <div class="tr-curr">${t.current}</div>
+      <div class="tr-change ${cls}">${arrow} ${label}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderHeatmap(heatmap,id){
+  if(!heatmap||!heatmap.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2)">No data yet.</p>';return;}
+  const maxVal=Math.max(...heatmap.map(d=>d.total),1);
+  document.getElementById(id).innerHTML=`
+    <div style="display:flex;gap:4px;flex-direction:column">
+      ${heatmap.map(d=>{
+        const pct=d.total/maxVal;
+        const alpha=0.15+pct*0.75;
+        const hr=d.peakHour;
+        const hrLabel=hr<12?hr+'am':hr===12?'12pm':(hr-12)+'pm';
+        return `<div style="display:flex;align-items:center;gap:8px">
+          <div style="font-size:11px;color:var(--text2);min-width:28px">${d.day}</div>
+          <div style="flex:1;height:18px;border-radius:4px;background:rgba(24,95,165,${alpha});"></div>
+          <div style="font-size:11px;color:var(--text3);min-width:50px">${d.total} emails</div>
+          <div style="font-size:10px;color:var(--text3);min-width:30px">peak:${hrLabel}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function renderSentiment(emails,id){
+  if(!emails||!emails.length){document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text2)">No data yet.</p>';return;}
+  const urgent  =emails.filter(e=>e.sentiment==='urgent').length;
+  const positive=emails.filter(e=>e.sentiment==='positive').length;
+  const neutral =emails.length-urgent-positive;
+  const total=emails.length;
+  const up=Math.round(urgent/total*100);
+  const pp=Math.round(positive/total*100);
+  const np=100-up-pp;
+  document.getElementById(id).innerHTML=`
+    <div style="display:flex;border-radius:99px;overflow:hidden;height:12px;margin-bottom:10px">
+      <div style="width:${up}%;background:#A32D2D" title="Urgent/frustrated: ${urgent}"></div>
+      <div style="width:${np}%;background:#9a9893" title="Neutral: ${neutral}"></div>
+      <div style="width:${pp}%;background:#3B6D11" title="Positive: ${positive}"></div>
+    </div>
+    <div style="display:flex;gap:12px;font-size:12px;flex-wrap:wrap">
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#A32D2D;margin-right:4px"></span><strong>${urgent}</strong> urgent (${up}%)</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#9a9893;margin-right:4px"></span><strong>${neutral}</strong> neutral (${np}%)</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3B6D11;margin-right:4px"></span><strong>${positive}</strong> positive (${pp}%)</span>
+    </div>
+    ${urgent>0?`<div class="notice nd" style="margin-top:10px;margin-bottom:0"><i class="ti ti-flame"></i><span>${urgent} member${urgent>1?'s':''} used urgent or frustrated language — review these first.</span></div>`:''}`;
+}
+
+function renderWeeklyChart(weekly){
+  if(!weekly||!weekly.length) return;
+  const labels=weekly.map(w=>{const d=new Date(w.week);return (d.getMonth()+1)+'/'+d.getDate();});
+  const data=weekly.map(w=>w.count);
+  if(weeklyChart)weeklyChart.destroy();
+  weeklyChart=new Chart(document.getElementById('weeklyChart'),{
+    type:'bar',
+    data:{labels,datasets:[{label:'Emails',data,backgroundColor:'rgba(24,95,165,0.7)',borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}
+  });
+}
+
+function renderTopIssues(categories,id){
+  const mx=categories[0]?.count||1;
+  document.getElementById(id).innerHTML=categories.slice(0,6).map(c=>`
+    <div class="ir"><div style="font-size:13px;min-width:160px">${c.name}</div>
+    <div class="ibg"><div class="ibar" style="width:${Math.round(c.count/mx*100)}%;background:${c.color||COLORS[c.name]||'#888'}"></div></div>
+    <div style="font-size:12px;color:var(--text2);min-width:28px;text-align:right">${c.count}</div></div>`).join('');
+}
+
+// ── ANALYZER ─────────────────────────────────────────────
 function selPeriod(p,btn){
   document.querySelectorAll('.pb').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active'); curPeriod=p; loadAnalyzer(p);
+  btn.classList.add('active');curP=p;loadAnalyzer(p);
 }
 
 async function loadAnalyzer(p){
-  if(CU&&CU.role==='viewer'){
-    show('aErr'); document.getElementById('aErrMsg').textContent='Your account (viewer) cannot run analysis. Contact your admin.'; return;
-  }
-  show('aLoad');
+  if(CU&&CU.role==='viewer'){showA('aErr');document.getElementById('aErrMsg').textContent='Your account (viewer) cannot run analysis.';return;}
+  showA('aLoad');
   try{
     const d=await apiFetch(p);
-    show('aRes'); renderResults(d); setBadge(d.source);
-  }catch(e){
-    show('aErr'); document.getElementById('aErrMsg').textContent=e.message||'Cannot connect to backend.';
-  }
+    showA('aRes');
+    renderAnalyzer(d);
+    setBadge(d.source);
+    if(d.faq&&d.faq.length){liveFAQ=d.faq;renderFAQ(d.faq);}
+  }catch(e){showA('aErr');document.getElementById('aErrMsg').textContent=e.message||'Cannot connect.';}
 }
 
-function show(id){
-  ['aLoad','aRes','aErr'].forEach(x=>document.getElementById(x).style.display=x===id?'block':'none');
-}
+function showA(id){['aLoad','aRes','aErr'].forEach(x=>{const el=document.getElementById(x);el.style.display=x===id?'block':'none';});}
 
-function renderResults(d){
+function renderAnalyzer(d){
   const labels={today:'Today','7':'Last 7 days','30':'Last 30 days','90':'Last 3 months','365':'Last 12 months'};
   document.getElementById('aLabel').textContent=`${labels[d.period]||d.period} · ${d.total} support emails · ${d.skipped||0} confidential · ${d.marketing||0} marketing skipped`;
-  const sb=document.getElementById('aSrc');
-  sb.textContent=d.source==='live'?'Live data':'Demo data';
-  sb.className='bdg '+(d.source==='live'?'bs2':'bw');
-  const top=d.categories[0]||{name:'None',count:0};
-  document.getElementById('aMet').innerHTML=`
-    <div class="met"><div class="ml">Support emails</div><div class="mv">${d.total}</div><div class="ms">${labels[d.period]||d.period}</div></div>
-    <div class="met"><div class="ml">Confidential skipped</div><div class="mv">${d.skipped||0}</div><div class="ms">auto-filtered</div></div>
-    <div class="met"><div class="ml">Marketing skipped</div><div class="mv">${d.marketing||0}</div><div class="ms">auto-filtered</div></div>
-    <div class="met"><div class="ml">Top issue</div><div class="mv" style="font-size:15px;padding-top:4px">${top.name.split(' ')[0]}</div><div class="ms">${top.count} tickets</div></div>`;
+  document.getElementById('aSrc').textContent=d.source==='live'?'Live data':'Demo data';
+  document.getElementById('aSrc').className='bdg '+(d.source==='live'?'bsu':'bw2');
+  renderMetrics(d,'aMet',labels[d.period]||d.period);
+  renderInsights(d.insights,'aInsights');
+  renderTrend(d.trend,'aTrend');
   const mx=d.categories[0]?.count||1;
-  document.getElementById('aIssues').innerHTML=`<p style="font-size:11px;color:var(--text3);margin-bottom:8px">Click any category to filter the email log below</p>`+
-    d.categories.map(c=>`
-    <div class="ir" style="cursor:pointer" onclick="filterByCategory('${c.name.replace(/'/g,"\\'")}')">
-      <div class="il" style="color:var(--blue)">${c.name}</div>
-      <div class="ibg"><div class="ib2" style="width:${Math.round(c.count/mx*100)}%;background:${COLORS[c.name]||'#888'}"></div></div>
-      <div class="ic">${c.count}</div>
+  document.getElementById('aIssues').innerHTML=d.categories.map(c=>`
+    <div class="ir" style="cursor:pointer" onclick="filterCat('${c.name.replace(/'/g,"\\'")}')">
+      <div style="font-size:13px;min-width:160px;color:var(--blue)">${c.name}</div>
+      <div class="ibg"><div class="ibar" style="width:${Math.round(c.count/mx*100)}%;background:${c.color||COLORS[c.name]||'#888'}"></div></div>
+      <div style="font-size:12px;color:var(--text2);min-width:28px;text-align:right">${c.count}</div>
     </div>`).join('')||'<p style="font-size:13px;color:var(--text2);padding:8px 0">No issues found.</p>';
   if(pie)pie.destroy();
   const t5=d.categories.slice(0,5);
   if(t5.length){
-    pie=new Chart(document.getElementById('pieC'),{type:'doughnut',data:{labels:t5.map(c=>c.name),datasets:[{data:t5.map(c=>c.count),backgroundColor:t5.map(c=>COLORS[c.name]||'#888'),borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
-    document.getElementById('pieLeg').innerHTML=t5.map(c=>`<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:9px;height:9px;border-radius:2px;background:${COLORS[c.name]||'#888'};display:inline-block"></span>${c.name.split(' ')[0]} (${c.count})</span>`).join('');
+    pie=new Chart(document.getElementById('pieC'),{type:'doughnut',data:{labels:t5.map(c=>c.name),datasets:[{data:t5.map(c=>c.count),backgroundColor:t5.map(c=>c.color||COLORS[c.name]||'#888'),borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+    document.getElementById('pieLeg').innerHTML=t5.map(c=>`<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:9px;height:9px;border-radius:2px;background:${c.color||COLORS[c.name]||'#888'};display:inline-block"></span>${c.name.split(' ')[0]} (${c.count})</span>`).join('');
   }
-  window._allEmails=d.emails;
-  renderEmailLog(d.emails, null);
-  if(d.faq&&d.faq.length){ liveFAQ=d.faq; renderFAQ(d.faq); }
+  renderHeatmap(d.heatmap,'aHeatmap');
+  renderSentiment(d.emails,'aSentiment');
+  window._emails=d.emails;
+  renderLog(d.emails,null);
 }
 
-function filterByCategory(cat){
-  const filtered=(window._allEmails||[]).filter(e=>e.category===cat);
-  renderEmailLog(filtered, cat);
+function filterCat(cat){
+  const f=(window._emails||[]).filter(e=>e.category===cat);
+  renderLog(f,cat);
   document.getElementById('eLog').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function renderEmailLog(emails, activeFilter){
-  const cb={'Login & access issues':'bi2','Technical errors':'bd','Member portal problems':'bs2','Email & comms issues':'bw','Membership renewal':'bw','Feature requests':'bg','Event registration':'bi2','Billing & payments':'bw','Account management':'bg','General enquiry':'bg'};
-  const bar=activeFilter?`<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px 12px;background:var(--ib);border-radius:var(--r)"><i class="ti ti-filter" style="color:var(--it);font-size:14px"></i><span style="font-size:13px;color:var(--it);flex:1">Showing: <strong>${activeFilter}</strong> — ${emails.length} emails</span><button class="btn bts" onclick="renderEmailLog(window._allEmails,null)" style="font-size:11px;padding:4px 8px">✕ Clear</button></div>`:'';
-  document.getElementById('eCnt').textContent=activeFilter?`${emails.length} of ${(window._allEmails||[]).length}`:emails.length+' emails';
+function renderLog(emails,filter){
+  const cb={'Login & access issues':'bi','Technical errors':'bd2','Member portal problems':'bsu','Email & comms issues':'bw2','Membership renewal':'bw2','Feature requests':'bg2','Event registration':'bi','Billing & payments':'bw2','Account management':'bg2','General enquiry':'bg2'};
+  const sentIcon={'urgent':'<i class="ti ti-flame" style="color:#A32D2D;font-size:12px" title="Urgent"></i>','positive':'<i class="ti ti-thumb-up" style="color:#3B6D11;font-size:12px" title="Positive"></i>','neutral':''};
+  const bar=filter?`<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px 12px;background:var(--ib);border-radius:var(--r)"><i class="ti ti-filter" style="color:var(--it);font-size:14px"></i><span style="font-size:13px;color:var(--it);flex:1">Filtered: <strong>${filter}</strong> — ${emails.length} emails</span><button class="btn bts" onclick="renderLog(window._emails,null)" style="font-size:11px;padding:3px 8px">✕ Clear</button></div>`:'';
+  document.getElementById('eCnt').textContent=filter?`${emails.length} of ${(window._emails||[]).length}`:emails.length+' emails';
   document.getElementById('eLog').innerHTML=bar+(emails.length?emails.map(e=>`
     <div style="padding:9px 0;border-bottom:0.5px solid var(--border)">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
-        <div><p style="font-size:13px;font-weight:500">${e.subject}</p><p style="font-size:12px;color:var(--text2);margin-top:2px">${e.from} &middot; ${e.date}</p></div>
-        <span class="bdg ${cb[e.category]||'bg'}" style="flex-shrink:0;margin-top:2px;cursor:pointer" onclick="filterByCategory('${e.category.replace(/'/g,"\\'")}')">${e.category.split(' ')[0]}</span>
+        <div><p style="font-size:13px;font-weight:500">${sentIcon[e.sentiment]||''} ${e.subject}</p><p style="font-size:12px;color:var(--text2);margin-top:2px">${e.from} &middot; ${e.date}</p></div>
+        <span class="bdg ${cb[e.category]||'bg2'}" style="flex-shrink:0;margin-top:2px;cursor:pointer" onclick="filterCat('${e.category.replace(/'/g,"\\'")}')">
+          ${e.category.split(' ')[0]}
+        </span>
       </div></div>`).join(''):'<p style="font-size:13px;color:var(--text2);padding:8px 0">No emails for this filter.</p>');
 }
 
-function setBadge(src){
-  const b=document.getElementById('srcBadge');
-  if(src==='live'){b.textContent='Live data';b.className='bdg bs2';}
-  else if(src==='demo'){b.textContent='Demo data';b.className='bdg bw';}
-  else{b.textContent='Offline';b.className='bdg bd';}
+// ── FAQ ───────────────────────────────────────────────────
+function renderFAQDefault(){
+  document.getElementById('faqList').innerHTML='<div class="notice"><i class="ti ti-info-circle"></i><span>Run the Analyzer to generate a FAQ from your real support emails.</span></div>';
 }
 
-function renderTeam(){
-  document.getElementById('hTeam').innerHTML=USERS.map(u=>`
-    <div class="ur">
-      <div class="ua" style="background:${u.c}22;color:${u.c}">${u.i}</div>
-      <div style="flex:1"><div style="font-size:13px;font-weight:500">${u.name}</div><div style="font-size:11px;color:var(--text3)">${u.role}</div></div>
-      <span style="width:8px;height:8px;border-radius:50%;background:${u.on?'#3B6D11':'#B4B2A9'};display:inline-block"></span>
-    </div>`).join('');
-}
-
-// liveFAQ holds the latest FAQ from the API — updated every time emails are fetched
-let liveFAQ = FAQS;
-
-function renderFAQ(faqData){
-  const data = faqData || liveFAQ;
-  const notice = faqData
-    ? `<div class="notice ni2" style="margin-bottom:12px"><i class="ti ti-sparkles"></i><span>Auto-generated from your last <strong>${faqData.length}</strong> most common support issues. Updates every time you run the analyzer.</span></div>`
-    : `<div class="notice" style="margin-bottom:12px"><i class="ti ti-info-circle"></i><span>Run the Analyzer first to generate a FAQ from your real emails.</span></div>`;
-  document.getElementById('faqList').innerHTML = notice + data.map((f,i)=>`
+function renderFAQ(data){
+  const notice=`<div class="notice ni2" style="margin-bottom:12px"><i class="ti ti-sparkles"></i><span>Auto-generated from your <strong>${data.length}</strong> most common real support issues. Updates every time you run the analyzer.</span></div>`;
+  document.getElementById('faqList').innerHTML=notice+data.map((f,i)=>`
     <div class="fqi">
       <div class="fqq" onclick="tFAQ(${i})">
         <span>${f.q}</span>
         <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-          ${f.category ? `<span class="bdg bg" style="font-size:10px">${f.category.split(' ')[0]}</span>` : ''}
+          ${f.category?`<span class="bdg bg2" style="font-size:10px">${f.category.split(' ')[0]}</span>`:''}
           <i class="ti ti-chevron-down" id="fi${i}" style="font-size:14px;color:var(--text3);transition:transform .2s"></i>
         </div>
       </div>
@@ -568,71 +606,65 @@ function renderFAQ(faqData){
     </div>`).join('');
 }
 
-function tFAQ(i){
-  const e=document.getElementById('fa'+i),ic=document.getElementById('fi'+i);
-  e.classList.toggle('open');ic.style.transform=e.classList.contains('open')?'rotate(180deg)':'';
-}
+function tFAQ(i){const e=document.getElementById('fa'+i),ic=document.getElementById('fi'+i);e.classList.toggle('open');ic.style.transform=e.classList.contains('open')?'rotate(180deg)':'';}
 
 function exportFAQ(){
-  const data = liveFAQ;
-  const h=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Support FAQ — Membership Anywhere</title><style>body{font-family:sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h1{font-size:22px;margin-bottom:4px}p.sub{font-size:13px;color:#888;margin-bottom:1.5rem}details{border-bottom:1px solid #e5e5e3;padding:12px 0}summary{font-size:15px;font-weight:600;cursor:pointer}p{font-size:14px;color:#5c5b57;margin-top:8px;line-height:1.7}</style></head><body><h1>Frequently asked questions</h1><p class="sub">Last updated: ${new Date().toLocaleDateString()}</p>${data.map(f=>`<details><summary>${f.q}</summary><p>${f.a}</p></details>`).join('')}</body></html>`;
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));
-  a.download='support-faq.html';a.click();
+  const data=liveFAQ.length?liveFAQ:[{q:'No FAQ generated yet',a:'Run the Analyzer first to generate FAQ from your real emails.'}];
+  const h=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Support FAQ — Membership Anywhere</title><style>body{font-family:sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h1{font-size:22px;margin-bottom:4px}.sub{font-size:13px;color:#888;margin-bottom:1.5rem}details{border-bottom:1px solid #e5e5e3;padding:12px 0}summary{font-size:15px;font-weight:600;cursor:pointer}p{font-size:14px;color:#5c5b57;margin-top:8px;line-height:1.7}.cat{font-size:11px;background:#e6f1fb;color:#0c447c;padding:2px 8px;border-radius:99px;margin-left:8px;font-weight:normal}</style></head><body><h1>Frequently Asked Questions</h1><p class="sub">Last updated: ${new Date().toLocaleDateString()} &middot; Generated from real support emails</p>${data.map(f=>`<details><summary>${f.q}${f.category?`<span class="cat">${f.category}</span>`:''}</summary><p>${f.a}</p></details>`).join('')}</body></html>`;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));a.download='support-faq.html';a.click();
 }
+
+// ── ADMIN ─────────────────────────────────────────────────
+function setBadge(src){const b=document.getElementById('srcBadge');if(src==='live'){b.textContent='Live data';b.className='bdg bsu';}else if(src==='demo'){b.textContent='Demo data';b.className='bdg bw2';}else{b.textContent='Offline';b.className='bdg bd2';}}
+
+function renderTeam(){}
 
 function renderAdmin(){
   if(!CU||CU.role!=='admin')return;
   document.getElementById('buInput').value=BACKEND;
-  document.getElementById('buCurrent').textContent=BACKEND;
+  document.getElementById('buCur').textContent=BACKEND;
   document.getElementById('uList').innerHTML=USERS.map((u,i)=>`
     <div class="ur">
       <div class="ua" style="background:${u.c}22;color:${u.c}">${u.i}</div>
       <div style="flex:1"><div style="font-size:13px;font-weight:500">${u.name}</div><div style="font-size:11px;color:var(--text3)">@${u.u} &middot; ${u.role}</div></div>
-      <span class="bdg ${u.role==='admin'?'bd':u.role==='analyst'?'bi2':'bg'}">${u.role}</span>
+      <span class="bdg ${u.role==='admin'?'bd2':u.role==='analyst'?'bi':'bg2'}">${u.role}</span>
       ${u.u!=='admin'?`<button class="btn bts btd" onclick="delUser(${i})" style="margin-left:8px"><i class="ti ti-trash"></i></button>`:''}
     </div>`).join('');
 }
 
 function saveBU(){
   const v=document.getElementById('buInput').value.trim().replace(/\/$/,'');
-  BACKEND=v; localStorage.setItem('ma_backend',v);
-  document.getElementById('buCurrent').textContent=v;
-  document.getElementById('testResult').textContent='Saved! Testing...';
-  testBackend();
+  BACKEND=v;localStorage.setItem('ma_backend',v);
+  document.getElementById('buCur').textContent=v;
+  testBU();
 }
 
-async function testBackend(){
-  const el=document.getElementById('testResult');
+async function testBU(){
+  const el=document.getElementById('testRes');
   el.textContent='Testing...';
   try{
-    const r=await fetch(BACKEND+'/');
-    const d=await r.json();
-    el.textContent=d.mode==='live'?'✓ Connected — live mode active':'✓ Connected — demo mode (add Azure env vars to go live)';
-    el.style.color='var(--st)';
-    setBadge(d.mode==='live'?'live':'demo');
-  }catch(e){
-    el.textContent='✗ Cannot reach backend. Check your URL.';
-    el.style.color='var(--dt)';
-  }
+    const r=await fetch(BACKEND+'/');const d=await r.json();
+    el.textContent=d.mode==='live'?'✓ Connected — live mode':'✓ Connected — demo mode (add Azure env vars to go live)';
+    el.style.color='var(--st)';setBadge(d.mode);
+  }catch(e){el.textContent='✗ Cannot reach backend.';el.style.color='var(--dt)';}
 }
 
 function addUser(){
-  const n=document.getElementById('nN').value.trim(), u=document.getElementById('nU').value.trim().toLowerCase();
-  const p=document.getElementById('nP').value, r=document.getElementById('nR').value;
+  const n=document.getElementById('nN').value.trim(),u=document.getElementById('nU').value.trim().toLowerCase();
+  const p=document.getElementById('nP').value,r=document.getElementById('nR').value;
   const err=document.getElementById('addErr');
   if(!n||!u||!p){err.textContent='Fill in all fields.';err.style.display='block';return;}
-  if(USERS.find(x=>x.u===u)){err.textContent='Username already exists.';err.style.display='block';return;}
+  if(USERS.find(x=>x.u===u)){err.textContent='Username exists.';err.style.display='block';return;}
   const cols=['#185FA5','#1D9E75','#533AB7','#BA7517','#993556'];
   USERS.push({u,p,name:n,role:r,i:n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(),c:cols[USERS.length%cols.length],on:false});
   document.getElementById('addCard').style.display='none';
   ['nN','nU','nP'].forEach(id=>document.getElementById(id).value='');
-  err.style.display='none'; renderAdmin(); renderTeam();
+  err.style.display='none';renderAdmin();
 }
 
 function delUser(i){
-  if(USERS[i].u===CU.u){alert("You can't remove your own account.");return;}
-  USERS.splice(i,1); renderAdmin(); renderTeam();
+  if(USERS[i].u===CU.u){alert("Can't remove your own account.");return;}
+  USERS.splice(i,1);renderAdmin();
 }
 </script>
 </body>
